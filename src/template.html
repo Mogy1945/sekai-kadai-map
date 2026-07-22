@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>世界問題課題マップ — 日本編</title>
+<meta name="description" content="日本が直面する社会課題を、実データに基づく深刻度スコアで可視化した課題マップ">
+<style>
+/*__STYLE__*/
+</style>
+</head>
+<body>
+<div id="app" class="world">
+  <svg id="stage" aria-label="課題マップ">
+    <defs id="defs"></defs>
+    <g id="starLayer"></g>
+    <g id="mapLayer">
+      <g id="landG"></g>
+      <g id="japanHalo"></g>
+      <g id="japanG"></g>
+    </g>
+    <g id="edgeLayer"></g>
+    <g id="nodeLayer"></g>
+  </svg>
+
+  <div id="intro">
+    <p class="kicker">WORLD ISSUE MAP</p>
+    <h1>世界問題課題マップ</h1>
+    <p class="sub">日本編 — データで見る、いま日本が抱える課題の全体像</p>
+    <button id="enterBtn">日本の課題マップを開く</button>
+    <p class="hint">● の大きさ＝深刻度スコア（影響人数 × 経済インパクト × 緊急度）</p>
+  </div>
+
+  <header id="topbar" hidden>
+    <button id="backBtn" title="世界地図へ戻る">← 地球</button>
+    <div class="titles">
+      <strong>日本の課題マップ</strong>
+      <span id="dataDate"></span>
+    </div>
+    <div class="actions">
+      <button id="tableBtn">一覧</button>
+      <button id="aboutBtn">大きさの根拠</button>
+    </div>
+  </header>
+
+  <div id="legend" hidden>
+    <div id="legendCats"></div>
+    <div class="legend-lines">
+      <span class="ll"><svg width="26" height="10"><line x1="1" y1="5" x2="25" y2="5" class="ll-tree"/></svg>親子課題</span>
+      <span class="ll"><svg width="26" height="10"><line x1="1" y1="5" x2="25" y2="5" class="ll-link"/></svg>課題間の関連</span>
+    </div>
+  </div>
+
+  <aside id="panel" hidden aria-live="polite"></aside>
+  <div id="tooltip" hidden></div>
+  <div id="modalWrap" hidden>
+    <div id="modalBack"></div>
+    <div id="modal" role="dialog" aria-modal="true"></div>
+  </div>
+</div>
+<script>
+/*__MAPDATA__*/
+/*__DATA__*/
+/*__GRAPH__*/
+/*__APP__*/
+</script>
+</body>
+</html>
