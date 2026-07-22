@@ -186,7 +186,7 @@
   let curR = regions[0];        // カメラに最も近い地域 (UI表示用)
   let trans = 0, transT = 0;
   let selected = null;
-  let suppressClick = false;
+  let suppressClickUntil = 0;
   let ttNode = null;
   let flight = null;            // Googleアース風フライト {t, dur, from, to, arc}
 
@@ -608,7 +608,7 @@
     return best;
   }
   svg.addEventListener('click', (e) => {
-    if (suppressClick) { suppressClick = false; return; }
+    if (performance.now() < suppressClickUntil) return;
     if (mode === 'world') { enterWeb(nearestRegionByScreen(e.clientX, e.clientY).data.id); return; }
     const g = e.target.closest && e.target.closest('.node');
     if (g) selectNode(g.getAttribute('data-id'));
@@ -674,13 +674,21 @@
     pointers.delete(e.pointerId);
     if (pointers.size < 2) pinch = null;
     if (!dragState) return;
-    if (dragState.type === 'node') {
-      dragState.nd.fx = null;
-      dragState.nd.fy = null;
-      dragState.nd.regionRef.sim.reheat(0.18);
-    }
-    if (dragState.moved) suppressClick = true;
+    const ds = dragState;
     dragState = null;
+    if (ds.type === 'node') {
+      ds.nd.fx = null;
+      ds.nd.fy = null;
+      ds.nd.regionRef.sim.reheat(0.18);
+    }
+    if (e.type !== 'pointerup') return;
+    // pointer capture中はclickイベントのtargetがSVG全体に再ターゲットされる環境があるため、
+    // タップ(=移動なしのpointerup)はここで自前判定し、後続のclickは時限抑止する
+    suppressClickUntil = performance.now() + 350;
+    if (!ds.moved) {
+      if (ds.type === 'node') selectNode(ds.nd.id);
+      else if (trans === 1) clearSelection();
+    }
   };
   svg.addEventListener('pointerup', endPointer);
   svg.addEventListener('pointercancel', endPointer);
