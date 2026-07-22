@@ -159,10 +159,13 @@ setTimeout(() => {
     rows[0].dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
     ok(document.getElementById('modalWrap').hidden, '行クリックでモーダル閉');
 
-    // 韓国へ切替
+    // 韓国へスライド飛行 (連続空間)
     APP.clearSelection();
-    APP.enterWeb(R[1].id);
+    APP.flyTo(R[1].id);
+    ok(APP.state().mode === 'web', 'flyToでもwebビューのまま (地球を経由しない)');
     ok(APP.state().region === R[1].id, `${R[1].id}へ切替`);
+    // 隣国チップDOMが存在
+    ok(document.querySelectorAll('#neighborChips .nchip').length === R.length, '隣国チップDOM');
     ok(document.getElementById('regionTitle').textContent.includes(R[1].name), 'タイトルが韓国に更新');
     const krIssue = R[1].issues[0];
     APP.selectNode(krIssue.id);

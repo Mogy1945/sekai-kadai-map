@@ -1,4 +1,5 @@
-// UI層: 地球ビュー⇄各国課題マップの描画・カメラ・操作 (エンジンはgraph.js)
+// UI層: 地球ビュー⇄連続課題空間の描画・カメラ・操作 (エンジンはgraph.js)
+// 全地域のネットワークは地理方向を保った1つの空間に展開され、パンで隣国へ滑らかに移動できる
 'use strict';
 (function () {
   const M = WORLD_MAP, D = ISSUE_DATA, G = GraphCore;
@@ -11,7 +12,7 @@
   const edgeLayer = $('edgeLayer'), nodeLayer = $('nodeLayer');
   const panel = $('panel'), tooltip = $('tooltip');
   const modalWrap = $('modalWrap'), modal = $('modal'), modalBack = $('modalBack');
-  const topbar = $('topbar'), legend = $('legend');
+  const topbar = $('topbar'), legend = $('legend'), chips = $('neighborChips');
 
   const SVGNS = 'http://www.w3.org/2000/svg';
   const el = (name, attrs, parent) => {
@@ -38,10 +39,25 @@
     if (!map) throw new Error('mapdataに地域なし: ' + rd.id);
     const spread = clamp(Math.min(map.bbox.w, map.bbox.h) * 0.33, 5, 14);
     const cluster = G.clusterPositions(graph.nodes, map.center.x, map.center.y, spread, G.hashCode(rd.id));
-    return { data: rd, graph, sim, map, spread, cluster };
+    let R = 0;
+    for (const nd of graph.nodes) R = Math.max(R, Math.hypot(nd.x, nd.y) + nd.r);
+    return { data: rd, graph, sim, map, spread, cluster, R: R + 80, anchor: { x: 0, y: 0 } };
   });
   const byId = new Map();
   for (const rn of regions) for (const nd of rn.graph.nodes) { nd.regionRef = rn; byId.set(nd.id, nd); }
+
+  // ネットワーク空間のアンカー: 地理方向を保ち、ネットワーク同士が重ならない倍率Sで配置
+  const geo0 = regions[0].map.center;
+  let S = 40;
+  for (let i = 0; i < regions.length; i++) for (let j = i + 1; j < regions.length; j++) {
+    const a = regions[i], b = regions[j];
+    const gd = Math.hypot(a.map.center.x - b.map.center.x, a.map.center.y - b.map.center.y) || 1;
+    S = Math.max(S, (a.R + b.R + 240) / gd);
+  }
+  for (const rn of regions) {
+    rn.anchor.x = (rn.map.center.x - geo0.x) * S;
+    rn.anchor.y = (rn.map.center.y - geo0.y) * S;
+  }
 
   // ===== defs =====
   G.CAT_COLORS.forEach((c, i) => {
@@ -119,49 +135,103 @@
   for (const [id] of byId) adj.set(id, new Set([id]));
   for (const rn of regions) for (const e of rn.graph.edges) { adj.get(e.a.id).add(e.b.id); adj.get(e.b.id).add(e.a.id); }
 
-  // ===== カメラ =====
+  // ===== カメラ (ネットワーク空間の単一カメラ) =====
   const cam = { cx: 0, cy: 0, k: 1, tcx: 0, tcy: 0, tk: 1 };
   const worldCam = () => {
     const k = Math.min(vw / M.w, vh / M.h) * 0.96;
     return { cx: M.w / 2, cy: M.h / 2, k };
   };
-  const regionCam = (rn) => ({
-    cx: rn.map.center.x,
-    cy: rn.map.center.y + rn.map.bbox.h * 0.15,
-    k: Math.min(vw, vh) / (Math.max(rn.map.bbox.w, rn.map.bbox.h) * 0.72),
+  // 地図カメラはネットワークカメラからアフィン導出 (ネットワーク空間 = (地図座標 - geo0) × S)
+  const derivedMapCam = () => ({
+    cx: geo0.x + cam.cx / S,
+    cy: geo0.y + cam.cy / S,
+    k: cam.k * S,
   });
-  const mapCamAt = (t, rn) => {
+  const mapCamAt = (t) => {
     const a = worldCam();
-    if (!rn || t === 0) return a;
-    const b = regionCam(rn);
+    if (t === 0) return a;
+    const b = derivedMapCam();
     return {
       cx: lerp(a.cx, b.cx, t), cy: lerp(a.cy, b.cy, t),
       k: Math.exp(lerp(Math.log(a.k), Math.log(b.k), t)),
     };
   };
   const mapToScreen = (mc, x, y) => [vw / 2 + (x - mc.cx) * mc.k, vh / 2 + (y - mc.cy) * mc.k];
-  const layoutToScreen = (x, y) => [vw / 2 + (x - cam.cx) * cam.k, vh / 2 + (y - cam.cy) * cam.k];
-  const screenToLayout = (sx, sy) => [(sx - vw / 2) / cam.k + cam.cx, (sy - vh / 2) / cam.k + cam.cy];
+  const netToScreen = (x, y) => [vw / 2 + (x - cam.cx) * cam.k, vh / 2 + (y - cam.cy) * cam.k];
+  const screenToNet = (sx, sy) => [(sx - vw / 2) / cam.k + cam.cx, (sy - vh / 2) / cam.k + cam.cy];
 
-  function fitGraph(rn) {
+  function regionFit(rn) {
     let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
     for (const nd of rn.graph.nodes) {
-      x0 = Math.min(x0, nd.x - nd.r); y0 = Math.min(y0, nd.y - nd.r);
-      x1 = Math.max(x1, nd.x + nd.r); y1 = Math.max(y1, nd.y + nd.r);
+      x0 = Math.min(x0, rn.anchor.x + nd.x - nd.r); y0 = Math.min(y0, rn.anchor.y + nd.y - nd.r);
+      x1 = Math.max(x1, rn.anchor.x + nd.x + nd.r); y1 = Math.max(y1, rn.anchor.y + nd.y + nd.r);
     }
     const pad = 70, topPad = 120;
-    cam.tk = clamp(Math.min((vw - pad * 2) / (x1 - x0), (vh - topPad - pad) / (y1 - y0)), 0.28, 1.25);
-    cam.tcx = (x0 + x1) / 2;
-    cam.tcy = (y0 + y1) / 2 - (topPad - pad) / 2 / cam.tk;
+    const k = clamp(Math.min((vw - pad * 2) / (x1 - x0), (vh - topPad - pad) / (y1 - y0)), 0.28, 1.25);
+    return { cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 - (topPad - pad) / 2 / k, k };
   }
 
   // ===== 状態 =====
   let mode = 'world';           // 'world' | 'web'
-  let viewR = null;             // 現在(または遷移中)の対象地域
+  let curR = regions[0];        // カメラに最も近い地域 (UI表示用)
   let trans = 0, transT = 0;
   let selected = null;
   let suppressClick = false;
   let ttNode = null;
+  let flight = null;            // Googleアース風フライト {t, dur, from, to, arc}
+
+  // 長距離はズームアウト→巡航→ズームインの弧を描いて飛ぶ
+  function startFlight(to, dur) {
+    const from = { cx: cam.cx, cy: cam.cy, k: cam.k };
+    const dist = Math.hypot(to.cx - from.cx, to.cy - from.cy);
+    const arc = clamp(Math.log(1 + dist * Math.min(from.k, to.k) / (Math.max(vw, vh) * 0.9)), 0, 1.1);
+    flight = { t: 0, dur: dur || (900 + clamp(dist * 0.12, 0, 600)), from, to, arc };
+    cam.tcx = to.cx; cam.tcy = to.cy; cam.tk = to.k;
+  }
+  function cancelFlight() {
+    if (!flight) return;
+    flight = null;
+    cam.tcx = cam.cx; cam.tcy = cam.cy; cam.tk = cam.k;
+  }
+
+  function setUIRegion(rn) {
+    curR = rn;
+    $('regionTitle').textContent = rn.data.flag + ' ' + rn.data.name + 'の課題マップ';
+    buildLegend(rn);
+  }
+
+  // ===== 隣国チップ (画面外の地域への方向ガイド) =====
+  for (const rn of regions) {
+    const b = document.createElement('button');
+    b.className = 'nchip';
+    b.setAttribute('data-region', rn.data.id);
+    chips.appendChild(b);
+    rn.chipEl = b;
+  }
+  chips.addEventListener('click', (e) => {
+    const b = e.target.closest('.nchip');
+    if (b) flyTo(b.getAttribute('data-region'));
+  });
+  function updateChips(t) {
+    const show = mode === 'web' && t > 0.95;
+    chips.hidden = !show;
+    if (!show) return;
+    for (const rn of regions) {
+      const [ax, ay] = netToScreen(rn.anchor.x, rn.anchor.y);
+      const off = ax < -rn.R * cam.k * 0.3 || ax > vw + rn.R * cam.k * 0.3 || ay < -rn.R * cam.k * 0.3 || ay > vh + rn.R * cam.k * 0.3;
+      const visible = off && rn !== curR;
+      rn.chipEl.style.display = visible ? '' : 'none';
+      if (!visible) continue;
+      const dx = ax - vw / 2, dy = ay - vh / 2;
+      const arrow = Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? '←' : '→') : (dy < 0 ? '↑' : '↓');
+      const label = arrow + ' ' + rn.data.flag + ' ' + rn.data.name;
+      if (rn.chipEl.textContent !== label) rn.chipEl.textContent = label;
+      const cx2 = clamp(ax, 74, vw - 74);
+      const cy2 = clamp(ay, 92, vh - 60);
+      rn.chipEl.style.left = cx2 + 'px';
+      rn.chipEl.style.top = cy2 + 'px';
+    }
+  }
 
   // ===== フレームループ =====
   let lastNow = null;
@@ -177,18 +247,37 @@
     }
     const t = easeIO(trans);
 
-    if (mode === 'web' && viewR && viewR.sim.alpha > 0.004) viewR.sim.tick();
+    if (mode === 'web') for (const rn of regions) if (rn.sim.alpha > 0.004) rn.sim.tick();
 
-    cam.cx = lerp(cam.cx, cam.tcx, 0.13);
-    cam.cy = lerp(cam.cy, cam.tcy, 0.13);
-    cam.k = lerp(cam.k, cam.tk, 0.13);
+    if (flight) {
+      flight.t = Math.min(1, flight.t + dt / flight.dur);
+      const u = easeIO(flight.t);
+      cam.cx = lerp(flight.from.cx, flight.to.cx, u);
+      cam.cy = lerp(flight.from.cy, flight.to.cy, u);
+      cam.k = Math.exp(lerp(Math.log(flight.from.k), Math.log(flight.to.k), u) - flight.arc * Math.sin(Math.PI * u));
+      if (flight.t >= 1) flight = null;
+    } else {
+      cam.cx = lerp(cam.cx, cam.tcx, 0.13);
+      cam.cy = lerp(cam.cy, cam.tcy, 0.13);
+      cam.k = lerp(cam.k, cam.tk, 0.13);
+    }
 
-    const mc = mapCamAt(t, viewR);
+    // カメラ最寄りの地域を追跡 (パンで隣国へ入るとUIが切替わる)
+    if (mode === 'web') {
+      let best = curR, bd = Infinity;
+      for (const rn of regions) {
+        const d = Math.hypot(cam.cx - rn.anchor.x, cam.cy - rn.anchor.y) - rn.R * 0.25;
+        if (d < bd) { bd = d; best = rn; }
+      }
+      if (best !== curR) setUIRegion(best);
+    }
+
+    const mc = mapCamAt(t);
     mapLayer.setAttribute('transform',
       'translate(' + (vw / 2 - mc.cx * mc.k).toFixed(2) + ' ' + (vh / 2 - mc.cy * mc.k).toFixed(2) + ') scale(' + mc.k.toFixed(4) + ')');
     mapLayer.style.opacity = String(1 - t * 0.9);
 
-    // 国ラベル (画面座標・worldビューのみ)
+    // 国ラベル (worldビューのみ)
     worldLabels.style.opacity = String(Math.max(0, 1 - t * 2.2));
     for (const rn of regions) {
       const [lx, ly] = mapToScreen(mc, rn.map.center.x, rn.map.center.y + rn.map.bbox.h * 0.72 + 4);
@@ -196,20 +285,18 @@
       rn.labelEl.setAttribute('y', ly.toFixed(1));
     }
 
-    // ノード位置: world=各国上空クラスタ / web=対象地域のみ力学レイアウト
+    // ノード位置: world=各国上空クラスタ / web=連続ネットワーク空間 を補間
     nodeLayer.style.fontSize = (13 * clamp(cam.k, 0.8, 1)).toFixed(1) + 'px';
     for (const rn of regions) {
-      const tR = rn === viewR ? t : 0;
-      rn.nodeG.classList.toggle('faded', t > 0.05 && rn !== viewR);
       for (const nd of rn.graph.nodes) {
         const cp = rn.cluster.get(nd.id);
         const [wx, wy] = mapToScreen(mc, cp.x, cp.y);
         let x = wx, y = wy, s;
         const worldR = nd.type === 'major' ? (2.6 + nd.score / 100 * 4.6) : 1.1;
-        if (tR > 0) {
-          const [gx, gy] = layoutToScreen(nd.x, nd.y);
-          x = lerp(wx, gx, tR); y = lerp(wy, gy, tR);
-          s = lerp(worldR / nd.r, cam.k, tR);
+        if (t > 0) {
+          const [gx, gy] = netToScreen(rn.anchor.x + nd.x, rn.anchor.y + nd.y);
+          x = lerp(wx, gx, t); y = lerp(wy, gy, t);
+          s = lerp(worldR / nd.r, cam.k, t);
         } else {
           s = worldR / nd.r;
         }
@@ -227,6 +314,7 @@
     }
 
     app.classList.toggle('zoomed', cam.k > 1.02);
+    updateChips(t);
     if (ttNode && !tooltip.hidden) positionTooltip();
 
     requestAnimationFrame(frame);
@@ -235,21 +323,30 @@
   // ===== ビュー遷移 =====
   function enterWeb(regionId) {
     const rn = regions.find(r => r.data.id === regionId) || regions[0];
-    if (mode === 'web' && viewR === rn) return;
-    if (selected && selected.regionRef !== rn) clearSelection();
+    const fromWorld = mode === 'world';
     mode = 'web';
-    viewR = rn;
     transT = 1;
     app.classList.remove('world');
     topbar.hidden = false;
     legend.hidden = false;
-    $('regionTitle').textContent = rn.data.flag + ' ' + rn.data.name + 'の課題マップ';
-    buildLegend(rn);
+    setUIRegion(rn);
     rn.sim.reheat(0.12);
-    fitGraph(rn);
+    const f = regionFit(rn);
+    cam.tcx = f.cx; cam.tcy = f.cy; cam.tk = f.k;
+    if (fromWorld) { cam.cx = f.cx; cam.cy = f.cy; cam.k = f.k; } // 世界からはその国の真上で展開
+  }
+  function flyTo(regionId) {
+    if (mode !== 'web') { enterWeb(regionId); return; }
+    const rn = regions.find(r => r.data.id === regionId);
+    if (!rn) return;
+    clearSelection();
+    setUIRegion(rn);
+    rn.sim.reheat(0.1);
+    startFlight(regionFit(rn)); // 連続空間をスライド飛行
   }
   function exitWeb() {
     if (mode === 'world') return;
+    cancelFlight();
     clearSelection();
     closeModal();
     mode = 'world';
@@ -257,6 +354,7 @@
     app.classList.add('world');
     topbar.hidden = true;
     legend.hidden = true;
+    chips.hidden = true;
     hideTooltip();
   }
 
@@ -274,16 +372,19 @@
   function selectNode(id) {
     const nd = byId.get(id);
     if (!nd) return;
-    if (mode !== 'web' || viewR !== nd.regionRef) enterWeb(nd.regionRef.data.id);
+    if (mode !== 'web') enterWeb(nd.regionRef.data.id);
+    else if (nd.regionRef !== curR) setUIRegion(nd.regionRef);
     selected = nd;
     app.classList.add('focus');
     setLit();
+    cancelFlight();
+    const gx = nd.regionRef.anchor.x + nd.x, gy = nd.regionRef.anchor.y + nd.y;
     if (isNarrow()) {
-      cam.tcx = nd.x;
-      cam.tcy = nd.y + (vh * 0.16) / cam.tk;
+      cam.tcx = gx;
+      cam.tcy = gy + (vh * 0.16) / cam.tk;
     } else {
-      cam.tcx = nd.x + 190 / cam.tk;
-      cam.tcy = nd.y;
+      cam.tcx = gx + 190 / cam.tk;
+      cam.tcy = gy;
     }
     renderPanel(nd);
     panel.hidden = false;
@@ -360,17 +461,17 @@
 
   function renderSubPanel(nd) {
     const parent = byId.get(nd.parentId);
-    const S = nd.sub;
-    const siblings = parent.issue.sub_issues.filter(s => s.id !== S.id);
+    const S2 = nd.sub;
+    const siblings = parent.issue.sub_issues.filter(s => s.id !== S2.id);
     panel.innerHTML =
       '<button class="pclose" data-act="close" aria-label="閉じる">✕</button>'
       + '<div class="pparent">└ <button data-goto="' + esc(parent.id) + '">' + esc(parent.issue.emoji) + ' ' + esc(parent.issue.name) + '</button> の構成課題</div>'
       + '<div class="phead"><div>'
-      + '<h2>' + esc(S.name) + '</h2>' + catChip(nd.catIndex)
+      + '<h2>' + esc(S2.name) + '</h2>' + catChip(nd.catIndex)
       + '</div></div>'
-      + '<div class="scorebox"><div class="shead"><span class="snum" style="color:' + nd.color + ';font-size:22px">' + sevDots(S.severity) + '</span><span class="slabel">深刻度 ' + esc(S.severity) + ' / 5</span></div></div>'
-      + '<h3>概要</h3><p class="body">' + esc(S.description) + '</p>'
-      + '<h3>キーデータ</h3>' + statRow(S.key_stat)
+      + '<div class="scorebox"><div class="shead"><span class="snum" style="color:' + nd.color + ';font-size:22px">' + sevDots(S2.severity) + '</span><span class="slabel">深刻度 ' + esc(S2.severity) + ' / 5</span></div></div>'
+      + '<h3>概要</h3><p class="body">' + esc(S2.description) + '</p>'
+      + '<h3>キーデータ</h3>' + statRow(S2.key_stat)
       + (siblings.length ? '<h3>同じ親の課題</h3><div class="subgrid">'
         + siblings.map(s => '<button class="subitem" data-goto="' + esc(s.id) + '"><i style="background:' + nd.color + ';width:' + (7 + s.severity * 1.6) + 'px;height:' + (7 + s.severity * 1.6) + 'px"></i><span class="sname">' + esc(s.name) + '</span><span class="sev">' + sevDots(s.severity) + '</span></button>').join('')
         + '</div>' : '')
@@ -416,8 +517,8 @@
   svg.addEventListener('mouseleave', hideTooltip);
 
   // ===== クリック =====
-  function nearestRegion(sx, sy) {
-    const mc = mapCamAt(easeIO(trans), viewR);
+  function nearestRegionByScreen(sx, sy) {
+    const mc = mapCamAt(easeIO(trans));
     let best = regions[0], bd = Infinity;
     for (const rn of regions) {
       const [x, y] = mapToScreen(mc, rn.map.center.x, rn.map.center.y);
@@ -428,7 +529,7 @@
   }
   svg.addEventListener('click', (e) => {
     if (suppressClick) { suppressClick = false; return; }
-    if (mode === 'world') { enterWeb(nearestRegion(e.clientX, e.clientY).data.id); return; }
+    if (mode === 'world') { enterWeb(nearestRegionByScreen(e.clientX, e.clientY).data.id); return; }
     const g = e.target.closest && e.target.closest('.node');
     if (g) selectNode(g.getAttribute('data-id'));
     else if (trans === 1) clearSelection();
@@ -446,6 +547,7 @@
 
   svg.addEventListener('pointerdown', (e) => {
     if (mode !== 'web' || trans < 1) return;
+    cancelFlight();
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.size === 2) {
       const [p1, p2] = [...pointers.values()];
@@ -468,7 +570,7 @@
     if (pinch && pointers.size === 2) {
       const [p1, p2] = [...pointers.values()];
       const d = Math.hypot(p2.x - p1.x, p2.y - p1.y);
-      cam.tk = clamp(pinch.k * d / pinch.d, 0.25, 3);
+      cam.tk = clamp(pinch.k * d / pinch.d, 0.22, 3);
       return;
     }
     if (!dragState) return;
@@ -477,9 +579,9 @@
     if (!dragState.moved) return;
     hideTooltip();
     if (dragState.type === 'node') {
-      const [lx, ly] = screenToLayout(e.clientX, e.clientY);
-      dragState.nd.fx = lx;
-      dragState.nd.fy = ly;
+      const [nx, ny] = screenToNet(e.clientX, e.clientY);
+      dragState.nd.fx = nx - dragState.nd.regionRef.anchor.x;
+      dragState.nd.fy = ny - dragState.nd.regionRef.anchor.y;
       dragState.nd.regionRef.sim.reheat(0.35);
     } else {
       cam.tcx = dragState.cx - dx / cam.k;
@@ -506,10 +608,11 @@
   svg.addEventListener('wheel', (e) => {
     if (mode !== 'web') return;
     e.preventDefault();
-    const k2 = clamp(cam.tk * Math.exp(-e.deltaY * 0.0016), 0.25, 3);
-    const [lx, ly] = screenToLayout(e.clientX, e.clientY);
-    cam.tcx = lx - (e.clientX - vw / 2) / k2;
-    cam.tcy = ly - (e.clientY - vh / 2) / k2;
+    cancelFlight();
+    const k2 = clamp(cam.tk * Math.exp(-e.deltaY * 0.0016), 0.22, 3);
+    const [nx, ny] = screenToNet(e.clientX, e.clientY);
+    cam.tcx = nx - (e.clientX - vw / 2) / k2;
+    cam.tcy = ny - (e.clientY - vh / 2) / k2;
     cam.tk = k2;
   }, { passive: false });
 
@@ -542,7 +645,7 @@
   ));
 
   $('tableBtn').addEventListener('click', () => {
-    const rn = viewR || regions[0];
+    const rn = curR;
     const majors = rn.graph.nodes.filter(n => n.type === 'major').sort((a, b) => b.score - a.score);
     openModal(
       '<h2>' + esc(rn.data.flag + ' ' + rn.data.name) + 'の課題一覧（スコア順）</h2>'
@@ -575,7 +678,10 @@
   window.addEventListener('resize', () => {
     vw = window.innerWidth; vh = window.innerHeight;
     buildStars();
-    if (mode === 'web' && viewR && !selected) fitGraph(viewR);
+    if (mode === 'web' && !selected) {
+      const f = regionFit(curR);
+      cam.tcx = f.cx; cam.tcy = f.cy; cam.tk = f.k;
+    }
   });
 
   $('dataDate').textContent = 'データ時点 ' + D.generated + ' ・ 出典付き' + (D.placeholder ? ' ・ ⚠プレースホルダー' : '');
@@ -586,7 +692,7 @@
 
   // e2e用フック
   window.__APP__ = {
-    regions, byId, selectNode, clearSelection, enterWeb, exitWeb,
-    state: () => ({ mode, trans, region: viewR && viewR.data.id, selected: selected && selected.id }),
+    regions, byId, selectNode, clearSelection, enterWeb, exitWeb, flyTo,
+    state: () => ({ mode, trans, region: curR.data.id, selected: selected && selected.id }),
   };
 })();
