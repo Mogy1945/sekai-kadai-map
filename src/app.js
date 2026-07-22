@@ -34,7 +34,17 @@
   const regions = D.regions.map((rd) => {
     const graph = G.buildGraph(rd);
     const sim = G.createSim(graph);
-    sim.settle(340);
+    // ビルド時ベイク済みレイアウト(位置+速度+alpha)があれば起動時のsettle計算を丸ごと省略
+    const baked = (typeof PRECOMPUTED_LAYOUT !== 'undefined') && PRECOMPUTED_LAYOUT[rd.id];
+    if (baked && graph.nodes.every(nd => baked.nodes[nd.id])) {
+      for (const nd of graph.nodes) {
+        const p = baked.nodes[nd.id];
+        nd.x = p[0]; nd.y = p[1]; nd.vx = p[2]; nd.vy = p[3];
+      }
+      sim.setAlpha(baked.alpha);
+    } else {
+      sim.settle(340);
+    }
     const map = M.regions[rd.id];
     if (!map) throw new Error('mapdataに地域なし: ' + rd.id);
     const spread = clamp(Math.min(map.bbox.w, map.bbox.h) * 0.33, 5, 14);
@@ -234,10 +244,24 @@
   }
 
   // ===== フレームループ =====
+  // 静止時(遷移/フライト/ドラッグ/物理/カメラ移動が全て無い)は描画を1フレームだけ仕上げて眠る。
+  // 差分書き込み: 前回書いた値と同じDOM属性はスキップ。画面外のノード/エッジも書き込みスキップ。
   let lastNow = null;
+  let needFinal = true;
+  let nodeLayerFS = '', mapCache = { t: '', o: '' }, wlCache = '';
+  const wr = (el, cache, key, attr, val) => { if (cache[key] !== val) { cache[key] = val; el.setAttribute(attr, val); } };
+  const MARG = 240;
+
   function frame(now) {
     const dt = lastNow == null ? 16 : Math.min(48, now - lastNow);
     lastNow = now;
+
+    const simActive = mode === 'web' && regions.some(rn => rn.sim.alpha > 0.004);
+    const camActive = Math.abs(cam.cx - cam.tcx) * cam.k > 0.05
+      || Math.abs(cam.cy - cam.tcy) * cam.k > 0.05
+      || Math.abs(cam.k / cam.tk - 1) > 0.0008;
+    const active = trans !== transT || !!flight || !!dragState || !!pinch || simActive || camActive;
+    if (!active && !needFinal) { requestAnimationFrame(frame); return; }
 
     if (trans !== transT) {
       const step = dt / 620;
@@ -273,20 +297,25 @@
     }
 
     const mc = mapCamAt(t);
-    mapLayer.setAttribute('transform',
+    wr(mapLayer, mapCache, 't', 'transform',
       'translate(' + (vw / 2 - mc.cx * mc.k).toFixed(2) + ' ' + (vh / 2 - mc.cy * mc.k).toFixed(2) + ') scale(' + mc.k.toFixed(4) + ')');
-    mapLayer.style.opacity = String(1 - t * 0.9);
+    const mo = (1 - t * 0.9).toFixed(3);
+    if (mapCache.o !== mo) { mapCache.o = mo; mapLayer.style.opacity = mo; }
 
-    // 国ラベル (worldビューのみ)
-    worldLabels.style.opacity = String(Math.max(0, 1 - t * 2.2));
-    for (const rn of regions) {
-      const [lx, ly] = mapToScreen(mc, rn.map.center.x, rn.map.center.y + rn.map.bbox.h * 0.72 + 4);
-      rn.labelEl.setAttribute('x', lx.toFixed(1));
-      rn.labelEl.setAttribute('y', ly.toFixed(1));
+    // 国ラベル (worldビューのみ・完全に消えたら座標更新もスキップ)
+    const wlo = Math.max(0, 1 - t * 2.2).toFixed(3);
+    if (wlCache !== wlo) { wlCache = wlo; worldLabels.style.opacity = wlo; }
+    if (+wlo > 0) {
+      for (const rn of regions) {
+        const [lx, ly] = mapToScreen(mc, rn.map.center.x, rn.map.center.y + rn.map.bbox.h * 0.72 + 4);
+        rn.labelEl.setAttribute('x', lx.toFixed(1));
+        rn.labelEl.setAttribute('y', ly.toFixed(1));
+      }
     }
 
     // ノード位置: world=各国上空クラスタ / web=連続ネットワーク空間 を補間
-    nodeLayer.style.fontSize = (13 * clamp(cam.k, 0.8, 1)).toFixed(1) + 'px';
+    const fsv = (13 * clamp(cam.k, 0.8, 1)).toFixed(1) + 'px';
+    if (nodeLayerFS !== fsv) { nodeLayerFS = fsv; nodeLayer.style.fontSize = fsv; }
     for (const rn of regions) {
       for (const nd of rn.graph.nodes) {
         const cp = rn.cluster.get(nd.id);
@@ -301,24 +330,39 @@
           s = worldR / nd.r;
         }
         nd.sx = x; nd.sy = y;
-        nd.el.setAttribute('transform', 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ')');
-        nd.gfxEl.setAttribute('transform', 'scale(' + s.toFixed(3) + ')');
+        const vis = x > -MARG && x < vw + MARG && y > -MARG && y < vh + MARG;
+        if (!vis && nd._vis === false) continue; // 画面外→画面外はDOM書き込み不要
+        if (nd._vis !== vis) nd.el.style.display = vis ? '' : 'none'; // 画面外はCSSアニメごと停止
+        nd._vis = vis;
+        const c = nd._c || (nd._c = {});
+        wr(nd.el, c, 't', 'transform', 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ')');
+        wr(nd.gfxEl, c, 'g', 'transform', 'scale(' + s.toFixed(3) + ')');
         const edge = nd.r * s;
-        nd.lbEl.setAttribute('y', (edge + (nd.type === 'major' ? 17 : 12)).toFixed(1));
-        if (nd.scEl) nd.scEl.setAttribute('y', (edge + 31).toFixed(1));
+        wr(nd.lbEl, c, 'ly', 'y', (edge + (nd.type === 'major' ? 17 : 12)).toFixed(1));
+        if (nd.scEl) wr(nd.scEl, c, 'sy', 'y', (edge + 31).toFixed(1));
       }
       for (const e of rn.graph.edges) {
-        e.el.setAttribute('x1', e.a.sx.toFixed(1)); e.el.setAttribute('y1', e.a.sy.toFixed(1));
-        e.el.setAttribute('x2', e.b.sx.toFixed(1)); e.el.setAttribute('y2', e.b.sy.toFixed(1));
+        const bx0 = Math.min(e.a.sx, e.b.sx), bx1 = Math.max(e.a.sx, e.b.sx);
+        const by0 = Math.min(e.a.sy, e.b.sy), by1 = Math.max(e.a.sy, e.b.sy);
+        const vis = bx1 > -MARG && bx0 < vw + MARG && by1 > -MARG && by0 < vh + MARG;
+        if (!vis && e._vis === false) continue;
+        if (e._vis !== vis) e.el.style.display = vis ? '' : 'none';
+        e._vis = vis;
+        const c = e._c || (e._c = {});
+        wr(e.el, c, 'x1', 'x1', e.a.sx.toFixed(1));
+        wr(e.el, c, 'y1', 'y1', e.a.sy.toFixed(1));
+        wr(e.el, c, 'x2', 'x2', e.b.sx.toFixed(1));
+        wr(e.el, c, 'y2', 'y2', e.b.sy.toFixed(1));
       }
     }
 
     app.classList.toggle('zoomed', cam.k > 1.02);
     declutterTick = (declutterTick + 1) % 5;
-    if (declutterTick === 0 && t > 0.4) declutterLabels();
+    if ((declutterTick === 0 || !active) && t > 0.4) declutterLabels();
     updateChips(t);
     if (ttNode && !tooltip.hidden) positionTooltip();
 
+    needFinal = active; // 動きが止まった直後に1フレームだけ最終描画してから眠る
     requestAnimationFrame(frame);
   }
 
@@ -424,12 +468,14 @@
     panel.hidden = false;
     panel.scrollTop = 0;
     hideTooltip();
+    needFinal = true;
   }
   function clearSelection() {
     selected = null;
     app.classList.remove('focus');
     setLit();
     panel.hidden = true;
+    needFinal = true; // ラベル間引きの再計算のため1フレーム起こす
   }
 
   // ===== パネル =====
@@ -712,6 +758,7 @@
   window.addEventListener('resize', () => {
     vw = window.innerWidth; vh = window.innerHeight;
     buildStars();
+    needFinal = true;
     if (mode === 'web' && !selected) {
       const f = regionFit(curR);
       cam.tcx = f.cx; cam.tcy = f.cy; cam.tk = f.k;

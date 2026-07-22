@@ -199,6 +199,7 @@ const GraphCore = (() => {
       tick,
       get alpha() { return alpha; },
       reheat(v) { alpha = Math.max(alpha, v); },
+      setAlpha(v) { alpha = v; },
       settle(nTicks) { for (let i = 0; i < nTicks; i++) tick(); },
     };
   }

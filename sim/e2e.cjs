@@ -115,6 +115,25 @@ setTimeout(() => {
     const totalNodes = Object.values(graphs).reduce((a, g) => a + g.nodes.length, 0);
     ok(!!APP, 'アプリ初期化 (window.__APP__)');
     ok(errors.length === 0, 'JSエラーなし' + (errors.length ? ': ' + errors[0] : ''));
+
+    // 事前計算レイアウトの決定性: ベイク値 = 実行時にsettle(340)した結果と完全一致
+    const PL = window.PRECOMPUTED_LAYOUT;
+    ok(PL && R.every(rd => PL[rd.id]), '事前計算レイアウト埋め込み');
+    {
+      const g2 = GraphCore.buildGraph(R[0]);
+      const s2 = GraphCore.createSim(g2);
+      s2.settle(340);
+      let same = Math.abs(PL[R[0].id].alpha - s2.alpha) < 1e-12;
+      for (const nd of g2.nodes) {
+        const p = PL[R[0].id].nodes[nd.id];
+        if (!p || Math.abs(p[0] - nd.x) > 1e-9 || Math.abs(p[1] - nd.y) > 1e-9) same = false;
+      }
+      ok(same, 'ベイク座標=実行時settle(340)と完全一致 (見た目不変の保証)');
+      // アプリ内ノードにもベイク値が適用されている
+      const nd0 = APP.regions[0].graph.nodes[0];
+      const p0 = PL[R[0].id].nodes[nd0.id];
+      ok(Math.abs(nd0.x - p0[0]) < 1e-9, 'アプリ起動時にベイク座標を適用 (settle省略)');
+    }
     ok(document.querySelectorAll('.node').length === totalNodes, `ノードDOM ${totalNodes}個 (全地域)`);
     ok(document.querySelectorAll('#worldLabels .country-label').length === R.length, '国ラベル描画');
     ok(document.querySelectorAll('.regionland').length >= 2, '対象国ハイライト描画');
