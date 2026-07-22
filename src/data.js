@@ -1,5 +1,4 @@
-// 実データ: 調査ワークフロー(3視点taxonomy→課題別調査→敵対的ファクトチェック)による生成
-// 生成: 2026-07-22 / 全数値に出典付き・検証済み
+// 実データ+プレースホルダー混在 (cn/tw/kp/sharedは調査ワークフロー完了後に置換)
 const ISSUE_DATA = {
  "generated": "2026-07-22",
  "regions": [
@@ -5220,7 +5219,758 @@ const ISSUE_DATA = {
     "critic_notes": "",
     "method": "政府世論調査・省庁白書・国際機関・シンクタンクの複数出典を横断調査し、数値は独立エージェントが一次資料と突合検証済み"
    }
+  },
+  {
+   "id": "cn",
+   "name": "中国",
+   "flag": "🇨🇳",
+   "placeholder": true,
+   "issues": [
+    {
+     "id": "cn-property-debt",
+     "name": "不動産不況と地方政府債務",
+     "emoji": "🏗️",
+     "category": "経済・財政",
+     "tagline": "(プレースホルダー)",
+     "overview": "調査ワークフロー完了までの仮データです。",
+     "why_problem": "仮。",
+     "future_outlook": "仮。",
+     "key_stats": [
+      {
+       "label": "不動産投資",
+       "value": "減少続く",
+       "year": "2025",
+       "source_name": "IMF",
+       "source_url": "https://www.imf.org/"
+      },
+      {
+       "label": "仮データ2",
+       "value": "—",
+       "year": "2025",
+       "source_name": "IMF",
+       "source_url": "https://www.imf.org/"
+      },
+      {
+       "label": "仮データ3",
+       "value": "—",
+       "year": "2025",
+       "source_name": "IMF",
+       "source_url": "https://www.imf.org/"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 90000,
+      "affected_note": "仮",
+      "econ_impact_trillion_yen": 80,
+      "econ_note": "仮",
+      "urgency": 4,
+      "urgency_rationale": "仮"
+     },
+     "sub_issues": [
+      {
+       "id": "cn-property-debt-sub1",
+       "name": "サブ課題1(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "IMF",
+        "source_url": "https://www.imf.org/"
+       }
+      },
+      {
+       "id": "cn-property-debt-sub2",
+       "name": "サブ課題2(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "IMF",
+        "source_url": "https://www.imf.org/"
+       }
+      },
+      {
+       "id": "cn-property-debt-sub3",
+       "name": "サブ課題3(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "IMF",
+        "source_url": "https://www.imf.org/"
+       }
+      }
+     ],
+     "links_to_other_issues": []
+    },
+    {
+     "id": "cn-aging-population",
+     "name": "人口減少と高齢化",
+     "emoji": "👴",
+     "category": "人口・社会",
+     "tagline": "(プレースホルダー)",
+     "overview": "調査ワークフロー完了までの仮データです。",
+     "why_problem": "仮。",
+     "future_outlook": "仮。",
+     "key_stats": [
+      {
+       "label": "総人口",
+       "value": "減少局面",
+       "year": "2025",
+       "source_name": "国家統計局",
+       "source_url": "https://www.stats.gov.cn/"
+      },
+      {
+       "label": "仮データ2",
+       "value": "—",
+       "year": "2025",
+       "source_name": "国家統計局",
+       "source_url": "https://www.stats.gov.cn/"
+      },
+      {
+       "label": "仮データ3",
+       "value": "—",
+       "year": "2025",
+       "source_name": "国家統計局",
+       "source_url": "https://www.stats.gov.cn/"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 140000,
+      "affected_note": "仮",
+      "econ_impact_trillion_yen": 40,
+      "econ_note": "仮",
+      "urgency": 4,
+      "urgency_rationale": "仮"
+     },
+     "sub_issues": [
+      {
+       "id": "cn-aging-population-sub1",
+       "name": "サブ課題1(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "国家統計局",
+        "source_url": "https://www.stats.gov.cn/"
+       }
+      },
+      {
+       "id": "cn-aging-population-sub2",
+       "name": "サブ課題2(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "国家統計局",
+        "source_url": "https://www.stats.gov.cn/"
+       }
+      },
+      {
+       "id": "cn-aging-population-sub3",
+       "name": "サブ課題3(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "国家統計局",
+        "source_url": "https://www.stats.gov.cn/"
+       }
+      }
+     ],
+     "links_to_other_issues": []
+    }
+   ],
+   "meta": {
+    "confidences": [],
+    "critic_notes": "placeholder",
+    "method": ""
+   }
+  },
+  {
+   "id": "tw",
+   "name": "台湾",
+   "flag": "🇹🇼",
+   "placeholder": true,
+   "issues": [
+    {
+     "id": "tw-low-birthrate",
+     "name": "世界最低水準の少子化",
+     "emoji": "🍼",
+     "category": "人口・社会",
+     "tagline": "(プレースホルダー)",
+     "overview": "調査ワークフロー完了までの仮データです。",
+     "why_problem": "仮。",
+     "future_outlook": "仮。",
+     "key_stats": [
+      {
+       "label": "合計特殊出生率",
+       "value": "0.9前後",
+       "year": "2025",
+       "source_name": "内政部",
+       "source_url": "https://www.moi.gov.tw/"
+      },
+      {
+       "label": "仮データ2",
+       "value": "—",
+       "year": "2025",
+       "source_name": "内政部",
+       "source_url": "https://www.moi.gov.tw/"
+      },
+      {
+       "label": "仮データ3",
+       "value": "—",
+       "year": "2025",
+       "source_name": "内政部",
+       "source_url": "https://www.moi.gov.tw/"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 2300,
+      "affected_note": "仮",
+      "econ_impact_trillion_yen": 3,
+      "econ_note": "仮",
+      "urgency": 5,
+      "urgency_rationale": "仮"
+     },
+     "sub_issues": [
+      {
+       "id": "tw-low-birthrate-sub1",
+       "name": "サブ課題1(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "内政部",
+        "source_url": "https://www.moi.gov.tw/"
+       }
+      },
+      {
+       "id": "tw-low-birthrate-sub2",
+       "name": "サブ課題2(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "内政部",
+        "source_url": "https://www.moi.gov.tw/"
+       }
+      },
+      {
+       "id": "tw-low-birthrate-sub3",
+       "name": "サブ課題3(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "内政部",
+        "source_url": "https://www.moi.gov.tw/"
+       }
+      }
+     ],
+     "links_to_other_issues": []
+    },
+    {
+     "id": "tw-strait-tension",
+     "name": "両岸関係の緊張",
+     "emoji": "⚓",
+     "category": "安全保障・災害",
+     "tagline": "(プレースホルダー)",
+     "overview": "調査ワークフロー完了までの仮データです。",
+     "why_problem": "仮。",
+     "future_outlook": "仮。",
+     "key_stats": [
+      {
+       "label": "防空識別圏進入",
+       "value": "高頻度",
+       "year": "2025",
+       "source_name": "国防部",
+       "source_url": "https://www.mnd.gov.tw/"
+      },
+      {
+       "label": "仮データ2",
+       "value": "—",
+       "year": "2025",
+       "source_name": "国防部",
+       "source_url": "https://www.mnd.gov.tw/"
+      },
+      {
+       "label": "仮データ3",
+       "value": "—",
+       "year": "2025",
+       "source_name": "国防部",
+       "source_url": "https://www.mnd.gov.tw/"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 2300,
+      "affected_note": "仮",
+      "econ_impact_trillion_yen": 5,
+      "econ_note": "仮",
+      "urgency": 4,
+      "urgency_rationale": "仮"
+     },
+     "sub_issues": [
+      {
+       "id": "tw-strait-tension-sub1",
+       "name": "サブ課題1(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "国防部",
+        "source_url": "https://www.mnd.gov.tw/"
+       }
+      },
+      {
+       "id": "tw-strait-tension-sub2",
+       "name": "サブ課題2(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "国防部",
+        "source_url": "https://www.mnd.gov.tw/"
+       }
+      },
+      {
+       "id": "tw-strait-tension-sub3",
+       "name": "サブ課題3(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "国防部",
+        "source_url": "https://www.mnd.gov.tw/"
+       }
+      }
+     ],
+     "links_to_other_issues": []
+    }
+   ],
+   "meta": {
+    "confidences": [],
+    "critic_notes": "placeholder",
+    "method": ""
+   }
+  },
+  {
+   "id": "kp",
+   "name": "北朝鮮",
+   "flag": "🇰🇵",
+   "placeholder": true,
+   "issues": [
+    {
+     "id": "kp-food-security",
+     "name": "慢性的な食料不安(推計)",
+     "emoji": "🌾",
+     "category": "健康・教育",
+     "tagline": "(プレースホルダー)",
+     "overview": "調査ワークフロー完了までの仮データです。",
+     "why_problem": "仮。",
+     "future_outlook": "仮。",
+     "key_stats": [
+      {
+       "label": "栄養不足人口比率",
+       "value": "約4割(推計)",
+       "year": "2025",
+       "source_name": "FAO",
+       "source_url": "https://www.fao.org/"
+      },
+      {
+       "label": "仮データ2",
+       "value": "—",
+       "year": "2025",
+       "source_name": "FAO",
+       "source_url": "https://www.fao.org/"
+      },
+      {
+       "label": "仮データ3",
+       "value": "—",
+       "year": "2025",
+       "source_name": "FAO",
+       "source_url": "https://www.fao.org/"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 2600,
+      "affected_note": "仮",
+      "econ_impact_trillion_yen": 1,
+      "econ_note": "仮",
+      "urgency": 4,
+      "urgency_rationale": "仮"
+     },
+     "sub_issues": [
+      {
+       "id": "kp-food-security-sub1",
+       "name": "サブ課題1(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "FAO",
+        "source_url": "https://www.fao.org/"
+       }
+      },
+      {
+       "id": "kp-food-security-sub2",
+       "name": "サブ課題2(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "FAO",
+        "source_url": "https://www.fao.org/"
+       }
+      },
+      {
+       "id": "kp-food-security-sub3",
+       "name": "サブ課題3(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "FAO",
+        "source_url": "https://www.fao.org/"
+       }
+      }
+     ],
+     "links_to_other_issues": []
+    },
+    {
+     "id": "kp-nuclear-isolation",
+     "name": "核開発と国際的孤立",
+     "emoji": "🚀",
+     "category": "安全保障・災害",
+     "tagline": "(プレースホルダー)",
+     "overview": "調査ワークフロー完了までの仮データです。",
+     "why_problem": "仮。",
+     "future_outlook": "仮。",
+     "key_stats": [
+      {
+       "label": "核弾頭数(推計)",
+       "value": "約50発",
+       "year": "2025",
+       "source_name": "SIPRI",
+       "source_url": "https://www.sipri.org/"
+      },
+      {
+       "label": "仮データ2",
+       "value": "—",
+       "year": "2025",
+       "source_name": "SIPRI",
+       "source_url": "https://www.sipri.org/"
+      },
+      {
+       "label": "仮データ3",
+       "value": "—",
+       "year": "2025",
+       "source_name": "SIPRI",
+       "source_url": "https://www.sipri.org/"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 2600,
+      "affected_note": "仮",
+      "econ_impact_trillion_yen": 2,
+      "econ_note": "仮",
+      "urgency": 4,
+      "urgency_rationale": "仮"
+     },
+     "sub_issues": [
+      {
+       "id": "kp-nuclear-isolation-sub1",
+       "name": "サブ課題1(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "SIPRI",
+        "source_url": "https://www.sipri.org/"
+       }
+      },
+      {
+       "id": "kp-nuclear-isolation-sub2",
+       "name": "サブ課題2(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "SIPRI",
+        "source_url": "https://www.sipri.org/"
+       }
+      },
+      {
+       "id": "kp-nuclear-isolation-sub3",
+       "name": "サブ課題3(仮)",
+       "description": "仮。",
+       "severity": 3,
+       "key_stat": {
+        "label": "仮",
+        "value": "—",
+        "year": "2025",
+        "source_name": "SIPRI",
+        "source_url": "https://www.sipri.org/"
+       }
+      }
+     ],
+     "links_to_other_issues": []
+    }
+   ],
+   "meta": {
+    "confidences": [],
+    "critic_notes": "placeholder",
+    "method": ""
+   }
   }
- ]
+ ],
+ "shared": {
+  "placeholder": true,
+  "issues": [
+   {
+    "id": "shared-taiwan-strait",
+    "name": "台湾海峡の緊張と有事リスク",
+    "emoji": "⚔️",
+    "category": "安全保障・災害",
+    "tagline": "(プレースホルダー)",
+    "overview": "仮。",
+    "why_problem": "仮。",
+    "future_outlook": "仮。",
+    "key_stats": [
+     {
+      "label": "有事の世界GDP影響(推計)",
+      "value": "約10%",
+      "year": "2024",
+      "source_name": "Bloomberg Economics",
+      "source_url": "https://www.bloomberg.com/"
+     },
+     {
+      "label": "半導体先端品シェア",
+      "value": "台湾9割",
+      "year": "2025",
+      "source_name": "TrendForce",
+      "source_url": "https://www.trendforce.com/"
+     },
+     {
+      "label": "仮",
+      "value": "—",
+      "year": "2025",
+      "source_name": "仮",
+      "source_url": "https://example.com/"
+     }
+    ],
+    "score_inputs": {
+     "affected_population_man": 170000,
+     "affected_note": "域内全人口(仮)",
+     "econ_impact_trillion_yen": 90,
+     "econ_note": "仮",
+     "urgency": 4,
+     "urgency_rationale": "仮"
+    },
+    "involved": [
+     {
+      "region": "tw",
+      "note": "当事地域。(仮)",
+      "related_issue_ids": [
+       "tw-strait-tension"
+      ]
+     },
+     {
+      "region": "cn",
+      "note": "当事国。(仮)",
+      "related_issue_ids": [
+       "cn-property-debt"
+      ]
+     },
+     {
+      "region": "jp",
+      "note": "シーレーン・半導体供給への影響。(仮)",
+      "related_issue_ids": [
+       "jp-national-defense"
+      ]
+     },
+     {
+      "region": "kr",
+      "note": "サプライチェーン影響。(仮)",
+      "related_issue_ids": [
+       "kr-labor-market-dualism"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "shared-transboundary-air",
+    "name": "越境大気汚染(PM2.5・黄砂)",
+    "emoji": "🌫️",
+    "category": "環境・エネルギー",
+    "tagline": "(プレースホルダー)",
+    "overview": "仮。",
+    "why_problem": "仮。",
+    "future_outlook": "仮。",
+    "key_stats": [
+     {
+      "label": "PM2.5越境寄与(仮)",
+      "value": "—",
+      "year": "2024",
+      "source_name": "国立環境研究所",
+      "source_url": "https://www.nies.go.jp/"
+     },
+     {
+      "label": "仮2",
+      "value": "—",
+      "year": "2025",
+      "source_name": "仮",
+      "source_url": "https://example.com/"
+     },
+     {
+      "label": "仮3",
+      "value": "—",
+      "year": "2025",
+      "source_name": "仮",
+      "source_url": "https://example.com/"
+     }
+    ],
+    "score_inputs": {
+     "affected_population_man": 20000,
+     "affected_note": "仮",
+     "econ_impact_trillion_yen": 3,
+     "econ_note": "仮",
+     "urgency": 3,
+     "urgency_rationale": "仮"
+    },
+    "involved": [
+     {
+      "region": "cn",
+      "note": "主要発生源とされる。(仮)",
+      "related_issue_ids": [
+       "cn-aging-population"
+      ]
+     },
+     {
+      "region": "kr",
+      "note": "影響を受ける。(仮)",
+      "related_issue_ids": [
+       "kr-suicide-mental-health"
+      ]
+     },
+     {
+      "region": "jp",
+      "note": "影響を受ける。(仮)",
+      "related_issue_ids": [
+       "jp-national-defense"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "shared-east-asia-birthrate",
+    "name": "東アジア同時少子化",
+    "emoji": "👶",
+    "category": "人口・社会",
+    "tagline": "(プレースホルダー)",
+    "overview": "仮。",
+    "why_problem": "仮。",
+    "future_outlook": "仮。",
+    "key_stats": [
+     {
+      "label": "出生率(日/韓/台)",
+      "value": "1.14 / 0.75 / 0.9前後",
+      "year": "2025",
+      "source_name": "各国統計",
+      "source_url": "https://www.mhlw.go.jp/"
+     },
+     {
+      "label": "仮2",
+      "value": "—",
+      "year": "2025",
+      "source_name": "仮",
+      "source_url": "https://example.com/"
+     },
+     {
+      "label": "仮3",
+      "value": "—",
+      "year": "2025",
+      "source_name": "仮",
+      "source_url": "https://example.com/"
+     }
+    ],
+    "score_inputs": {
+     "affected_population_man": 170000,
+     "affected_note": "仮",
+     "econ_impact_trillion_yen": 40,
+     "econ_note": "仮",
+     "urgency": 5,
+     "urgency_rationale": "仮"
+    },
+    "involved": [
+     {
+      "region": "jp",
+      "note": "出生率1.14。(仮)",
+      "related_issue_ids": [
+       "jp-declining-birthrate"
+      ]
+     },
+     {
+      "region": "kr",
+      "note": "出生率0.75。(仮)",
+      "related_issue_ids": [
+       "kr-ultra-low-birthrate"
+      ]
+     },
+     {
+      "region": "tw",
+      "note": "出生率0.9前後。(仮)",
+      "related_issue_ids": [
+       "tw-low-birthrate"
+      ]
+     },
+     {
+      "region": "cn",
+      "note": "人口減少局面。(仮)",
+      "related_issue_ids": [
+       "cn-aging-population"
+      ]
+     }
+    ]
+   }
+  ],
+  "meta": {
+   "critic_notes": "placeholder"
+  }
+ }
 };
 if (typeof module !== 'undefined') module.exports = { ISSUE_DATA };

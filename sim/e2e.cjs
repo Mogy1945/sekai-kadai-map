@@ -21,7 +21,8 @@ ok(ISSUE_DATA.regions.length >= 2, `地域 ${ISSUE_DATA.regions.length}件 (>=2)
 const globalIds = new Set();
 for (const rd of ISSUE_DATA.regions) {
   const issues = rd.issues;
-  ok(issues.length >= 3, `${rd.id}: 大課題 ${issues.length}件 (>=3)`);
+  const minN = rd.placeholder ? 2 : 3;
+  ok(issues.length >= minN, `${rd.id}: 大課題 ${issues.length}件 (>=${minN})`);
   ok(!!WORLD_MAP.regions[rd.id], `${rd.id}: mapdataに地域あり`);
   const ids = new Set(issues.map(i => i.id));
   ok(ids.size === issues.length, `${rd.id}: 大課題IDが一意`);
@@ -53,6 +54,32 @@ for (const rd of ISSUE_DATA.regions) {
   ok(urlOk, `${rd.id}: 全出典URLがhttp(s)`);
   ok(!dup, `${rd.id}: ID一意(地域横断)`);
   ok(linkOk, `${rd.id}: 課題間リンクのtarget_idが実在(地域内)`);
+}
+
+// 国際共通課題
+if (ISSUE_DATA.shared) {
+  const regionIds = new Set(ISSUE_DATA.regions.map(r => r.id));
+  let invOk = true, relOk = true, nsOk = true, urlOk = true;
+  for (const si of ISSUE_DATA.shared.issues) {
+    if (!si.id.startsWith('shared-')) nsOk = false;
+    if (globalIds.has(si.id)) { failures++; console.error('  ✗ shared ID衝突:', si.id); }
+    globalIds.add(si.id);
+    if (!(si.involved && si.involved.length >= 2 && si.involved.every(v => regionIds.has(v.region)))) { invOk = false; console.error('    involved不正:', si.id); }
+    for (const v of si.involved || []) {
+      for (const rid of v.related_issue_ids || []) {
+        if (!globalIds.has(rid)) { relOk = false; console.error('    related不明:', si.id, '→', rid); }
+      }
+    }
+    for (const st of si.key_stats || []) {
+      if (!/^https?:\/\//.test(st.source_url || '')) urlOk = false;
+    }
+    const { score } = GraphCore.computeScore(si.score_inputs);
+    if (!(score >= 0 && score <= 100)) { failures++; console.error('  ✗ sharedスコア範囲外:', si.id); }
+  }
+  ok(nsOk, 'shared: IDがshared-プレフィクス付き');
+  ok(invOk, 'shared: 関与地域が2以上かつ実在');
+  ok(relOk, 'shared: 各国課題への接続IDが実在');
+  ok(urlOk, 'shared: 出典URLがhttp(s)');
 }
 
 // ---------- 2. ヘッドレス物理 (地域ごと) ----------
@@ -134,7 +161,8 @@ setTimeout(() => {
       const p0 = PL[R[0].id].nodes[nd0.id];
       ok(Math.abs(nd0.x - p0[0]) < 1e-9, 'アプリ起動時にベイク座標を適用 (settle省略)');
     }
-    ok(document.querySelectorAll('.node').length === totalNodes, `ノードDOM ${totalNodes}個 (全地域)`);
+    const totalWithShared = totalNodes + (ISSUE_DATA.shared ? APP.sharedNodes.length : 0);
+    ok(document.querySelectorAll('.node').length === totalWithShared, `ノードDOM ${totalWithShared}個 (全地域+共通課題)`);
     ok(document.querySelectorAll('#worldLabels .country-label').length === R.length, '国ラベル描画');
     ok(document.querySelectorAll('.regionland').length >= 2, '対象国ハイライト描画');
     ok(document.getElementById('app').classList.contains('world'), '初期状態=worldビュー');
@@ -171,12 +199,28 @@ setTimeout(() => {
 
     // 一覧テーブル (アクティブ地域のみ)
     document.getElementById('tableBtn').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
-    const rows = document.querySelectorAll('#modal tr.trow');
+    const rows = document.querySelectorAll('#modal table:first-of-type tr.trow');
     ok(rows.length === R[0].issues.length, `一覧テーブル ${rows.length}行 (${R[0].id}のみ)`);
     const scores = [...rows].map(r => parseInt(r.querySelector('td.num strong').textContent, 10));
     ok(scores.every((s, i) => i === 0 || scores[i - 1] >= s), '一覧がスコア降順');
     rows[0].dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
     ok(document.getElementById('modalWrap').hidden, '行クリックでモーダル閉');
+
+    // 国際共通課題
+    if (ISSUE_DATA.shared) {
+      ok(document.querySelectorAll('.node.shared').length === APP.sharedNodes.length, `共通課題ノードDOM ${APP.sharedNodes.length}個`);
+      ok(document.querySelectorAll('.edge-intl').length > 0, '国際リンク描画');
+      const sn = APP.sharedNodes[0];
+      APP.selectNode(sn.id);
+      ok(!panel.hidden && panel.textContent.includes('国際共通課題'), '共通課題パネル表示');
+      ok(panel.textContent.includes('への影響'), '共通課題パネルに国別セクション');
+      const jump = panel.querySelector('.subitem[data-goto]');
+      if (jump) {
+        jump.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+        ok(APP.state().selected === jump.getAttribute('data-goto'), '共通課題→各国課題へジャンプ');
+      }
+      APP.clearSelection();
+    }
 
     // 韓国へスライド飛行 (連続空間)
     APP.clearSelection();
@@ -190,7 +234,7 @@ setTimeout(() => {
     APP.selectNode(krIssue.id);
     ok(panel.textContent.includes(krIssue.name), '韓国課題のパネル表示');
     document.getElementById('tableBtn').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
-    ok(document.querySelectorAll('#modal tr.trow').length === R[1].issues.length, `韓国の一覧 ${R[1].issues.length}行`);
+    ok(document.querySelectorAll('#modal table:first-of-type tr.trow').length === R[1].issues.length, `韓国の一覧 ${R[1].issues.length}行`);
     document.querySelector('#modal .mclose').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
 
     // 地域またぎselectNode (日本の課題を直接選択→地域も切替わる)

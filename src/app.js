@@ -5,9 +5,9 @@
   const M = WORLD_MAP, D = ISSUE_DATA, G = GraphCore;
 
   const $ = id => document.getElementById(id);
-  const app = $('app'), svg = $('stage'), defs = $('defs');
-  const starLayer = $('starLayer'), mapLayer = $('mapLayer');
-  const landG = $('landG'), regionsG = $('regionsG'), halosG = $('halosG');
+  const app = $('app'), svg = $('stage');
+  const mapLayer = $('mapLayer');
+  const landG = $('landG'), regionsG = $('regionsG');
   const worldLabels = $('worldLabels');
   const edgeLayer = $('edgeLayer'), nodeLayer = $('nodeLayer');
   const panel = $('panel'), tooltip = $('tooltip');
@@ -69,39 +69,9 @@
     rn.anchor.y = (rn.map.center.y - geo0.y) * S;
   }
 
-  // ===== defs =====
-  G.CAT_COLORS.forEach((c, i) => {
-    const g = el('radialGradient', { id: 'halo-' + i }, defs);
-    el('stop', { offset: '0%', 'stop-color': c, 'stop-opacity': 0.35 }, g);
-    el('stop', { offset: '70%', 'stop-color': c, 'stop-opacity': 0.10 }, g);
-    el('stop', { offset: '100%', 'stop-color': c, 'stop-opacity': 0 }, g);
-  });
-  {
-    const g = el('radialGradient', { id: 'rhalo' }, defs);
-    el('stop', { offset: '0%', 'stop-color': '#6a93ff', 'stop-opacity': 0.34 }, g);
-    el('stop', { offset: '100%', 'stop-color': '#6a93ff', 'stop-opacity': 0 }, g);
-  }
-
-  // ===== 星空 (画面座標・決定的) =====
-  function buildStars() {
-    starLayer.textContent = '';
-    const rnd = G.mulberry32(777);
-    for (let i = 0; i < 130; i++) {
-      el('circle', {
-        cx: (rnd() * vw).toFixed(1), cy: (rnd() * vh).toFixed(1),
-        r: (rnd() < 0.85 ? 0.7 : 1.3), opacity: (0.15 + rnd() * 0.5).toFixed(2),
-      }, starLayer);
-    }
-  }
-
   // ===== 地図 =====
   M.land.forEach(d => el('path', { d }, landG));
   for (const rn of regions) {
-    el('ellipse', {
-      cx: rn.map.center.x, cy: rn.map.center.y,
-      rx: (rn.map.bbox.w * 0.85 + 8).toFixed(1), ry: (rn.map.bbox.h * 0.75 + 6).toFixed(1),
-      fill: 'url(#rhalo)',
-    }, halosG);
     rn.map.paths.forEach(d => el('path', { d, class: 'regionland' }, regionsG));
     rn.labelEl = el('text', { class: 'country-label' }, worldLabels);
     rn.labelEl.textContent = rn.data.flag + ' ' + rn.data.name;
@@ -115,28 +85,95 @@
       e.el = el('line', { class: e.kind === 'tree' ? 'edge-tree' : 'edge-link' }, rn.edgeG);
     }
     const drawOrder = rn.graph.nodes.slice().sort((a, b) => (a.type === 'major') - (b.type === 'major'));
-    for (const nd of drawOrder) {
-      const g = el('g', { class: 'node ' + nd.type, 'data-id': nd.id, tabindex: 0, role: 'button' }, rn.nodeG);
-      const gfx = el('g', { class: 'gfx' }, g);
-      el('circle', { class: 'halo', r: nd.r * 1.75, fill: 'url(#halo-' + nd.catIndex + ')' }, gfx);
-      el('circle', { class: 'core', r: nd.r, fill: nd.color, stroke: nd.color }, gfx);
-      el('circle', { class: 'hit', r: nd.r + 12, fill: 'none', 'pointer-events': 'all' }, gfx);
-      if (nd.type === 'major') {
-        const em = el('text', { class: 'emoji', y: nd.r * 0.30 }, gfx);
-        em.style.fontSize = (nd.r * 0.85).toFixed(0) + 'px';
-        em.textContent = nd.issue.emoji || '●';
-        nd.lbEl = el('text', { class: 'label' }, g);
-        nd.lbEl.textContent = nd.issue.name;
-        nd.scEl = el('text', { class: 'score' }, g);
-        nd.scEl.textContent = '深刻度 ' + nd.score;
-        g.setAttribute('aria-label', rn.data.name + ' ' + nd.issue.name + ' 深刻度' + nd.score);
-      } else {
-        nd.lbEl = el('text', { class: 'label' }, g);
-        nd.lbEl.textContent = nd.sub.name;
-        g.setAttribute('aria-label', nd.sub.name);
+    for (const nd of drawOrder) buildNodeDom(nd, rn.nodeG, rn.data.name);
+  }
+
+  function buildNodeDom(nd, parentG, regionName) {
+    const g = el('g', { class: 'node ' + nd.type, 'data-id': nd.id, tabindex: 0, role: 'button' }, parentG);
+    const gfx = el('g', { class: 'gfx' }, g);
+    if (nd.type === 'shared') {
+      el('circle', { class: 'ring', r: nd.r + 8 }, gfx);
+    }
+    el('circle', { class: 'core', r: nd.r, fill: nd.color, stroke: nd.color }, gfx);
+    el('circle', { class: 'hit', r: nd.r + 12, fill: 'none', 'pointer-events': 'all' }, gfx);
+    if (nd.type !== 'sub') {
+      const em = el('text', { class: 'emoji', y: nd.r * 0.30 }, gfx);
+      em.style.fontSize = (nd.r * 0.85).toFixed(0) + 'px';
+      em.textContent = nd.issue.emoji || '●';
+      nd.lbEl = el('text', { class: 'label' }, g);
+      nd.lbEl.textContent = nd.issue.name;
+      nd.scEl = el('text', { class: 'score' }, g);
+      nd.scEl.textContent = '深刻度 ' + nd.score;
+      g.setAttribute('aria-label', (regionName || '国際共通課題') + ' ' + nd.issue.name + ' 深刻度' + nd.score);
+    } else {
+      nd.lbEl = el('text', { class: 'label' }, g);
+      nd.lbEl.textContent = nd.sub.name;
+      g.setAttribute('aria-label', nd.sub.name);
+    }
+    nd.el = g;
+    nd.gfxEl = gfx;
+  }
+
+  // ===== 国際共通課題 (国と国の間の海上に配置し、各国の課題と太くつながる) =====
+  const sharedNodes = [];
+  const intlEdges = [];
+  const sharedCluster = new Map();
+  const sharedEdgeG = el('g', { class: 'redges shared' }, edgeLayer);
+  const sharedNodeG = el('g', { class: 'rnodes shared' }, nodeLayer);
+  if (D.shared && D.shared.issues) {
+    const rnd = G.mulberry32(424242);
+    for (const si of D.shared.issues) {
+      const invRegions = (si.involved || []).map(v => regions.find(r => r.data.id === v.region)).filter(Boolean);
+      if (invRegions.length < 2) continue;
+      const { score, pop, econ, urg } = G.computeScore(si.score_inputs);
+      const catIndex = Math.max(0, G.CATEGORIES.indexOf(si.category));
+      let ax = 0, ay = 0, gx = 0, gy = 0;
+      for (const r of invRegions) { ax += r.anchor.x; ay += r.anchor.y; gx += r.map.center.x; gy += r.map.center.y; }
+      ax /= invRegions.length; ay /= invRegions.length; gx /= invRegions.length; gy /= invRegions.length;
+      const a0 = rnd() * Math.PI * 2;
+      const nd = {
+        id: si.id, type: 'shared', issue: si, score,
+        breakdown: { pop, econ, urg },
+        catIndex, color: G.CAT_COLORS[catIndex],
+        r: G.majorRadius(score) * 0.95,
+        x: ax + Math.cos(a0) * 80, y: ay + Math.sin(a0) * 80,
+        vx: 0, vy: 0, fx: null, fy: null,
+        centroid: { x: ax, y: ay }, invRegions,
+        regionRef: null, sx: 0, sy: 0,
+      };
+      sharedNodes.push(nd);
+      byId.set(nd.id, nd);
+      sharedCluster.set(nd.id, { x: gx + (rnd() - 0.5) * 6, y: gy + (rnd() - 0.5) * 5 });
+    }
+    // 配置緩和: 共通課題同士を離し、各国ネットワークの外側へ押し出し、関与国の重心へ弱く引き戻す (決定的)
+    for (let it = 0; it < 140; it++) {
+      for (const nd of sharedNodes) {
+        nd.x += (nd.centroid.x - nd.x) * 0.02;
+        nd.y += (nd.centroid.y - nd.y) * 0.02;
+        for (const other of sharedNodes) {
+          if (other === nd) continue;
+          const dx = nd.x - other.x, dy = nd.y - other.y;
+          const d = Math.hypot(dx, dy) || 1;
+          const min = nd.r + other.r + 220;
+          if (d < min) { nd.x += dx / d * (min - d) * 0.3; nd.y += dy / d * (min - d) * 0.3; }
+        }
+        for (const rn of regions) {
+          const dx = nd.x - rn.anchor.x, dy = nd.y - rn.anchor.y;
+          const d = Math.hypot(dx, dy) || 1;
+          const min = rn.R + nd.r + 170;
+          if (d < min) { nd.x += dx / d * (min - d) * 0.35; nd.y += dy / d * (min - d) * 0.35; }
+        }
       }
-      nd.el = g;
-      nd.gfxEl = gfx;
+    }
+    for (const nd of sharedNodes) {
+      for (const v of nd.issue.involved) {
+        for (const rid of v.related_issue_ids || []) {
+          const target = byId.get(rid);
+          if (!target || target.type === 'shared') continue;
+          intlEdges.push({ a: nd, b: target, kind: 'intl', el: el('line', { class: 'edge-intl' }, sharedEdgeG) });
+        }
+      }
+      buildNodeDom(nd, sharedNodeG, null);
     }
   }
 
@@ -144,6 +181,7 @@
   const adj = new Map();
   for (const [id] of byId) adj.set(id, new Set([id]));
   for (const rn of regions) for (const e of rn.graph.edges) { adj.get(e.a.id).add(e.b.id); adj.get(e.b.id).add(e.a.id); }
+  for (const e of intlEdges) { adj.get(e.a.id).add(e.b.id); adj.get(e.b.id).add(e.a.id); }
 
   // ===== カメラ (ネットワーク空間の単一カメラ) =====
   const cam = { cx: 0, cy: 0, k: 1, tcx: 0, tcy: 0, tk: 1 };
@@ -237,7 +275,8 @@
       const label = arrow + ' ' + rn.data.flag + ' ' + rn.data.name;
       if (rn.chipEl.textContent !== label) rn.chipEl.textContent = label;
       const cx2 = clamp(ax, 74, vw - 74);
-      const cy2 = clamp(ay, 92, vh - 60);
+      let cy2 = clamp(ay, 92, vh - 60);
+      if (cx2 < 300 && cy2 > vh - 170) cy2 = vh - 170; // 左下の凡例を避ける
       rn.chipEl.style.left = cx2 + 'px';
       rn.chipEl.style.top = cy2 + 'px';
     }
@@ -248,6 +287,7 @@
   // 差分書き込み: 前回書いた値と同じDOM属性はスキップ。画面外のノード/エッジも書き込みスキップ。
   let lastNow = null;
   let needFinal = true;
+  const LABEL_UP = new Set(['kp']);
   let nodeLayerFS = '', mapCache = { t: '', o: '' }, wlCache = '';
   const wr = (el, cache, key, attr, val) => { if (cache[key] !== val) { cache[key] = val; el.setAttribute(attr, val); } };
   const MARG = 240;
@@ -299,7 +339,7 @@
     const mc = mapCamAt(t);
     wr(mapLayer, mapCache, 't', 'transform',
       'translate(' + (vw / 2 - mc.cx * mc.k).toFixed(2) + ' ' + (vh / 2 - mc.cy * mc.k).toFixed(2) + ') scale(' + mc.k.toFixed(4) + ')');
-    const mo = (1 - t * 0.9).toFixed(3);
+    const mo = (1 - t * 0.55).toFixed(3);
     if (mapCache.o !== mo) { mapCache.o = mo; mapLayer.style.opacity = mo; }
 
     // 国ラベル (worldビューのみ・完全に消えたら座標更新もスキップ)
@@ -307,7 +347,11 @@
     if (wlCache !== wlo) { wlCache = wlo; worldLabels.style.opacity = wlo; }
     if (+wlo > 0) {
       for (const rn of regions) {
-        const [lx, ly] = mapToScreen(mc, rn.map.center.x, rn.map.center.y + rn.map.bbox.h * 0.72 + 4);
+        // 巨大国はラベルを国内に収め、密集地(北朝鮮)は上側に出して重なりを避ける
+        const dy = LABEL_UP.has(rn.data.id)
+          ? -(Math.min(rn.map.bbox.h * 0.72, 14) + 6)
+          : Math.min(rn.map.bbox.h * 0.72, 14) + 4;
+        const [lx, ly] = mapToScreen(mc, rn.map.center.x, rn.map.center.y + dy);
         rn.labelEl.setAttribute('x', lx.toFixed(1));
         rn.labelEl.setAttribute('y', ly.toFixed(1));
       }
@@ -318,43 +362,14 @@
     if (nodeLayerFS !== fsv) { nodeLayerFS = fsv; nodeLayer.style.fontSize = fsv; }
     for (const rn of regions) {
       for (const nd of rn.graph.nodes) {
-        const cp = rn.cluster.get(nd.id);
-        const [wx, wy] = mapToScreen(mc, cp.x, cp.y);
-        let x = wx, y = wy, s;
-        const worldR = nd.type === 'major' ? (2.6 + nd.score / 100 * 4.6) : 1.1;
-        if (t > 0) {
-          const [gx, gy] = netToScreen(rn.anchor.x + nd.x, rn.anchor.y + nd.y);
-          x = lerp(wx, gx, t); y = lerp(wy, gy, t);
-          s = lerp(worldR / nd.r, cam.k, t);
-        } else {
-          s = worldR / nd.r;
-        }
-        nd.sx = x; nd.sy = y;
-        const vis = x > -MARG && x < vw + MARG && y > -MARG && y < vh + MARG;
-        if (!vis && nd._vis === false) continue; // 画面外→画面外はDOM書き込み不要
-        if (nd._vis !== vis) nd.el.style.display = vis ? '' : 'none'; // 画面外はCSSアニメごと停止
-        nd._vis = vis;
-        const c = nd._c || (nd._c = {});
-        wr(nd.el, c, 't', 'transform', 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ')');
-        wr(nd.gfxEl, c, 'g', 'transform', 'scale(' + s.toFixed(3) + ')');
-        const edge = nd.r * s;
-        wr(nd.lbEl, c, 'ly', 'y', (edge + (nd.type === 'major' ? 17 : 12)).toFixed(1));
-        if (nd.scEl) wr(nd.scEl, c, 'sy', 'y', (edge + 31).toFixed(1));
+        renderNodeDom(nd, rn.cluster.get(nd.id), rn.anchor.x + nd.x, rn.anchor.y + nd.y, t, mc);
       }
-      for (const e of rn.graph.edges) {
-        const bx0 = Math.min(e.a.sx, e.b.sx), bx1 = Math.max(e.a.sx, e.b.sx);
-        const by0 = Math.min(e.a.sy, e.b.sy), by1 = Math.max(e.a.sy, e.b.sy);
-        const vis = bx1 > -MARG && bx0 < vw + MARG && by1 > -MARG && by0 < vh + MARG;
-        if (!vis && e._vis === false) continue;
-        if (e._vis !== vis) e.el.style.display = vis ? '' : 'none';
-        e._vis = vis;
-        const c = e._c || (e._c = {});
-        wr(e.el, c, 'x1', 'x1', e.a.sx.toFixed(1));
-        wr(e.el, c, 'y1', 'y1', e.a.sy.toFixed(1));
-        wr(e.el, c, 'x2', 'x2', e.b.sx.toFixed(1));
-        wr(e.el, c, 'y2', 'y2', e.b.sy.toFixed(1));
-      }
+      for (const e of rn.graph.edges) renderEdgeDom(e);
     }
+    for (const nd of sharedNodes) {
+      renderNodeDom(nd, sharedCluster.get(nd.id), nd.x, nd.y, t, mc);
+    }
+    for (const e of intlEdges) renderEdgeDom(e);
 
     app.classList.toggle('zoomed', cam.k > 1.02);
     declutterTick = (declutterTick + 1) % 5;
@@ -366,27 +381,67 @@
     requestAnimationFrame(frame);
   }
 
+  // ===== 描画ヘルパー (差分書き込み+画面外カリング) =====
+  function renderNodeDom(nd, cp, netX, netY, t, mc) {
+    const [wx, wy] = mapToScreen(mc, cp.x, cp.y);
+    let x = wx, y = wy, s;
+    const worldR = nd.type === 'sub' ? 1.1 : (2.6 + nd.score / 100 * 4.6);
+    if (t > 0) {
+      const [gx, gy] = netToScreen(netX, netY);
+      x = lerp(wx, gx, t); y = lerp(wy, gy, t);
+      s = lerp(worldR / nd.r, cam.k, t);
+    } else {
+      s = worldR / nd.r;
+    }
+    nd.sx = x; nd.sy = y;
+    const vis = x > -MARG && x < vw + MARG && y > -MARG && y < vh + MARG;
+    if (!vis && nd._vis === false) return; // 画面外→画面外はDOM書き込み不要
+    if (nd._vis !== vis) nd.el.style.display = vis ? '' : 'none';
+    nd._vis = vis;
+    const c = nd._c || (nd._c = {});
+    wr(nd.el, c, 't', 'transform', 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ')');
+    wr(nd.gfxEl, c, 'g', 'transform', 'scale(' + s.toFixed(3) + ')');
+    const edge = nd.r * s;
+    wr(nd.lbEl, c, 'ly', 'y', (edge + (nd.type === 'sub' ? 12 : 17)).toFixed(1));
+    if (nd.scEl) wr(nd.scEl, c, 'sy', 'y', (edge + 31).toFixed(1));
+  }
+  function renderEdgeDom(e) {
+    const bx0 = Math.min(e.a.sx, e.b.sx), bx1 = Math.max(e.a.sx, e.b.sx);
+    const by0 = Math.min(e.a.sy, e.b.sy), by1 = Math.max(e.a.sy, e.b.sy);
+    const vis = bx1 > -MARG && bx0 < vw + MARG && by1 > -MARG && by0 < vh + MARG;
+    if (!vis && e._vis === false) return;
+    if (e._vis !== vis) e.el.style.display = vis ? '' : 'none';
+    e._vis = vis;
+    const c = e._c || (e._c = {});
+    wr(e.el, c, 'x1', 'x1', e.a.sx.toFixed(1));
+    wr(e.el, c, 'y1', 'y1', e.a.sy.toFixed(1));
+    wr(e.el, c, 'x2', 'x2', e.b.sx.toFixed(1));
+    wr(e.el, c, 'y2', 'y2', e.b.sy.toFixed(1));
+  }
+
   // ===== ラベル自動間引き (Googleマップ式: 優先度順に衝突しないものだけ表示) =====
   let declutterTick = 0;
   function declutterLabels() {
     const litSet = selected ? adj.get(selected.id) : null;
     const kept = [];
     const cand = [];
-    for (const rn of regions) for (const nd of rn.graph.nodes) {
-      if (nd.type === 'sub' && cam.k <= 1.02 && !(litSet && litSet.has(nd.id))) { nd.el.classList.remove('lcull'); continue; }
+    const consider = (nd) => {
+      if (nd.type === 'sub' && cam.k <= 1.02 && !(litSet && litSet.has(nd.id))) { nd.el.classList.remove('lcull'); return; }
       cand.push(nd);
-    }
+    };
+    for (const rn of regions) for (const nd of rn.graph.nodes) consider(nd);
+    for (const nd of sharedNodes) consider(nd);
     cand.sort((a, b) => {
-      const pa = (litSet && litSet.has(a.id) ? 1000 : 0) + (a.type === 'major' ? a.score : a.sub.severity * 4);
-      const pb = (litSet && litSet.has(b.id) ? 1000 : 0) + (b.type === 'major' ? b.score : b.sub.severity * 4);
+      const pa = (litSet && litSet.has(a.id) ? 1000 : 0) + (a.type === 'sub' ? a.sub.severity * 4 : a.score);
+      const pb = (litSet && litSet.has(b.id) ? 1000 : 0) + (b.type === 'sub' ? b.sub.severity * 4 : b.score);
       return pb - pa;
     });
     for (const nd of cand) {
-      const fs = 13 * clamp(cam.k, 0.8, 1) * (nd.type === 'major' ? 1 : 0.78);
-      const name = nd.type === 'major' ? nd.issue.name : nd.sub.name;
+      const fs = 13 * clamp(cam.k, 0.8, 1) * (nd.type === 'sub' ? 0.78 : 1);
+      const name = nd.type === 'sub' ? nd.sub.name : nd.issue.name;
       const w = name.length * fs + 12;
-      const y0 = nd.sy + nd.r * (nd.type === 'major' ? cam.k : cam.k) + 4;
-      const h = nd.type === 'major' ? 36 : 16;
+      const y0 = nd.sy + nd.r * cam.k + 4;
+      const h = nd.type === 'sub' ? 16 : 36;
       const rect = { x0: nd.sx - w / 2, x1: nd.sx + w / 2, y0, y1: y0 + h };
       let hit = false;
       for (const r of kept) {
@@ -450,13 +505,15 @@
   function selectNode(id) {
     const nd = byId.get(id);
     if (!nd) return;
-    if (mode !== 'web') enterWeb(nd.regionRef.data.id);
-    else if (nd.regionRef !== curR) setUIRegion(nd.regionRef);
+    const homeRegion = nd.regionRef || (nd.invRegions && nd.invRegions[0]) || curR;
+    if (mode !== 'web') enterWeb(homeRegion.data.id);
+    else if (nd.regionRef && nd.regionRef !== curR) setUIRegion(nd.regionRef);
     selected = nd;
     app.classList.add('focus');
     setLit();
     cancelFlight();
-    const gx = nd.regionRef.anchor.x + nd.x, gy = nd.regionRef.anchor.y + nd.y;
+    const gx = nd.regionRef ? nd.regionRef.anchor.x + nd.x : nd.x;
+    const gy = nd.regionRef ? nd.regionRef.anchor.y + nd.y : nd.y;
     if (isNarrow()) {
       cam.tcx = gx;
       cam.tcy = gy + (vh * 0.16) / cam.tk;
@@ -492,7 +549,40 @@
 
   function renderPanel(nd) {
     if (nd.type === 'major') renderMajorPanel(nd);
+    else if (nd.type === 'shared') renderSharedPanel(nd);
     else renderSubPanel(nd);
+  }
+
+  function renderSharedPanel(nd) {
+    const I = nd.issue, b = nd.breakdown, si = I.score_inputs;
+    panel.innerHTML =
+      '<button class="pclose" data-act="close" aria-label="閉じる">✕</button>'
+      + '<div class="phead"><div class="pemoji">' + esc(I.emoji) + '</div><div>'
+      + '<h2>' + esc(I.name) + '</h2><div class="ptagline">' + esc(I.tagline) + '</div>'
+      + catChip(nd.catIndex) + '<span class="catchip intlchip">🌐 国際共通課題</span>'
+      + '</div></div>'
+      + '<div class="scorebox">'
+      + '<div class="shead"><span class="snum" style="color:' + nd.color + '">' + nd.score + '</span><span class="slabel">深刻度スコア /100 (円の大きさ)</span></div>'
+      + sbar('影響人数', b.pop, fmtMan(si.affected_population_man))
+      + sbar('経済', b.econ, '年約' + esc(si.econ_impact_trillion_yen) + '兆円')
+      + sbar('緊急度', b.urg, esc(si.urgency) + ' / 5')
+      + '<div class="snote">' + esc(si.affected_note) + ' / ' + esc(si.econ_note) + ' / ' + esc(si.urgency_rationale) + '</div>'
+      + '</div>'
+      + '<h3>現状</h3><p class="body">' + esc(I.overview) + '</p>'
+      + '<h3>なぜ課題か</h3><p class="body">' + esc(I.why_problem) + '</p>'
+      + '<h3>これから</h3><p class="body">' + esc(I.future_outlook) + '</p>'
+      + '<h3>主要データ</h3>' + I.key_stats.map(statRow).join('')
+      + I.involved.map(v => {
+        const rn = regions.find(r => r.data.id === v.region);
+        if (!rn) return '';
+        const rel = (v.related_issue_ids || []).map(rid => byId.get(rid)).filter(Boolean);
+        return '<h3><span class="cflag">' + esc(rn.data.flag) + '</span>' + esc(rn.data.name) + 'への影響</h3>'
+          + '<p class="body">' + esc(v.note) + '</p>'
+          + (rel.length ? '<div class="subgrid">' + rel.map(tn =>
+            '<button class="subitem" data-goto="' + esc(tn.id) + '"><i style="background:' + tn.color + ';width:10px;height:10px"></i>'
+            + '<span class="sname">' + esc(tn.issue.emoji) + ' ' + esc(tn.issue.name) + '</span><span class="sev">深刻度' + tn.score + '</span></button>').join('') + '</div>' : '');
+      }).join('')
+      + '<div class="pdisclaimer">公的統計・調査等の出典に基づく要約であり、特定の政治的立場を支持するものではありません。スコアは出典データからの機械的算出です。<br>データ時点: ' + esc(D.generated) + '</div>';
   }
 
   function renderMajorPanel(nd) {
@@ -528,6 +618,13 @@
             + '<span class="sname">' + esc(other.issue.emoji) + ' ' + esc(other.issue.name) + '</span></span>'
             + '<span class="rel">' + esc(e.description) + '</span></button>';
         }).join('') + '</div>' : '')
+      + (() => {
+        const shared = intlEdges.filter(e => e.b.id === nd.id).map(e => e.a);
+        return shared.length ? '<h3>🌐 関わる国際共通課題</h3><div class="subgrid">'
+          + shared.map(sn => '<button class="subitem relitem" data-goto="' + esc(sn.id) + '"><span><span class="relbadge">国際</span>'
+            + '<span class="sname">' + esc(sn.issue.emoji) + ' ' + esc(sn.issue.name) + '</span></span>'
+            + '<span class="rel">' + esc(sn.issue.tagline) + '</span></button>').join('') + '</div>' : '';
+      })()
       + '<div class="pdisclaimer">公的統計・調査等の出典に基づく要約であり、特定の政治的立場を支持するものではありません。スコアは出典データからの機械的算出です（「大きさの根拠」参照）。'
       + (conf && conf.confidence === 'low' ? '<br>⚠ この課題の一部数値は推計・要再確認です。' : '')
       + '<br>データ時点: ' + esc(D.generated) + '</div>';
@@ -576,8 +673,8 @@
   }
   function showTooltip(nd) {
     ttNode = nd;
-    tooltip.innerHTML = nd.type === 'major'
-      ? '<div class="tt-name">' + esc(nd.issue.emoji) + ' ' + esc(nd.issue.name) + '</div><div class="tt-sub">' + esc(nd.issue.tagline) + '</div><div class="tt-score">深刻度 ' + nd.score + ' / 100 ・ タップで詳細</div>'
+    tooltip.innerHTML = nd.type !== 'sub'
+      ? '<div class="tt-name">' + esc(nd.issue.emoji) + ' ' + esc(nd.issue.name) + '</div><div class="tt-sub">' + esc(nd.issue.tagline) + '</div><div class="tt-score">' + (nd.type === 'shared' ? '🌐国際 ・ ' : '') + '深刻度 ' + nd.score + ' / 100 ・ タップで詳細</div>'
       : '<div class="tt-name">' + esc(nd.sub.name) + '</div><div class="tt-score">深刻度 ' + sevDots(nd.sub.severity) + ' ・ タップで詳細</div>';
     tooltip.hidden = false;
     positionTooltip();
@@ -660,9 +757,15 @@
     hideTooltip();
     if (dragState.type === 'node') {
       const [nx, ny] = screenToNet(e.clientX, e.clientY);
-      dragState.nd.fx = nx - dragState.nd.regionRef.anchor.x;
-      dragState.nd.fy = ny - dragState.nd.regionRef.anchor.y;
-      dragState.nd.regionRef.sim.reheat(0.35);
+      if (dragState.nd.regionRef) {
+        dragState.nd.fx = nx - dragState.nd.regionRef.anchor.x;
+        dragState.nd.fy = ny - dragState.nd.regionRef.anchor.y;
+        dragState.nd.regionRef.sim.reheat(0.35);
+      } else {
+        dragState.nd.x = nx; // 国際共通課題は物理なしで直接移動
+        dragState.nd.y = ny;
+        needFinal = true;
+      }
     } else {
       cam.tcx = dragState.cx - dx / cam.k;
       cam.tcy = dragState.cy - dy / cam.k;
@@ -676,7 +779,7 @@
     if (!dragState) return;
     const ds = dragState;
     dragState = null;
-    if (ds.type === 'node') {
+    if (ds.type === 'node' && ds.nd.regionRef) {
       ds.nd.fx = null;
       ds.nd.fy = null;
       ds.nd.regionRef.sim.reheat(0.18);
@@ -746,6 +849,14 @@
         + '<td class="num">' + esc(nd.issue.score_inputs.urgency) + '/5</td>'
         + '</tr>').join('')
       + '</tbody></table>'
+      + (sharedNodes.length ? '<h2 class="mh2">🌐 国際共通課題</h2>'
+        + '<table><thead><tr><th>課題</th><th>スコア</th><th>関与</th></tr></thead><tbody>'
+        + sharedNodes.slice().sort((a, b) => b.score - a.score).map(sn => '<tr class="trow" data-goto="' + esc(sn.id) + '">'
+          + '<td><span class="tdot" style="background:' + sn.color + '"></span>' + esc(sn.issue.emoji) + ' ' + esc(sn.issue.name) + '</td>'
+          + '<td class="num"><strong>' + sn.score + '</strong></td>'
+          + '<td>' + sn.invRegions.map(r => esc(r.data.flag)).join(' ') + '</td>'
+          + '</tr>').join('')
+        + '</tbody></table>' : '')
     );
   });
 
@@ -765,7 +876,6 @@
 
   window.addEventListener('resize', () => {
     vw = window.innerWidth; vh = window.innerHeight;
-    buildStars();
     needFinal = true;
     if (mode === 'web' && !selected) {
       const f = regionFit(curR);
@@ -776,12 +886,11 @@
   $('dataDate').textContent = 'データ時点 ' + D.generated + ' ・ 出典付き' + (D.placeholder ? ' ・ ⚠プレースホルダー' : '');
 
   // ===== 起動 =====
-  buildStars();
   requestAnimationFrame(frame);
 
   // e2e用フック
   window.__APP__ = {
-    regions, byId, selectNode, clearSelection, enterWeb, exitWeb, flyTo,
+    regions, byId, sharedNodes, intlEdges, selectNode, clearSelection, enterWeb, exitWeb, flyTo,
     state: () => ({ mode, trans, region: curR.data.id, selected: selected && selected.id }),
   };
 })();

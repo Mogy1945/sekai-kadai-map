@@ -10,6 +10,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGION_INFO = {
   jp: { name: '日本', flag: '🇯🇵' },
   kr: { name: '韓国', flag: '🇰🇷' },
+  cn: { name: '中国', flag: '🇨🇳' },
+  tw: { name: '台湾', flag: '🇹🇼' },
+  kp: { name: '北朝鮮', flag: '🇰🇵' },
 };
 
 const args = process.argv.slice(2);
@@ -18,9 +21,11 @@ const journals = {};
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--date') { genDate = args[++i]; continue; }
   const m = args[i].match(/^([a-z]+)=(.+)$/);
-  if (!m || !REGION_INFO[m[1]]) { console.error('不明な引数:', args[i]); process.exit(1); }
+  if (!m || (!REGION_INFO[m[1]] && m[1] !== 'shared')) { console.error('不明な引数:', args[i]); process.exit(1); }
   journals[m[1]] = m[2];
 }
+const sharedArg = journals.shared;
+delete journals.shared;
 if (Object.keys(journals).length === 0) {
   console.error('usage: node tools/gen-data.mjs jp=<journal.jsonl> kr=<journal.jsonl> [--date YYYY-MM-DD]');
   process.exit(1);
@@ -118,11 +123,42 @@ for (const [rid, path] of Object.entries(journals)) {
 // 地域の表示順を固定 (jp → kr)
 regionsOut.sort((a, b) => Object.keys(REGION_INFO).indexOf(a.id) - Object.keys(REGION_INFO).indexOf(b.id));
 
+// 国際共通課題 (全地域のID確定後に処理する)
+let sharedOut = null;
+if (sharedArg === 'keep') {
+  const prev = createRequire(import.meta.url)(join(ROOT, 'src', 'data.js')).ISSUE_DATA;
+  sharedOut = prev.shared || null;
+  if (sharedOut) sharedOut.placeholder = true;
+  summary.push('shared: 既存データを維持 (placeholder)');
+} else if (sharedArg) {
+  const { issues: all } = parseJournal(sharedArg);
+  const regionIds = new Set(regionsOut.map(r => r.id));
+  const issues = [];
+  for (const r of all) {
+    const I = r.issue;
+    I.id = I.id.startsWith('shared-') ? I.id : 'shared-' + I.id;
+    I.involved = (I.involved || [])
+      .filter(v => regionIds.has(v.region))
+      .map(v => ({ ...v, related_issue_ids: (v.related_issue_ids || []).filter(rid => allIds.has(rid)) }));
+    if (I.involved.length < 2) { console.error('shared除外(関与2地域未満):', I.id); continue; }
+    if (allIds.has(I.id)) { console.error('sharedID衝突:', I.id); continue; }
+    allIds.add(I.id);
+    issues.push({ issue: I, confidence: r.confidence, changes: r.changes });
+  }
+  sharedOut = {
+    issues: issues.map(r => r.issue),
+    meta: { confidences: issues.map(r => ({ id: r.issue.id, confidence: r.confidence, changes: r.changes.length })) },
+  };
+  const nLinks = issues.reduce((a, r) => a + r.issue.involved.reduce((b, v) => b + v.related_issue_ids.length, 0), 0);
+  summary.push(`shared: 共通課題${issues.length} / 各国課題への接続${nLinks}本 / low信頼=${issues.filter(r => r.confidence === 'low').length}`);
+}
+
 const data = {
   generated: genDate || new Date().toISOString().slice(0, 10),
   regions: regionsOut,
 };
-if (regionsOut.some(r => r.placeholder)) data.placeholder = true;
+if (sharedOut) data.shared = sharedOut;
+if (regionsOut.some(r => r.placeholder) || (sharedOut && sharedOut.placeholder)) data.placeholder = true;
 
 const out = '// 実データ: 調査ワークフロー(3視点taxonomy→課題別調査→敵対的ファクトチェック)による生成\n'
   + '// 生成: ' + data.generated + ' / 全数値に出典付き・検証済み\n'

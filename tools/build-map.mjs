@@ -58,7 +58,7 @@ function toPath(rings, tol, minArea) {
 }
 
 // 課題マップ対象国 (ISO3 → region id)
-const REGION_IDS = { JPN: 'jp', KOR: 'kr' };
+const REGION_IDS = { JPN: 'jp', KOR: 'kr', CHN: 'cn', TWN: 'tw', PRK: 'kp' };
 
 const geo = JSON.parse(readFileSync(join(ROOT, 'tools', 'countries.geo.json'), 'utf8'));
 const world = [];

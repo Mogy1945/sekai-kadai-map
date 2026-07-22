@@ -3,8 +3,8 @@
 
 const GraphCore = (() => {
   const CATEGORIES = ['人口・社会', '経済・財政', '労働・雇用', '政治・制度', '安全保障・災害', '環境・エネルギー', '健康・教育'];
-  // dataviz検証済みダークパレット (surface #0b1020, 全項目PASS)
-  const CAT_COLORS = ['#3987e5', '#c98500', '#199e70', '#9085e9', '#e66767', '#008300', '#d55181'];
+  // dataviz検証済みライトパレット (surface #eef2f7, 全項目PASS)
+  const CAT_COLORS = ['#2a78d6', '#eda100', '#1baf7a', '#4a3aa7', '#e34948', '#008300', '#e87ba4'];
 
   const clamp01 = v => Math.max(0, Math.min(1, v));
 
