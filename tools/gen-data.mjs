@@ -128,8 +128,18 @@ let sharedOut = null;
 if (sharedArg === 'keep') {
   const prev = createRequire(import.meta.url)(join(ROOT, 'src', 'data.js')).ISSUE_DATA;
   sharedOut = prev.shared || null;
-  if (sharedOut) sharedOut.placeholder = true;
-  summary.push('shared: 既存データを維持 (placeholder)');
+  if (sharedOut) {
+    sharedOut.placeholder = true;
+    // 地域データが更新されている可能性があるため、関与地域と接続IDを現行データで再検証
+    const regionIds = new Set(regionsOut.map(r => r.id));
+    sharedOut.issues = sharedOut.issues.filter(I => {
+      I.involved = (I.involved || [])
+        .filter(v => regionIds.has(v.region))
+        .map(v => ({ ...v, related_issue_ids: (v.related_issue_ids || []).filter(rid => allIds.has(rid)) }));
+      return I.involved.length >= 2;
+    });
+  }
+  summary.push('shared: 既存データを維持 (placeholder・接続ID再検証)');
 } else if (sharedArg) {
   const { issues: all } = parseJournal(sharedArg);
   const regionIds = new Set(regionsOut.map(r => r.id));
