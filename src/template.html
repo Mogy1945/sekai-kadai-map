@@ -16,9 +16,10 @@
     <g id="starLayer"></g>
     <g id="mapLayer">
       <g id="landG"></g>
-      <g id="japanHalo"></g>
-      <g id="japanG"></g>
+      <g id="halosG"></g>
+      <g id="regionsG"></g>
     </g>
+    <g id="worldLabels"></g>
     <g id="edgeLayer"></g>
     <g id="nodeLayer"></g>
   </svg>
@@ -26,15 +27,15 @@
   <div id="intro">
     <p class="kicker">WORLD ISSUE MAP</p>
     <h1>世界問題課題マップ</h1>
-    <p class="sub">日本編 — データで見る、いま日本が抱える課題の全体像</p>
-    <button id="enterBtn">日本の課題マップを開く</button>
+    <p class="sub">データで見る、いま各国が抱える課題の全体像</p>
+    <div id="introBtns"></div>
     <p class="hint">● の大きさ＝深刻度スコア（影響人数 × 経済インパクト × 緊急度）</p>
   </div>
 
   <header id="topbar" hidden>
     <button id="backBtn" title="世界地図へ戻る">← 地球</button>
     <div class="titles">
-      <strong>日本の課題マップ</strong>
+      <strong id="regionTitle">課題マップ</strong>
       <span id="dataDate"></span>
     </div>
     <div class="actions">

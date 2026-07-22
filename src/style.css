@@ -35,10 +35,16 @@ body {
 
 /* --- 地図 --- */
 #landG path { fill: #131b31; stroke: #24304f; stroke-width: 0.5; vector-effect: non-scaling-stroke; }
-#japanG path { fill: #223459; stroke: #4c69a8; stroke-width: 0.8; vector-effect: non-scaling-stroke; }
-#japanHalo ellipse { animation: jpulse 3.2s ease-in-out infinite; }
+.regionland { fill: #223459; stroke: #4c69a8; stroke-width: 0.8; vector-effect: non-scaling-stroke; }
+#halosG ellipse { animation: jpulse 3.2s ease-in-out infinite; }
 @keyframes jpulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
 #starLayer circle { fill: #cdd8f2; }
+.country-label {
+  text-anchor: middle; fill: var(--ink-2); font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+  paint-order: stroke; stroke: rgba(7, 10, 22, 0.9); stroke-width: 3px; stroke-linejoin: round;
+  pointer-events: none;
+}
+#worldLabels { transition: opacity 0.3s; }
 
 /* --- ノード --- */
 .node { cursor: pointer; }
@@ -68,7 +74,12 @@ body {
 #app.world .node .halo { animation: npulse 2.6s ease-in-out infinite; }
 @keyframes npulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 #app.world .node { cursor: pointer; }
-#app:not(.world) #japanHalo { display: none; }
+#app:not(.world) #halosG { display: none; }
+#app:not(.world) #worldLabels { opacity: 0; }
+
+/* 他国のノードはズーム中フェードアウト */
+.rnodes { transition: opacity 0.4s; }
+.rnodes.faded { opacity: 0; pointer-events: none; }
 
 /* 遷移中はイベント無効 */
 #app.moving #stage { pointer-events: none; }
@@ -100,16 +111,17 @@ body {
 #intro h1 { font-size: clamp(26px, 5.4vw, 44px); font-weight: 800; letter-spacing: 0.06em; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6); }
 #intro .sub { color: var(--ink-2); font-size: clamp(12px, 2.4vw, 15px); margin: 10px 0 22px; }
 #intro .hint { color: var(--ink-3); font-size: 11.5px; margin-top: 16px; }
-#enterBtn {
+#introBtns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.enterBtn {
   pointer-events: auto; cursor: pointer;
   font: inherit; font-weight: 700; font-size: 15px; color: #fff;
   background: linear-gradient(135deg, #3466d6, #7a4fd8);
   border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 999px;
-  padding: 13px 34px;
+  padding: 13px 28px;
   box-shadow: 0 6px 30px rgba(64, 96, 220, 0.45);
   transition: transform 0.15s, box-shadow 0.15s;
 }
-#enterBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(64, 96, 220, 0.6); }
+.enterBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(64, 96, 220, 0.6); }
 
 /* --- トップバー --- */
 #topbar {

@@ -98,20 +98,21 @@ const GraphCore = (() => {
     return { nodes, edges, byId };
   }
 
-  // 世界ビュー用: 日本上空のクラスタ配置 (マップ座標系・決定的)
-  function clusterPositions(nodes, cx, cy) {
-    const rnd = mulberry32(20260722);
+  // 世界ビュー用: 対象国上空のクラスタ配置 (マップ座標系・決定的)
+  function clusterPositions(nodes, cx, cy, spread, seed) {
+    const rnd = mulberry32(seed || 20260722);
+    const sp = spread || 21;
     const pos = new Map();
     nodes.filter(nd => nd.type === 'major').forEach((nd) => {
       const a = rnd() * Math.PI * 2;
-      const d = 3 + Math.sqrt(rnd()) * 21;
-      pos.set(nd.id, { x: cx + Math.cos(a) * d * 1.3, y: cy - 4 + Math.sin(a) * d * 0.8 });
+      const d = sp * 0.15 + Math.sqrt(rnd()) * sp;
+      pos.set(nd.id, { x: cx + Math.cos(a) * d * 1.3, y: cy - sp * 0.2 + Math.sin(a) * d * 0.8 });
     });
     nodes.forEach((nd) => {
       if (nd.type !== 'sub') return;
       const p = pos.get(nd.parentId);
       const a = rnd() * Math.PI * 2;
-      const d = 1.5 + rnd() * 2.6;
+      const d = sp * (0.07 + rnd() * 0.12);
       pos.set(nd.id, { x: p.x + Math.cos(a) * d, y: p.y + Math.sin(a) * d * 0.8 });
     });
     return pos;
