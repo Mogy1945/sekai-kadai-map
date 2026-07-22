@@ -1,8 +1,10 @@
 // 調査ワークフローのjournal.jsonlから検証済みデータを抽出し src/data.js を生成する
-// usage: node tools/gen-data.mjs jp=<journal.jsonl> kr=<journal.jsonl> [--date YYYY-MM-DD]
+// usage: node tools/gen-data.mjs jp=<journal.jsonl> kr=<journal.jsonl|keep> [--date YYYY-MM-DD]
+//   値が「keep」の地域は既存 src/data.js の内容をそのまま維持する
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGION_INFO = {
@@ -59,6 +61,19 @@ const allIds = new Set();
 const summary = [];
 
 for (const [rid, path] of Object.entries(journals)) {
+  if (path === 'keep') {
+    const prev = createRequire(import.meta.url)(join(ROOT, 'src', 'data.js')).ISSUE_DATA;
+    const kept = (prev.regions || []).find(r => r.id === rid);
+    if (!kept) { console.error(`${rid}: 既存data.jsに地域なし (keep不可)`); process.exit(1); }
+    kept.placeholder = true;
+    for (const I of kept.issues) {
+      allIds.add(I.id);
+      for (const s of I.sub_issues) allIds.add(s.id);
+    }
+    regionsOut.push(kept);
+    summary.push(`${rid}: 既存データを維持 (placeholder)`);
+    continue;
+  }
   const { issues: all, critic } = parseJournal(path);
   if (all.length === 0) { console.error(`${rid}: 検証済みissueがjournalに見つからない`); process.exit(1); }
   namespaceIds(rid, all);
@@ -107,6 +122,7 @@ const data = {
   generated: genDate || new Date().toISOString().slice(0, 10),
   regions: regionsOut,
 };
+if (regionsOut.some(r => r.placeholder)) data.placeholder = true;
 
 const out = '// 実データ: 調査ワークフロー(3視点taxonomy→課題別調査→敵対的ファクトチェック)による生成\n'
   + '// 生成: ' + data.generated + ' / 全数値に出典付き・検証済み\n'

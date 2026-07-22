@@ -1,128 +1,5226 @@
-// ★ プレースホルダー: 調査ワークフロー完了後に tools/gen-data.mjs で実データに置換される
+// 実データ: 調査ワークフロー(3視点taxonomy→課題別調査→敵対的ファクトチェック)による生成
+// 生成: 2026-07-22 / 全数値に出典付き・検証済み
 const ISSUE_DATA = {
-  generated: '2026-07-22',
-  placeholder: true,
-  regions: [
+ "generated": "2026-07-22",
+ "regions": [
+  {
+   "id": "jp",
+   "name": "日本",
+   "flag": "🇯🇵",
+   "issues": [
     {
-      id: 'jp', name: '日本', flag: '🇯🇵',
-      issues: [
-        {
-          id: 'jp-aging-population', name: '少子高齢化・人口減少', emoji: '👶', category: '人口・社会',
-          tagline: '(プレースホルダー)',
-          overview: '開発用の仮データです。', why_problem: '仮。', future_outlook: '仮。',
-          key_stats: [
-            { label: '合計特殊出生率', value: '1.15', year: '2024', source_name: '厚生労働省', source_url: 'https://www.mhlw.go.jp/' },
-            { label: '高齢化率', value: '29.3%', year: '2024', source_name: '内閣府', source_url: 'https://www.cao.go.jp/' },
-            { label: '総人口', value: '約1億2300万人', year: '2025', source_name: '総務省統計局', source_url: 'https://www.stat.go.jp/' },
-          ],
-          score_inputs: { affected_population_man: 12300, affected_note: '全国民', econ_impact_trillion_yen: 30, econ_note: '仮', urgency: 5, urgency_rationale: '仮' },
-          sub_issues: [
-            { id: 'jp-aging-population-birthrate', name: '出生率低下', description: '仮。', severity: 5, key_stat: { label: '出生数', value: '68万人', year: '2024', source_name: '厚労省', source_url: 'https://www.mhlw.go.jp/' } },
-            { id: 'jp-aging-population-care', name: '介護需要増', description: '仮。', severity: 4, key_stat: { label: '要介護認定者', value: '約700万人', year: '2024', source_name: '厚労省', source_url: 'https://www.mhlw.go.jp/' } },
-            { id: 'jp-aging-population-rural', name: '地方消滅', description: '仮。', severity: 4, key_stat: { label: '消滅可能性自治体', value: '744', year: '2024', source_name: '人口戦略会議', source_url: 'https://www.example.com/' } },
-          ],
-          links_to_other_issues: [
-            { target_id: 'jp-fiscal-sustainability', relation: '悪化させる', description: '社会保障費の増大を通じて財政を圧迫する。' },
-            { target_id: 'jp-labor-shortage', relation: '原因となる', description: '生産年齢人口の減少が人手不足の主因。' },
-          ],
-        },
-        {
-          id: 'jp-fiscal-sustainability', name: '財政・社会保障の持続性', emoji: '💴', category: '経済・財政',
-          tagline: '(プレースホルダー)',
-          overview: '仮。', why_problem: '仮。', future_outlook: '仮。',
-          key_stats: [
-            { label: '国債残高', value: '約1100兆円', year: '2025', source_name: '財務省', source_url: 'https://www.mof.go.jp/' },
-            { label: '社会保障給付費', value: '約140兆円', year: '2025', source_name: '厚労省', source_url: 'https://www.mhlw.go.jp/' },
-            { label: '債務残高GDP比', value: '約250%', year: '2025', source_name: 'IMF', source_url: 'https://www.imf.org/' },
-          ],
-          score_inputs: { affected_population_man: 12300, affected_note: '全国民', econ_impact_trillion_yen: 45, econ_note: '仮', urgency: 4, urgency_rationale: '仮' },
-          sub_issues: [
-            { id: 'jp-fiscal-debt', name: '政府債務の累増', description: '仮。', severity: 4, key_stat: { label: '利払費', value: '約10兆円', year: '2025', source_name: '財務省', source_url: 'https://www.mof.go.jp/' } },
-            { id: 'jp-fiscal-pension', name: '年金制度の持続性', description: '仮。', severity: 4, key_stat: { label: '所得代替率', value: '61.2%', year: '2024', source_name: '厚労省', source_url: 'https://www.mhlw.go.jp/' } },
-            { id: 'jp-fiscal-medical', name: '医療費の増大', description: '仮。', severity: 4, key_stat: { label: '国民医療費', value: '約48兆円', year: '2023', source_name: '厚労省', source_url: 'https://www.mhlw.go.jp/' } },
-          ],
-          links_to_other_issues: [],
-        },
-        {
-          id: 'jp-labor-shortage', name: '労働力不足', emoji: '🏗️', category: '労働・雇用',
-          tagline: '(プレースホルダー)',
-          overview: '仮。', why_problem: '仮。', future_outlook: '仮。',
-          key_stats: [
-            { label: '人手不足倒産', value: '過去最多', year: '2025', source_name: '帝国データバンク', source_url: 'https://www.tdb.co.jp/' },
-            { label: '有効求人倍率', value: '1.2倍台', year: '2025', source_name: '厚労省', source_url: 'https://www.mhlw.go.jp/' },
-            { label: '外国人労働者数', value: '約230万人', year: '2024', source_name: '厚労省', source_url: 'https://www.mhlw.go.jp/' },
-          ],
-          score_inputs: { affected_population_man: 6900, affected_note: '労働力人口', econ_impact_trillion_yen: 11, econ_note: '仮', urgency: 4, urgency_rationale: '仮' },
-          sub_issues: [
-            { id: 'jp-labor-logistics', name: '物流・建設2024年問題', description: '仮。', severity: 4, key_stat: { label: '輸送力不足', value: '14%', year: '2024', source_name: '国交省', source_url: 'https://www.mlit.go.jp/' } },
-            { id: 'jp-labor-immigration', name: '外国人材受け入れ', description: '仮。', severity: 3, key_stat: { label: '育成就労制度', value: '2027年施行', year: '2024', source_name: '出入国在留管理庁', source_url: 'https://www.moj.go.jp/isa/' } },
-            { id: 'jp-labor-productivity', name: '労働生産性の低迷', description: '仮。', severity: 3, key_stat: { label: 'OECD順位', value: '30位', year: '2023', source_name: '日本生産性本部', source_url: 'https://www.jpc-net.jp/' } },
-          ],
-          links_to_other_issues: [],
-        },
-      ],
-      meta: { confidences: [], critic_notes: 'placeholder', method: '' },
+     "id": "jp-industrial-competitiveness-dx",
+     "name": "産業競争力の低下とデジタル対応の遅れ",
+     "emoji": "🏭",
+     "category": "経済・財政",
+     "tagline": "技術で勝ちビジネスで負ける構造",
+     "overview": "日本の時間当たり労働生産性は60.1ドル（2024年）でOECD加盟38カ国中28位、実質ベースの上昇率は前年比マイナス0.6％と低迷が続く。IMD世界デジタル競争力ランキング（2025年）では69カ国・地域中30位で、特に「未来への準備」は39位と先進国最低水準にある。クラウド等海外ITサービスへの支払超過である「デジタル赤字」は2024年に約6.7兆円と過去最大を更新し、レガシーシステムの温存やデジタル人材不足がDXの足かせとなっている。政府は半導体・AIに10兆円以上の公的支援枠を設けるなど巻き返しを図るが、スタートアップ創出力や対内直接投資は主要国に大きく見劣りする。",
+     "why_problem": "生産性の停滞は賃上げ原資の欠如に直結し、1990年代以降の実質賃金の長期横ばいと成長実感の乏しさの根本要因とされる。経産省はレガシーシステムを放置した場合「2025年の崖」として年間最大12兆円の経済損失を警告し、経産省の「デジタル経済レポート」（2025年公表）は、隠れ赤字等を含む広義のデジタル赤字が2035年に最大約45兆円（狭義のデジタル赤字では約18兆円）へ拡大しうると試算しており、国富の海外流出と国内産業の空洞化が懸念される。一方で、ラピダスへの2027年度までの累計約2.9兆円規模の政府支援については「経済安全保障上不可欠な投資」との評価と、「巨額の公費投入は失敗時の国民負担が大きく市場に委ねるべき」との批判が並立しており、国家主導の産業政策の是非は論点が割れている。デジタル赤字自体も「クラウド活用による生産性向上の対価であり赤字額のみを問題視すべきでない」との見方がある。",
+     "future_outlook": "経産省の需給推計（2019年公表）ではIT人材は2030年に最大79万人不足するとされ、経産省「デジタル経済レポート」は生成AIの本格活用が進むと隠れ赤字等を含む広義のデジタル赤字が2035年に最大約45兆円（狭義では約18兆円）へ拡大するシナリオを示している。政府はAI・半導体に2030年度までに10兆円以上の公的支援で50兆円超の官民投資と約160兆円の経済波及効果を狙い、対日直接投資残高も2030年に120兆円へ引き上げる目標を掲げる。生成AI・半導体を巡る国際競争の趨勢は今後数年で決まるとされ、投資と人材育成が遅れれば低生産性・低賃金構造が固定化するおそれがある。",
+     "key_stats": [
+      {
+       "label": "時間当たり労働生産性（OECD38カ国中28位）",
+       "value": "60.1ドル",
+       "year": "2024年（2025年12月公表）",
+       "source_name": "日本生産性本部「労働生産性の国際比較2025」",
+       "source_url": "https://www.jpc-net.jp/research/detail/007846.html"
+      },
+      {
+       "label": "IMD世界デジタル競争力ランキング（69カ国・地域中）",
+       "value": "30位",
+       "year": "2025年",
+       "source_name": "ジェトロ（IMD世界デジタル競争力ランキング2025）",
+       "source_url": "https://www.jetro.go.jp/biznews/2025/11/00822b95d0b1cbf3.html"
+      },
+      {
+       "label": "デジタル関連サービス収支の赤字（デジタル赤字）",
+       "value": "約6.7兆円",
+       "year": "2024年",
+       "source_name": "総務省「令和7年版 情報通信白書」",
+       "source_url": "https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r07/html/nd113220.html"
+      },
+      {
+       "label": "IT人材の不足数（需給ギャップ・2030年推計）",
+       "value": "最大約79万人",
+       "year": "2030年推計（2019年公表）",
+       "source_name": "経済産業省「IT人材需給に関する調査（概要）」",
+       "source_url": "https://www.meti.go.jp/policy/it_policy/jinzai/gaiyou.pdf"
+      },
+      {
+       "label": "「2025年の崖」による年間経済損失（レガシーシステム放置時）",
+       "value": "最大12兆円/年",
+       "year": "2025年以降（2018年推計）",
+       "source_name": "経済産業省「DXレポート」",
+       "source_url": "https://www.meti.go.jp/shingikai/mono_info_service/digital_transformation/20180907_report.html"
+      },
+      {
+       "label": "半導体・AI分野への公的支援枠（2030年度までの7年間）",
+       "value": "10兆円以上",
+       "year": "2024年度〜2030年度",
+       "source_name": "経済産業省「AI・半導体産業基盤強化フレーム」",
+       "source_url": "https://www.meti.go.jp/policy/mono_info_service/ai_semiconductor_frame/ai_semiconductor_frame.html"
+      },
+      {
+       "label": "対日直接投資残高（過去最高だが対GDP比は世界最低水準）",
+       "value": "53.3兆円",
+       "year": "2024年末",
+       "source_name": "ジェトロ「対日投資報告2025」",
+       "source_url": "https://www.jetro.go.jp/invest/newsroom/2025/20b244a251fb2e9e.html"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 6800,
+      "affected_note": "生産性停滞・賃金低迷・DXの遅れは就業者全体（総務省労働力調査で約6,800万人）の賃金・雇用環境に波及するため、就業者数を影響人口とした。",
+      "econ_impact_trillion_yen": 12,
+      "econ_note": "経産省DXレポートが警告するレガシーシステム放置時の年間最大経済損失12兆円（2025年以降）を採用。別途、デジタル赤字は2024年実績で年約6.7兆円、経産省「デジタル経済レポート」は2035年に狭義で約18兆円、隠れ赤字等を含む広義で最大約45兆円への拡大を試算しており、12兆円は保守的な年間フロー値。",
+      "urgency": 4,
+      "urgency_rationale": "「2025年の崖」は既に現実の局面に入り、デジタル赤字は10年で3倍超に拡大し、経産省「デジタル経済レポート」は2035年に狭義約18兆円・広義最大約45兆円への拡大を試算する。生成AI・先端半導体の国際競争の趨勢は今後数年で固まるとされ、出遅れれば低生産性構造が長期固定化する。ただし人口動態のような物理的不可逆性はなく投資・制度改革で挽回余地があるため5ではなく4。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-industrial-competitiveness-dx-labor-productivity",
+       "name": "労働生産性の国際的低位",
+       "description": "時間当たり労働生産性は60.1ドルでOECD加盟38カ国中28位、就業者一人当たりでは29位と主要先進国の中で最低水準が続く。2024年は実質ベースで前年比マイナス0.6％（38カ国中33位）と再び悪化しており、賃上げ原資の乏しさに直結している。",
+       "severity": 5,
+       "key_stat": {
+        "label": "時間当たり労働生産性のOECD内順位",
+        "value": "38カ国中28位（60.1ドル）",
+        "year": "2024年",
+        "source_name": "日本生産性本部「労働生産性の国際比較2025」",
+        "source_url": "https://www.jpc-net.jp/research/detail/007846.html"
+       }
+      },
+      {
+       "id": "jp-industrial-competitiveness-dx-digital-talent",
+       "name": "デジタル・AI人材の不足",
+       "description": "経産省の需給推計（2019年公表）では、IT需要が高成長するシナリオでIT人材は2030年に最大約79万人不足する。特にAI・ビッグデータ等を扱う先端IT人材の不足が深刻で、従来型人材から先端分野への学び直し（リスキリング）が追いついていない。",
+       "severity": 4,
+       "key_stat": {
+        "label": "IT人材の不足数（2030年推計・需要高成長シナリオ）",
+        "value": "最大約79万人",
+        "year": "2030年推計（2019年公表）",
+        "source_name": "経済産業省「IT人材需給に関する調査（概要）」",
+        "source_url": "https://www.meti.go.jp/policy/it_policy/jinzai/gaiyou.pdf"
+       }
+      },
+      {
+       "id": "jp-industrial-competitiveness-dx-legacy-systems",
+       "name": "レガシーシステムと行政・企業DXの停滞",
+       "description": "複雑化・ブラックボックス化した既存基幹システムがデータ活用と業務変革を阻み、経産省は放置すれば2025年以降年間最大12兆円の経済損失が生じる「2025年の崖」を警告した。IMDデジタル競争力でも「未来への準備」が39位と、企業の俊敏性や規制対応の遅れが国際的に低評価となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "レガシーシステム放置時の年間経済損失（2025年の崖）",
+        "value": "最大12兆円/年",
+        "year": "2025年以降（2018年推計）",
+        "source_name": "経済産業省「DXレポート」",
+        "source_url": "https://www.meti.go.jp/shingikai/mono_info_service/digital_transformation/20180907_report.html"
+       }
+      },
+      {
+       "id": "jp-industrial-competitiveness-dx-startup",
+       "name": "スタートアップ・イノベーション創出力の弱さ",
+       "description": "経産省「スタートアップエコシステム調査2026」では、企業価値10億ドル超の未上場企業（ユニコーン）は米国750社・中国157社に対し日本は8社（2026年1月時点）にとどまる。ディープテック分野へのベンチャーキャピタル投資額（2025年）も米国の2,544億ドルに対し日本は34億ドルと2桁の開きがあり、新産業の創出力が主要国に大きく見劣りする。",
+       "severity": 4,
+       "key_stat": {
+        "label": "ユニコーン企業数（日本、米国は750社）",
+        "value": "8社",
+        "year": "2026年1月時点",
+        "source_name": "経済産業省「スタートアップエコシステム調査2026」",
+        "source_url": "https://www.meti.go.jp/policy/newbusiness/houkokusyo/startup_ecosystem_research_2026.pdf"
+       }
+      },
+      {
+       "id": "jp-industrial-competitiveness-dx-digital-deficit",
+       "name": "デジタル赤字（海外ITサービスへの支払超過）",
+       "description": "クラウド、ネット広告、ソフトウェア使用料など海外ITサービスへの支払超過は2024年に約6.7兆円と10年で3倍超に拡大し、2025年上半期も3.48兆円と高水準が続く。経産省「デジタル経済レポート」は2035年に狭義で約18兆円、隠れ赤字等を含む広義では最大約45兆円へ拡大しうると試算する一方、クラウド活用は生産性向上の対価であり赤字額だけを問題視すべきでないとの見方もある。",
+       "severity": 4,
+       "key_stat": {
+        "label": "デジタル関連サービス収支の赤字額",
+        "value": "約6.7兆円",
+        "year": "2024年",
+        "source_name": "総務省「令和7年版 情報通信白書」",
+        "source_url": "https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r07/html/nd113220.html"
+       }
+      },
+      {
+       "id": "jp-industrial-competitiveness-dx-semiconductor-investment",
+       "name": "半導体など戦略産業の育成と対内投資",
+       "description": "政府は「AI・半導体産業基盤強化フレーム」で2030年度までに10兆円以上の公的支援を行い、約160兆円の経済波及効果を目指す。ラピダスへの政府支援は追加出資を含め2027年度までに累計2.9兆円規模となる計画だが、最先端2nm半導体量産の成否は不透明で、巨額公費投入への賛否が分かれる。対日直接投資残高は53.3兆円（2024年末）と過去最高ながら対GDP比では世界最低水準にあり、政府は2030年の目標を100兆円から120兆円に引き上げた。",
+       "severity": 3,
+       "key_stat": {
+        "label": "半導体・AI分野への公的支援枠（2030年度まで）",
+        "value": "10兆円以上",
+        "year": "2024年11月決定",
+        "source_name": "経済産業省「AI・半導体産業基盤強化フレーム」",
+        "source_url": "https://www.meti.go.jp/policy/mono_info_service/ai_semiconductor_frame/ai_semiconductor_frame.html"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-inflation-real-wages",
+       "relation": "原因となる",
+       "description": "労働生産性の長期停滞が賃上げ原資を制約し、実質賃金の低迷の構造的要因と日本生産性本部や政府資料で指摘されている。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "相互に影響",
+       "description": "DXによる省力化は労働供給制約の主要な緩和策とされる一方、IT人材不足そのものがDX推進を遅らせる悪循環が指摘されている。"
+      },
+      {
+       "target_id": "jp-fiscal-debt",
+       "relation": "悪化させる",
+       "description": "産業競争力の低下による潜在成長率の停滞は税収の伸びを抑え、債務残高対GDP比の改善を困難にすると財政検証で指摘されている。"
+      },
+      {
+       "target_id": "jp-energy-food-security",
+       "relation": "相互に影響",
+       "description": "半導体工場やAIデータセンターの立地拡大は電力需要を大幅に増加させ、脱炭素電源の確保が産業立地競争力を左右すると指摘されている。"
+      }
+     ]
     },
     {
-      id: 'kr', name: '韓国', flag: '🇰🇷',
-      issues: [
-        {
-          id: 'kr-ultra-low-birthrate', name: '超少子化・人口危機', emoji: '🍼', category: '人口・社会',
-          tagline: '(プレースホルダー)',
-          overview: '開発用の仮データです。', why_problem: '仮。', future_outlook: '仮。',
-          key_stats: [
-            { label: '合計特殊出生率', value: '0.75', year: '2024', source_name: '韓国統計庁', source_url: 'https://kostat.go.kr/' },
-            { label: '高齢化率', value: '約20%', year: '2025', source_name: '韓国統計庁', source_url: 'https://kostat.go.kr/' },
-            { label: '総人口', value: '約5170万人', year: '2025', source_name: '韓国統計庁', source_url: 'https://kostat.go.kr/' },
-          ],
-          score_inputs: { affected_population_man: 5170, affected_note: '全国民', econ_impact_trillion_yen: 15, econ_note: '仮', urgency: 5, urgency_rationale: '仮' },
-          sub_issues: [
-            { id: 'kr-birthrate-cost', name: '結婚・出産コスト', description: '仮。', severity: 5, key_stat: { label: '出生数', value: '約24万人', year: '2024', source_name: '韓国統計庁', source_url: 'https://kostat.go.kr/' } },
-            { id: 'kr-birthrate-seoul', name: '首都圏一極集中', description: '仮。', severity: 4, key_stat: { label: '首都圏人口比', value: '50.8%', year: '2024', source_name: '韓国統計庁', source_url: 'https://kostat.go.kr/' } },
-            { id: 'kr-birthrate-elderly', name: '高齢者貧困', description: '仮。', severity: 4, key_stat: { label: '高齢者貧困率', value: '約40%', year: '2023', source_name: 'OECD', source_url: 'https://www.oecd.org/' } },
-          ],
-          links_to_other_issues: [
-            { target_id: 'kr-household-debt', relation: '相互に影響', description: '住居費負担が結婚・出産の抑制要因とされる。' },
-          ],
-        },
-        {
-          id: 'kr-household-debt', name: '家計債務・不動産', emoji: '🏠', category: '経済・財政',
-          tagline: '(プレースホルダー)',
-          overview: '仮。', why_problem: '仮。', future_outlook: '仮。',
-          key_stats: [
-            { label: '家計債務GDP比', value: '約100%', year: '2024', source_name: 'BIS', source_url: 'https://www.bis.org/' },
-            { label: '家計債務総額', value: '約1900兆ウォン', year: '2024', source_name: '韓国銀行', source_url: 'https://www.bok.or.kr/' },
-            { label: 'ソウルPIR', value: '約26倍', year: '2023', source_name: 'KB国民銀行', source_url: 'https://www.kbstar.com/' },
-          ],
-          score_inputs: { affected_population_man: 3000, affected_note: '債務保有世帯', econ_impact_trillion_yen: 20, econ_note: '仮', urgency: 4, urgency_rationale: '仮' },
-          sub_issues: [
-            { id: 'kr-debt-jeonse', name: 'チョンセ詐欺', description: '仮。', severity: 3, key_stat: { label: '被害額', value: '数兆ウォン', year: '2024', source_name: '国土交通部', source_url: 'https://www.molit.go.kr/' } },
-            { id: 'kr-debt-selfemployed', name: '自営業者債務', description: '仮。', severity: 4, key_stat: { label: '自営業者比率', value: '約20%', year: '2024', source_name: '韓国統計庁', source_url: 'https://kostat.go.kr/' } },
-            { id: 'kr-debt-youth', name: '若年層負債', description: '仮。', severity: 4, key_stat: { label: '2030代債務', value: '増加傾向', year: '2024', source_name: '韓国銀行', source_url: 'https://www.bok.or.kr/' } },
-          ],
-          links_to_other_issues: [],
-        },
-        {
-          id: 'kr-north-korea', name: '北朝鮮リスク', emoji: '🚨', category: '安全保障・災害',
-          tagline: '(プレースホルダー)',
-          overview: '仮。', why_problem: '仮。', future_outlook: '仮。',
-          key_stats: [
-            { label: '核弾頭推計', value: '約50発', year: '2026', source_name: 'SIPRI', source_url: 'https://www.sipri.org/' },
-            { label: 'ミサイル発射', value: '継続', year: '2025', source_name: '韓国国防部', source_url: 'https://www.mnd.go.kr/' },
-            { label: '国防費', value: '約61兆ウォン', year: '2025', source_name: '韓国国防部', source_url: 'https://www.mnd.go.kr/' },
-          ],
-          score_inputs: { affected_population_man: 5170, affected_note: '全国民', econ_impact_trillion_yen: 7, econ_note: '仮', urgency: 3, urgency_rationale: '仮' },
-          sub_issues: [
-            { id: 'kr-nk-nuclear', name: '核・ミサイル開発', description: '仮。', severity: 5, key_stat: { label: '核弾頭', value: '約50発', year: '2026', source_name: 'SIPRI', source_url: 'https://www.sipri.org/' } },
-            { id: 'kr-nk-conscription', name: '兵役と人口減の衝突', description: '仮。', severity: 3, key_stat: { label: '兵役資源', value: '減少', year: '2025', source_name: '韓国国防部', source_url: 'https://www.mnd.go.kr/' } },
-            { id: 'kr-nk-cyber', name: 'サイバー攻撃', description: '仮。', severity: 3, key_stat: { label: '暗号資産窃取', value: '数十億ドル', year: '2024', source_name: '国連', source_url: 'https://www.un.org/' } },
-          ],
-          links_to_other_issues: [],
-        },
-      ],
-      meta: { confidences: [], critic_notes: 'placeholder', method: '' },
+     "id": "jp-fiscal-debt",
+     "name": "財政悪化と政府債務の累増",
+     "emoji": "💸",
+     "category": "経済・財政",
+     "tagline": "借金1,300兆円、金利上昇が迫る決断",
+     "overview": "日本の普通国債残高は2026年度末に約1,145兆円に達する見込みで、借入金・政府短期証券を含む国の債務は2026年3月末時点で1,343.8兆円に上る。政府総債務残高の対GDP比はIMF推計（2026年4月版WEO）で206.5%（2025年）と、主要先進国の中で突出して最悪の水準にある。令和8年度（2026年度）当初予算は122.3兆円と2年連続で過去最大を更新し、国債費は31.3兆円と初めて30兆円を突破、うち利払費は金利上昇により前年度比2.5兆円増の13.0兆円に膨らんだ。税収が83.7兆円と7年連続過去最高を更新し新規国債発行は29.6兆円に抑制されたものの、2025年度補正予算18.3兆円（追加国債約11.7兆円）など補正での歳出拡大が常態化している。",
+     "why_problem": "財政健全化を重視する立場（財務省・財政制度等審議会等）は、金利上昇局面で利払費が急増し（2029年度に国債費41.3兆円の試算）、政策経費が圧迫される財政の硬直化、市場の信認低下による金利急騰リスク、将来世代への負担転嫁を問題視する。一方、積極財政を重視する立場は、国債の大半が国内で消化され日本は世界最大級の対外純資産国であること、政府資産を差し引いた純債務で見るべきこと、拙速な緊縮はデフレ回帰や成長率低下を招き却って債務比率を悪化させることを指摘し、成長による税収増（実際に税収は83.7兆円と7年連続過去最高）を優先すべきと主張する。2026年度当初予算は一般会計ベースで28年ぶりのプライマリーバランス黒字化予算とされたが、補正予算を含めた実態では赤字が続くとの指摘もあり、財政運営の評価自体が政治的な争点となっている。いずれの立場でも、金利上昇下で利払費が膨張し財政の選択肢が狭まっていく点は共通の懸念とされる。",
+     "future_outlook": "財務省の後年度影響試算（2026年2月公表）では、10年国債金利が2029年度に3.6%へ上昇する前提（名目成長3.0%の試算①ケース）で、国債費は2026年度の31.3兆円から2029年度に41.3兆円（うち利払費21.6兆円）へと3年間で10兆円膨張し、社会保障関係費（同試算で41.0兆円）を上回る規模になると見込まれる。内閣府の中長期試算（2026年1月）は成長移行ケースで債務残高対GDP比の着実な低下を描くが、高成長・歳出抑制の両立が前提であり、補正予算の常態化が続けば実現は不透明。金利上昇が税収増を上回るペースで進めば、政策経費が利払いに圧迫される「財政の硬直化」が2020年代末にかけて一段と進む恐れがある。",
+     "key_stats": [
+      {
+       "label": "普通国債残高（2026年度末見込み）",
+       "value": "約1,145兆円",
+       "year": "2026年度末",
+       "source_name": "財務省「これからの日本のために財政を考える」",
+       "source_url": "https://www.mof.go.jp/zaisei/financial-situation/financial-situation-01.html"
+      },
+      {
+       "label": "国債及び借入金等の合計残高（いわゆる「国の借金」）",
+       "value": "1,343.8兆円",
+       "year": "2026年3月末",
+       "source_name": "財務省「国債及び借入金並びに政府保証債務現在高」",
+       "source_url": "https://www.mof.go.jp/jgbs/reference/gbb/202603.html"
+      },
+      {
+       "label": "政府総債務残高対GDP比（世界2位・主要先進国で最悪）",
+       "value": "206.5%",
+       "year": "2025年（IMF WEO 2026年4月版）",
+       "source_name": "IMF World Economic Outlook（世界経済のネタ帳による集計）",
+       "source_url": "https://ecodb.net/ranking/imf_ggxwdg_ngdp.html"
+      },
+      {
+       "label": "令和8年度一般会計の国債費（うち利払費13.0兆円）",
+       "value": "31兆2,758億円",
+       "year": "2026年度当初予算",
+       "source_name": "財務省「令和8年度予算のポイント」",
+       "source_url": "https://www.mof.go.jp/policy/budget/budger_workflow/budget/fy2026/seifuan2026/01.pdf"
+      },
+      {
+       "label": "新規国債発行額（公債依存度24.2%）",
+       "value": "29.6兆円",
+       "year": "2026年度当初予算",
+       "source_name": "財務省「令和8年度予算政府案」",
+       "source_url": "https://www.mof.go.jp/policy/budget/budger_workflow/budget/fy2026/seifuan2026/index.html"
+      },
+      {
+       "label": "社会保障関係費（前年度比+約7,600億円・過去最大）",
+       "value": "39兆559億円",
+       "year": "2026年度当初予算",
+       "source_name": "財務省広報誌ファイナンス「令和8年度社会保障関係予算のポイント」",
+       "source_url": "https://www.mof.go.jp/public_relations/finance/202605/202605d.html"
+      },
+      {
+       "label": "国債費の将来試算（10年債金利3.6%前提・利払費21.6兆円）",
+       "value": "41.3兆円",
+       "year": "2029年度（2026年2月公表試算）",
+       "source_name": "財務省「令和8年度予算の後年度歳出・歳入への影響試算」",
+       "source_url": "https://www.mof.go.jp/policy/budget/topics/outlook/sy2026a.htm"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 12300,
+      "affected_note": "全国民約1億2,300万人（2026年4月1日時点の人口推計は1億2,286万人）が納税者・社会保障受益者・行政サービス利用者として直接影響を受ける。特に債務の償還・利払い負担を将来引き継ぐ現役・将来世代への影響が大きい。",
+      "econ_impact_trillion_yen": 31.3,
+      "econ_note": "令和8年度一般会計の国債費（債務償還費18.2兆円+利払費13.0兆円）31兆2,758億円。一般会計歳出122.3兆円の約26%が過去の借金の元利払いに充てられ政策経費を圧迫。財務省の後年度影響試算では2029年度に41.3兆円へ拡大見込み（出典: 財務省・令和8年度予算のポイント、後年度歳出・歳入への影響試算）。",
+      "urgency": 4,
+      "urgency_rationale": "「金利のある世界」への移行で利払費は令和8年度に前年度比+2.5兆円の13.0兆円となり、財務省の後年度影響試算（2026年2月）は10年債金利3.6%前提で国債費が3年後の2029年度に41.3兆円と10兆円増加し社会保障関係費（41.0兆円）を上回ると見込む。金利上昇と債務残高増の複合で財政硬直化が急速に進む局面にある。一方で国債は国内で安定消化されており即時の債務危機の蓋然性は低く、税収も7年連続で過去最高を更新し2026年度当初予算は一般会計ベースで28年ぶりのPB黒字化予算となったため、5ではなく4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-fiscal-debt-outstanding-gdp",
+       "name": "普通国債残高1,100兆円超・対GDP比が主要先進国最悪",
+       "description": "普通国債残高は2026年3月末で1,104.3兆円、2026年度末には約1,145兆円に達する見込み。政府総債務残高の対GDP比はIMF推計で206.5%（2025年）と世界2位で、G7を含む主要先進国の中で突出して最悪の水準が続いている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "普通国債残高（2026年度末見込み）",
+        "value": "約1,145兆円",
+        "year": "2026年度末",
+        "source_name": "財務省「これからの日本のために財政を考える」",
+        "source_url": "https://www.mof.go.jp/zaisei/financial-situation/financial-situation-01.html"
+       }
+      },
+      {
+       "id": "jp-fiscal-debt-interest-burden",
+       "name": "金利上昇局面での利払い費・国債費の膨張",
+       "description": "日銀の利上げに伴う「金利のある世界」への移行で、令和8年度の利払費は前年度比2.5兆円増の13.0兆円、国債費は31.3兆円と初めて30兆円を突破した。財務省の後年度影響試算は、10年債金利が3.6%へ上昇する前提（名目成長3.0%・市場織り込み金利ベースの試算①ケース）で2029年度の国債費が41.3兆円（うち利払費21.6兆円）に達し、社会保障関係費（同試算で41.0兆円）を初めて上回ると見込む。",
+       "severity": 5,
+       "key_stat": {
+        "label": "2029年度の国債費試算（2026年度比+10兆円）",
+        "value": "41.3兆円",
+        "year": "2029年度（2026年2月公表試算）",
+        "source_name": "財務省「令和8年度予算の後年度歳出・歳入への影響試算」",
+        "source_url": "https://www.mof.go.jp/policy/budget/topics/outlook/sy2026a.htm"
+       }
+      },
+      {
+       "id": "jp-fiscal-debt-social-security",
+       "name": "社会保障関係費の構造的膨張",
+       "description": "高齢化の進行により社会保障関係費は令和8年度当初予算で39兆559億円（前年度比+約7,600億円）と過去最大を更新し、一般会計歳出の約3分の1を占める。高齢化に伴う自然増が毎年度続く構造で、歳出改革だけでは伸びの抑制に限界があり、国債発行に依存した財源調達が常態化している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "社会保障関係費（前年度比+約7,600億円・過去最大）",
+        "value": "39兆559億円",
+        "year": "2026年度当初予算",
+        "source_name": "財務省広報誌ファイナンス「令和8年度社会保障関係予算のポイント」",
+        "source_url": "https://www.mof.go.jp/public_relations/finance/202605/202605d.html"
+       }
+      },
+      {
+       "id": "jp-fiscal-debt-supplementary-budget",
+       "name": "補正予算常態化による財政規律の緩み",
+       "description": "2025年度補正予算は一般会計18兆3,034億円と新型コロナ禍後で最大規模となり、財源の約11.7兆円（11兆6,960億円）を追加国債発行に依存した。当初予算で新規国債を抑制しても補正で大型歳出を積む構図が毎年度繰り返されており、財政制度等審議会などから財政規律の形骸化が指摘されている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "2025年度補正予算の規模（追加国債発行約11.7兆円）",
+        "value": "18兆3,034億円",
+        "year": "2025年12月成立",
+        "source_name": "日本経済新聞「25年度補正予算が成立」",
+        "source_url": "https://www.nikkei.com/article/DGXZQOUA159JW0V11C25A2000000/"
+       }
+      },
+      {
+       "id": "jp-fiscal-debt-future-generations",
+       "name": "将来世代への負担転嫁",
+       "description": "国債・借入金・政府短期証券を合計した国の債務は2026年3月末で1,343.8兆円と前年度末から約20.1兆円増加し、償還・利払いの負担は現在の政策の受益者ではない将来世代に引き継がれる。受益（現在の給付・サービス）と負担（将来の増税・給付抑制）の世代間ギャップが、財政の民主的統制上の課題として指摘されている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "国債及び借入金等の合計残高（前年度末比約20.1兆円増）",
+        "value": "1,343.8兆円",
+        "year": "2026年3月末",
+        "source_name": "財務省「国債及び借入金並びに政府保証債務現在高（令和8年3月末現在）」",
+        "source_url": "https://www.mof.go.jp/jgbs/reference/gbb/202603.html"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "相互に影響",
+       "description": "高齢化に伴う社会保障給付の増大が国債依存の最大の構造要因である一方、財政制約が給付抑制・負担増を通じて制度の持続可能性を脅かす。"
+      },
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "悪化させる",
+       "description": "人口減少による税収・保険料の担い手縮小が債務残高対GDP比の改善を困難にすると同時に、財政余力の欠如が少子化対策への大規模投資を制約する。"
+      },
+      {
+       "target_id": "jp-national-defense",
+       "relation": "解決策が競合",
+       "description": "防衛費の大幅増額（令和8年度予算でも増額継続）は歳出拡大要因であり、安定財源の確保と財政健全化目標が予算編成上競合する関係が指摘されている。"
+      },
+      {
+       "target_id": "jp-inflation-real-wages",
+       "relation": "相互に影響",
+       "description": "物価高対策として2025年度補正予算18.3兆円など大型歳出が債務累増を招く一方、インフレに伴う金利上昇は利払費増大（令和8年度+2.5兆円）に直結する。"
+      },
+      {
+       "target_id": "jp-megadisaster-preparedness",
+       "relation": "悪化させる",
+       "description": "債務累増による財政余力の低下は、南海トラフ地震等の巨大災害発生時に必要となる大規模な復旧・復興財源の調達余地を狭めると財政審等で指摘されている。"
+      }
+     ]
     },
-  ],
+    {
+     "id": "jp-national-defense",
+     "name": "安全保障環境の悪化と防衛力強化",
+     "emoji": "🛡️",
+     "category": "安全保障・災害",
+     "tagline": "戦後最も厳しい安保環境と抑止力",
+     "overview": "令和7年版防衛白書は日本を取り巻く安全保障環境を「戦後最も厳しく複雑」と評価し、中国を「これまでにない最大の戦略的挑戦」と位置づけた。2025年には尖閣諸島接続水域での中国海警船確認が356日と過去最多を更新し、2025年12月には中露爆撃機が四国沖で初の共同飛行を実施するなど、日本周辺での軍事活動が常態化している。これに対し令和8年度防衛関係予算は過去最大の9兆353億円となり、国家安全保障戦略が掲げる「2027年度にGDP比2%」の水準に向けた防衛力の抜本的強化が進む。一方で財源(防衛増税)と自衛官の深刻な採用難という国内的制約が強化の実効性を左右する構図となっている。",
+     "why_problem": "中国の国防費は2026年に前年比7%増の約1兆9,100億元(約43.4兆円)と日本の防衛費の約4.8倍に達し、北朝鮮は約60発の核弾頭を組み立て済み(SIPRI・2026年1月時点推計)とされ、ロシアはウクライナ侵略を続けながら中国との軍事連携を深めるなど、力による一方的な現状変更のリスクが高まっている。抑止力強化を支持する立場は、日米同盟と反撃能力を含む防衛力整備が武力紛争を未然に防ぐ最も現実的な手段だとする。他方、慎重な立場からは、GDP比2%への増額が増税と政府債務に依存し財政を圧迫すること、軍拡競争を招き専守防衛や周辺国との緊張緩和外交と整合しない懸念があることが指摘される。いずれの立場でも、少子化による自衛官の採用難(2023年度の採用達成率51%)が防衛力の実効性を損なうという人的基盤の問題は共通の課題とされる。",
+     "future_outlook": "国家安全保障戦略に基づき2027年度に防衛力整備水準はGDP比2%に達する見込みだが、米国からの更なる負担増要求やNATO加盟国が合意した水準(中核防衛費3.5%・関連投資込み5%)を巡る議論が続き、防衛増税の残り(所得税付加税は2027年1月開始が決定)と歳出改革の帰趨が焦点となる。中国は2027年の建軍100年に向け台湾侵攻能力の整備を進めていると米側は分析しており、東シナ海・台湾海峡の緊張は今後5年で一段と高まる公算が大きい。18〜26歳人口の減少により自衛官の採用難は構造的に続き、無人化・省人化と処遇改善の成否が防衛力の実効性を左右する。",
+     "key_stats": [
+      {
+       "label": "防衛関係予算(令和8年度)",
+       "value": "9兆353億円(過去最大・前年度比3.8%増)",
+       "year": "2026年度",
+       "source_name": "財務省 令和8年度防衛関係予算のポイント",
+       "source_url": "https://www.mof.go.jp/policy/budget/budger_workflow/budget/fy2026/seifuan2026/19.pdf"
+      },
+      {
+       "label": "中国の公表国防費(2026年・中央政府分)",
+       "value": "約1兆9,095億元(約43.4兆円・前年比7%増、日本の約4.8倍)",
+       "year": "2026年",
+       "source_name": "日本経済新聞",
+       "source_url": "https://www.nikkei.com/article/DGXZQOGM280ZZ0Y6A220C2000000/"
+      },
+      {
+       "label": "空自スクランブル(緊急発進)回数",
+       "value": "595回(うち中国機366回・約61%)",
+       "year": "2025年度",
+       "source_name": "防衛省統合幕僚監部",
+       "source_url": "https://www.mod.go.jp/js/pdf/2026/p20260417_03.pdf"
+      },
+      {
+       "label": "尖閣諸島接続水域での中国海警船確認日数",
+       "value": "356日(過去最多)",
+       "year": "2025年",
+       "source_name": "海上保安庁",
+       "source_url": "https://www.kaiho.mlit.go.jp/mission/senkaku/senkaku.html"
+      },
+      {
+       "label": "北朝鮮の核弾頭数(SIPRI推計・2026年1月時点)",
+       "value": "約60発(組立済み。ほかに少なくとも30発分の核分裂性物質を保有と推計)",
+       "year": "2026年",
+       "source_name": "SIPRI Yearbook 2026 プレスリリース",
+       "source_url": "https://www.sipri.org/media/press-release/2026/increasing-focus-nuclear-weapons-amid-heightened-escalation-risks-new-sipri-yearbook-out-now"
+      },
+      {
+       "label": "自衛官等の採用計画達成率",
+       "value": "51%(2023年度・過去最低)",
+       "year": "2023年度",
+       "source_name": "nippon.com(防衛省データ)",
+       "source_url": "https://www.nippon.com/ja/japan-data/h02075/"
+      },
+      {
+       "label": "サイバー攻撃関連通信の観測数",
+       "value": "7,010億パケット(観測開始以降で過去最多)",
+       "year": "2025年",
+       "source_name": "NICT NICTER観測レポート2025",
+       "source_url": "https://www.nict.go.jp/press/2026/02/05-1.html"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 12300,
+      "affected_note": "安全保障は国民全体(総人口約1億2,300万人)の生命・財産に関わる。加えて防衛増税(防衛特別法人税・たばこ税は2026年4月開始、所得税付加税は2027年1月開始が決定)は納税者全体の負担に直結する。",
+      "econ_impact_trillion_yen": 9,
+      "econ_note": "令和8年度防衛関係予算9兆353億円(年間の政府支出、財務省)。なお有事の損失推計は桁が異なり、野村総研(木内登英氏)は台湾との貿易停止で日本のGDPを年1.4%、10%の円高が重なれば計1.84%(約10兆円規模)押し下げると試算。台湾封鎖・侵攻シナリオではGDPが1割前後減少するとの民間推計も存在する。",
+      "urgency": 5,
+      "urgency_rationale": "米側は中国が2027年(建軍100年)までに台湾侵攻能力の整備を進めていると分析し、日本の防衛力整備もGDP比2%の目標年である2027年度が目前。尖閣周辺の中国公船活動は2025年に356日と過去最多、中露共同飛行も拡大しており、今後5年で軍事バランスと現状変更圧力が不可逆的に悪化するリスクが高い。少子化による採用対象人口の減少も不可逆。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-national-defense-china-taiwan",
+       "name": "中国の軍備増強と台湾有事・東シナ海リスク",
+       "description": "中国は5年連続で7%台の国防費増を続け、2026年は約1兆9,095億元と日本の防衛費の約4.8倍に達する。尖閣諸島周辺では海警船の活動が常態化し、2025年の接続水域確認日数は356日と過去最多。台湾有事は原油・半導体のシーレーン途絶を通じ日本経済に直結する。",
+       "severity": 5,
+       "key_stat": {
+        "label": "中国の公表国防費(前年比7%増・5年連続7%台)",
+        "value": "約1兆9,095億元(約43.4兆円)",
+        "year": "2026年",
+        "source_name": "日本経済新聞",
+        "source_url": "https://www.nikkei.com/article/DGXZQOGM280ZZ0Y6A220C2000000/"
+       }
+      },
+      {
+       "id": "jp-national-defense-north-korea",
+       "name": "北朝鮮の核・ミサイル開発",
+       "description": "SIPRIは2026年1月時点で北朝鮮が約60発の核弾頭を組み立て済みで、さらに少なくとも30発分の核分裂性物質を保有すると推計(前年推計の約50発から増加)。固体燃料ICBM「火星19」や次世代型「火星20」の開発を進め、ロシアへの派兵・軍事協力の見返りに技術移転が進む懸念も指摘される。",
+       "severity": 4,
+       "key_stat": {
+        "label": "北朝鮮の核弾頭数(SIPRI推計・2026年1月時点)",
+        "value": "約60発",
+        "year": "2026年",
+        "source_name": "SIPRI Yearbook 2026 プレスリリース",
+        "source_url": "https://www.sipri.org/media/press-release/2026/increasing-focus-nuclear-weapons-amid-heightened-escalation-risks-new-sipri-yearbook-out-now"
+       }
+      },
+      {
+       "id": "jp-national-defense-russia-china-alignment",
+       "name": "ロシアのウクライナ侵略継続と中露連携",
+       "description": "ロシアはウクライナ侵略を続けつつ、日本周辺で中国との共同軍事活動を拡大している。2025年12月9日には中露の爆撃機計4機(Tu-95×2、H-6×2)が東シナ海から四国沖太平洋にかけ初の共同飛行を行い、日本政府は「示威行為」として重大な懸念を伝達した。2025年度スクランブル595回のうちロシア機は214回(約36%)。",
+       "severity": 4,
+       "key_stat": {
+        "label": "中露爆撃機の共同飛行(四国沖では初)",
+        "value": "2025年12月9日に爆撃機計4機が実施",
+        "year": "2025年",
+        "source_name": "時事通信",
+        "source_url": "https://www.jiji.com/jc/article?k=2025121000546&g=soc"
+       }
+      },
+      {
+       "id": "jp-national-defense-budget-funding",
+       "name": "防衛費GDP比2%への増額と財源問題",
+       "description": "令和8年度防衛関係予算は過去最大の9兆353億円で、2027年度にGDP比2%水準へ到達する計画。財源は歳出改革・決算剰余金に加え約1兆円強の防衛増税で、防衛特別法人税とたばこ税(加熱式)は2026年4月から開始された一方、所得税(付加税)は家計負担への懸念から開始が先送りされてきたが2027年1月導入が決定されるなど、負担配分を巡る論争が続く。",
+       "severity": 4,
+       "key_stat": {
+        "label": "令和8年度防衛関係予算(過去最大)",
+        "value": "9兆353億円",
+        "year": "2026年度",
+        "source_name": "財務省",
+        "source_url": "https://www.mof.go.jp/policy/budget/budger_workflow/budget/fy2026/seifuan2026/19.pdf"
+       }
+      },
+      {
+       "id": "jp-national-defense-personnel",
+       "name": "自衛官の人材確保・処遇改善",
+       "description": "2023年度の自衛官等採用数は計画比51%と過去最低で、自衛官候補生は達成率30%にとどまった。定員に対し約2万人の欠員があり中途退職も年5,000人超。少子化と民間との人材獲得競争が背景にあり、政府は給与・手当や生活環境の処遇改善パッケージを進めるが、装備を動かす人的基盤の空洞化が防衛力強化のボトルネックとなっている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "自衛官等の採用計画達成率(過去最低)",
+        "value": "51%(採用9,959人/計画19,598人)",
+        "year": "2023年度",
+        "source_name": "nippon.com(防衛省データ)",
+        "source_url": "https://www.nippon.com/ja/japan-data/h02075/"
+       }
+      },
+      {
+       "id": "jp-national-defense-new-domains",
+       "name": "サイバー・宇宙等の新領域と経済安全保障",
+       "description": "NICTのダークネット観測では2025年のサイバー攻撃関連通信が7,010億パケットと観測開始以降の過去最多を記録し、日本宛DRDoS攻撃は約90万件と前年(約17万件)の約5倍に急増した。政府は能動的サイバー防御の導入や宇宙領域の防衛体制整備、半導体等の重要物資サプライチェーン強靱化を進めるが、人材と技術基盤の不足が課題となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "サイバー攻撃関連通信の観測数(過去最多)",
+        "value": "7,010億パケット",
+        "year": "2025年",
+        "source_name": "NICT NICTER観測レポート2025",
+        "source_url": "https://www.nict.go.jp/press/2026/02/05-1.html"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-fiscal-debt",
+       "relation": "解決策が競合",
+       "description": "防衛費GDP比2%への増額は増税・歳出改革・決算剰余金に依存し、財政健全化目標と財源を奪い合う関係にあることが予算編成の主要争点となっている。"
+      },
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "悪化させる",
+       "description": "少子化による18〜26歳の募集対象人口の減少が自衛官採用難(2023年度達成率51%)の構造的要因であると参議院調査室・防衛省が指摘している。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "共通の根本原因",
+       "description": "生産年齢人口の減少に伴う民間との人材獲得競争の激化が、自衛官の充足率低下と中途退職増加の背景として指摘されている。"
+      },
+      {
+       "target_id": "jp-energy-food-security",
+       "relation": "相互に影響",
+       "description": "台湾有事や南西方面のシーレーン途絶は原油・食料・半導体の輸入を直撃するため、エネルギー・食料安全保障は防衛戦略と一体の経済安全保障課題とされる。"
+      },
+      {
+       "target_id": "jp-industrial-competitiveness-dx",
+       "relation": "相互に影響",
+       "description": "半導体等の重要技術・サプライチェーンの国内基盤強化は経済安全保障政策の柱であり、産業競争力の低下は防衛生産・技術基盤の脆弱化にも直結すると政府文書が指摘している。"
+      }
+     ]
+    },
+    {
+     "id": "jp-immigration-foreign-workers",
+     "name": "外国人材の受け入れと共生政策",
+     "emoji": "🤝",
+     "category": "労働・雇用",
+     "tagline": "選ばれる国へ、共生の設計図を",
+     "overview": "日本で働く外国人労働者は2025年10月末時点で257万1,037人と過去最高を更新し、雇用事業所数も37万か所を超えた。在留外国人は2025年末に412万5,395人と初めて400万人を突破し、人手不足を補う「特定技能」（39万人）が増加を牽引している。制度面では2024年の法改正で技能実習制度の廃止と「育成就労制度」の創設（2027年4月施行）が決まり、人材の確保・育成と転籍緩和へ大きく舵を切った。一方、2025年参院選では外国人政策が主要争点として浮上し、受け入れ規模や共生のあり方をめぐる国民的合意は固まっていない。",
+     "why_problem": "人口減少下で外国人労働者は雇用者全体の約4%を占めるまでに増え、建設・介護・農業など多くの現場が既に外国人材なしでは成り立たない一方、JICA委託推計では2040年に97万人の供給不足が見込まれ、賃金水準や制度の魅力を高めなければ必要な人材を確保できない。受け入れ拡大を支持する立場は、労働力不足の緩和と経済成長の維持に不可欠だとし、経団連等も受け入れ・定着を最優先課題に位置づける。他方、慎重な立場からは、賃金への下押し圧力、社会保障・教育など統合コスト、地域社会の秩序や治安への不安が指摘され、2025年7月の世論調査では受け入れ拡大への賛否が45%対46%と拮抗した。受け入れ規模の全体像を示す仕組みがないまま制度が継ぎ足されてきたことが、共生政策の遅れと社会的分断リスクの根底にあるとされる。",
+     "future_outlook": "2027年4月に技能実習制度を廃止し「育成就労制度」が施行され、転籍制限の緩和など人材確保・育成を正面に据えた制度へ移行するが、約3年間の新旧制度の移行期間の運用が課題となる。JICAの委託推計では政府の経済成長目標（2040年GDP704兆円）達成には外国人労働者688万人が必要で、供給は591万人にとどまり97万人が不足する見通しであり、円安・賃金低迷下でアジア諸国との人材獲得競争に敗れれば必要な人材を確保できない恐れがある。一方で在留外国人は2025年末に初めて400万人を超えており、日本語教育・地域共生・合意形成が追いつかないまま受け入れが先行するリスクも指摘されている。",
+     "key_stats": [
+      {
+       "label": "外国人労働者数（届出ベース）",
+       "value": "257万1,037人（前年比+26.8万人・11.7%増、過去最高）",
+       "year": "2025年10月末",
+       "source_name": "厚生労働省「外国人雇用状況の届出状況」",
+       "source_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/koyou/gaikokujin/gaikokujin-koyou/06.html"
+      },
+      {
+       "label": "在留外国人数",
+       "value": "412万5,395人（前年比+35.6万人・9.5%増、初の400万人超）",
+       "year": "2025年末",
+       "source_name": "出入国在留管理庁 プレスリリース",
+       "source_url": "https://www.moj.go.jp/isa/publications/press/13_00062.html"
+      },
+      {
+       "label": "特定技能の在留者数",
+       "value": "39万296人",
+       "year": "2025年末",
+       "source_name": "出入国在留管理庁 プレスリリース",
+       "source_url": "https://www.moj.go.jp/isa/publications/press/13_00062.html"
+      },
+      {
+       "label": "2040年の外国人労働者の需給ギャップ推計",
+       "value": "97万人不足（必要688万人に対し供給591万人）",
+       "year": "2024年（JICA委託推計）",
+       "source_name": "JICA緒方研究所「2030/40年の外国人との共生社会の実現に向けた調査研究（需給予測更新版）」",
+       "source_url": "https://www.jica.go.jp/jica_ri/news/topics/2024/__icsFiles/afieldfile/2024/07/12/240704_rev.pdf"
+      },
+      {
+       "label": "外国人を雇用する事業所数",
+       "value": "37万1,215か所（前年比+2.9万か所、過去最高）",
+       "year": "2025年10月末",
+       "source_name": "厚生労働省「外国人雇用状況の届出状況」",
+       "source_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/koyou/gaikokujin/gaikokujin-koyou/06.html"
+      },
+      {
+       "label": "外国人労働者の平均賃金（月額）",
+       "value": "25万4,300円（前年比+4.8%）",
+       "year": "2025年",
+       "source_name": "厚生労働省「令和7年賃金構造基本統計調査」",
+       "source_url": "https://www.mhlw.go.jp/toukei/itiran/roudou/chingin/kouzou/z2025/index.html"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 412,
+      "affected_note": "在留外国人412万5,395人（2025年末、出入国在留管理庁）が直接の当事者。加えて外国人を雇用する37万事業所の経営者・従業員や、外国人集住地域の住民・自治体を含めると間接的な影響はさらに広い。",
+      "econ_impact_trillion_yen": 7.8,
+      "econ_note": "外国人労働者257万人（2025年10月末・厚労省）×平均賃金25万4,300円/月（令和7年賃金構造基本統計調査）×12か月≒年約7.8兆円の賃金総額に相当する労働投入の概算値（推計）。JICA委託推計では2040年に外国人労働者が97万人不足すると政府のGDP目標（704兆円）の達成が困難になるとされる。",
+      "urgency": 4,
+      "urgency_rationale": "2027年4月の育成就労制度施行に向けた制度移行が目前であり、円安・賃金低迷下でアジア諸国との人材獲得競争が激化、JICA委託推計では2030年時点で既に77万人の不足が見込まれる。2025年参院選での争点化により社会的分断が進むリスクもある。ただし受け入れ数自体は過去最高を更新し続けており、今後5年で不可逆的に悪化すると断定できる段階ではないため5ではなく4。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-immigration-foreign-workers-system-reform",
+       "name": "技能実習廃止と育成就労制度への移行",
+       "description": "国際貢献を建前としてきた技能実習制度は実態との乖離や人権問題が批判され、2024年法改正で廃止が決定。2027年4月施行の育成就労制度では人材確保・育成を目的に転籍が原則容認されるが、約3年間の新旧制度併存期間の運用や、失踪・悪質ブローカー対策の実効性が問われる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "技能実習の在留者数（2027年から育成就労へ移行対象）",
+        "value": "45万6,618人",
+        "year": "2025年末",
+        "source_name": "出入国在留管理庁 プレスリリース",
+        "source_url": "https://www.moj.go.jp/isa/publications/press/13_00062.html"
+       }
+      },
+      {
+       "id": "jp-immigration-foreign-workers-retention-wages",
+       "name": "外国人労働者の定着・処遇改善",
+       "description": "技能実習の平均賃金は月19万300円、特定技能は22万1,400円（2025年）と、外国人労働者全体の平均（25万4,300円）や国内労働者平均を下回り、属性を調整しても構造的な賃金差が残ると指摘される。円安も重なり、韓国・台湾等との人材獲得競争の中で処遇改善とキャリアパス整備が定着の鍵となる。なお技能実習生の失踪は2023年に過去最多の9,753人を記録し、2024年は6,510人に減少した。",
+       "severity": 4,
+       "key_stat": {
+        "label": "在留資格別の平均賃金（月額）",
+        "value": "技能実習19万300円・特定技能22万1,400円",
+        "year": "2025年",
+        "source_name": "厚生労働省「令和7年賃金構造基本統計調査」",
+        "source_url": "https://www.mhlw.go.jp/toukei/itiran/roudou/chingin/kouzou/z2025/index.html"
+       }
+      },
+      {
+       "id": "jp-immigration-foreign-workers-community-japanese-education",
+       "name": "地域社会での多文化共生・日本語教育",
+       "description": "国内の日本語学習者は2024年11月時点で29万4,198人と過去最多を更新したが、日本語教師の約半数はボランティアが担っており、指導体制が量・質ともに追いついていない。日本語教育や生活相談の体制は自治体間の格差が大きく、外国人集住地域と地方の双方で共生インフラの整備が課題となっている。",
+       "severity": 3,
+       "key_stat": {
+        "label": "国内の日本語学習者数",
+        "value": "29万4,198人（過去最多）",
+        "year": "2024年11月",
+        "source_name": "文部科学省「日本語教育実態調査（令和6年度）」",
+        "source_url": "https://www.mext.go.jp/b_menu/toukei/chousa01/nihongokyoiku_jittai/kekka/mext_03374.html"
+       }
+      },
+      {
+       "id": "jp-immigration-foreign-workers-public-consensus",
+       "name": "受け入れ規模をめぐる国民的合意形成",
+       "description": "2025年7月の参院選では外国人政策が主要争点となり、「日本人ファースト」を掲げる政党の躍進を受けて政府は外国人との秩序ある共生社会に向けた体制整備を打ち出した。日経・テレ東調査（2025年7月）では外国人受け入れを「広げるべきだ」45%、「広げるべきだと思わない」46%と世論はほぼ二分しており、受け入れ規模の明示的な議論と合意形成の仕組みが欠けている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "外国人受け入れ拡大への賛否（世論調査）",
+        "value": "「広げるべきだ」45%・「広げるべきだと思わない」46%",
+        "year": "2025年7月",
+        "source_name": "日本経済新聞・テレビ東京世論調査",
+        "source_url": "https://www.nikkei.com/article/DGXZQOUA2516B0V20C25A7000000/"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "相互に影響",
+       "description": "外国人材は労働力不足の主要な緩和策と位置づけられる一方、JICA委託推計では2040年に97万人の外国人労働者不足が見込まれ、確保の成否が労働供給制約の深刻度を直接左右する。"
+      },
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "原因となる",
+       "description": "少子化による生産年齢人口の縮小が、外国人材の受け入れ拡大を不可避とする根本的な背景要因である。"
+      },
+      {
+       "target_id": "jp-inflation-real-wages",
+       "relation": "悪化させる",
+       "description": "円安と実質賃金の低迷は日本で働く経済的魅力を低下させ、韓国・台湾等との人材獲得競争で「選ばれない国」となるリスクを高める。"
+      },
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "相互に影響",
+       "description": "介護分野の深刻な人手不足を特定技能等の外国人材が補う一方、定住外国人の増加・高齢化は社会保障制度への包摂という新たな課題を生む。"
+      },
+      {
+       "target_id": "jp-infrastructure-regional-decline",
+       "relation": "相互に影響",
+       "description": "地方の産業は外国人労働者への依存を強めているが、日本語教育や相談体制など共生の受け皿は地方ほど手薄であり、定着が進まなければ地域産業の維持が困難になる。"
+      }
+     ]
+    },
+    {
+     "id": "jp-energy-food-security",
+     "name": "エネルギー・食料安全保障の脆弱性",
+     "emoji": "⚡",
+     "category": "環境・エネルギー",
+     "tagline": "暮らしの土台が輸入頼みの国",
+     "overview": "日本のエネルギー自給率は2024年度で16.3%と2年連続で上昇し東日本大震災以降の最高値となったが、なおG7で最低水準にあり、発電電力量の67.5%を火力（輸入化石燃料）に依存している。カロリーベース食料自給率は令和6年度（2024年度）も38%と低迷が続き、主要先進国で最低水準にある。供給の担い手である基幹的農業従事者は2025年に102.1万人と2000年（240万人）から半減し、70歳以上が55%を占める。さらに化学肥料の主要原料（尿素・りん安・塩化加里）はほぼ全量を輸入に頼り、エネルギー・食料・生産資材の三層で海外依存が重なっている。",
+     "why_problem": "ウクライナ侵攻以降の資源価格高騰と円安で鉱物性燃料の輸入額は年間20兆〜30兆円規模に膨らみ、輸入依存が物価と国富流出を通じて国民生活を直撃することが露呈した。中東・台湾海峡などシーレーンの地政学リスクは、エネルギーと食料の双方の供給途絶リスクとして顕在化しつつあり、2025年4月には食料供給困難事態対策法が施行されるなど「不測時」を前提とした法整備が始まった。一方で論点は割れており、原子力の再稼働・活用については供給安定と脱炭素に不可欠とする立場と、事故リスク・バックエンド問題を重視する立場が対立する。また食料についても、カロリーベース自給率38%を危機とみる立場に対し、生産額ベースは64%（令和6年度、前年度比+3ポイント）であり指標としての妥当性や「自給率より輸入先の多角化・備蓄が重要」とする議論もある。",
+     "future_outlook": "第7次エネルギー基本計画は、データセンター・半導体工場の新増設により2040年度の電力需要を9,000億〜1兆1,000億kWh程度（発電電力量では1.1兆〜1.2兆kWhと2022年度比1〜2割増）と見込んでおり、脱炭素電源の確保が間に合わなければ化石燃料依存とコスト高が長期化する。農業側では70歳以上が過半を占める基幹的農業従事者の大量リタイアが今後5〜10年で進み、2025年時点の70歳以上56.2万人が離農すれば従事者数は半減する計算になるなど、国内供給基盤の縮小は不可逆的に進む恐れがある。政府は2030年度カロリーベース自給率45%目標（2025年4月閣議決定の食料・農業・農村基本計画）と肥料原料の国産化・備蓄強化を掲げるが、38%で4年連続横ばいの現状との乖離は大きい。",
+     "key_stats": [
+      {
+       "label": "エネルギー自給率（G7最低）",
+       "value": "16.3%",
+       "year": "2024年度",
+       "source_name": "資源エネルギー庁 令和6年度（2024年度）エネルギー需給実績（確報）",
+       "source_url": "https://www.meti.go.jp/press/2026/04/20260414001/20260414001.html"
+      },
+      {
+       "label": "カロリーベース食料自給率",
+       "value": "38%",
+       "year": "2024年度（令和6年度）",
+       "source_name": "農林水産省「令和6年度食料自給率」プレスリリース",
+       "source_url": "https://www.maff.go.jp/j/press/kanbo/anpo/251010.html"
+      },
+      {
+       "label": "火力発電（化石燃料）比率",
+       "value": "67.5%",
+       "year": "2024年度",
+       "source_name": "資源エネルギー庁 令和6年度（2024年度）エネルギー需給実績（確報）",
+       "source_url": "https://www.meti.go.jp/press/2026/04/20260414001/20260414001.html"
+      },
+      {
+       "label": "基幹的農業従事者数（2000年比ほぼ半減）",
+       "value": "102.1万人（70歳以上が55.0%）",
+       "year": "2025年",
+       "source_name": "農林水産省 2025年農林業センサス結果の概要（概数値）",
+       "source_url": "https://www.maff.go.jp/j/tokei/kekka_gaiyou/noucen/040909/index.html"
+      },
+      {
+       "label": "鉱物性燃料の年間輸入額",
+       "value": "約23兆円",
+       "year": "2024年11月〜2025年10月",
+       "source_name": "内閣府 今週の指標 No.1405「鉱物性燃料の輸入動向について」",
+       "source_url": "https://www5.cao.go.jp/keizai3/shihyo/2026/0309/1405.pdf"
+      },
+      {
+       "label": "化学肥料主要原料（尿素・りん安・塩化加里）の輸入依存",
+       "value": "ほぼ100%",
+       "year": "2023年",
+       "source_name": "農林水産省 広報誌aff「輸入原料に頼らない国内資源由来の肥料をつくる」",
+       "source_url": "https://www.maff.go.jp/j/pr/aff/2312/spe1_04.html"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 12300,
+      "affected_note": "エネルギーと食料は全国民の生活基盤であり、総人口約1億2,300万人が電気・燃料・食料価格の高騰と供給途絶リスクの影響を直接受ける。特に低所得世帯・農業者・エネルギー多消費産業への影響が大きい。",
+      "econ_impact_trillion_yen": 23,
+      "econ_note": "鉱物性燃料（原油・LNG・石炭等）の年間輸入額約23兆円（2024年11月〜2025年10月、内閣府「今週の指標」No.1405）。輸入依存に伴い恒常的に海外へ流出する国富の規模であり、資源高・円安局面の2022年には30兆円台まで膨張した。食料・肥料原料の輸入額はこれに追加で乗る。",
+      "urgency": 4,
+      "urgency_rationale": "基幹的農業従事者102.1万人のうち70歳以上が55.0%を占め、今後5〜10年の大量リタイアによる国内食料供給基盤の縮小は事実上不可逆。エネルギー面でもデータセンター・半導体工場による電力需要増が2020年代後半から顕在化し、脱炭素電源の確保が遅れれば化石燃料依存が固定化する。中東・東アジアの地政学リスクは短期に供給途絶へ転じ得るが、備蓄・再エネ拡大・法整備（食料供給困難事態対策法2025年4月施行）など政策手段は残るため5ではなく4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-energy-food-security-import-dependence",
+       "name": "エネルギー自給率G7最低の輸入依存構造",
+       "description": "2024年度のエネルギー自給率は16.3%と2年連続で上昇し震災後最高となったがG7最低で、化石エネルギー依存度は80.1%と一次エネルギーの大半を輸入化石燃料に依存する。原油の中東依存やLNG調達は地政学リスクと価格変動に脆弱で、資源高・円安局面では輸入額が年間30兆円台まで膨らんだ。",
+       "severity": 5,
+       "key_stat": {
+        "label": "エネルギー自給率",
+        "value": "16.3%",
+        "year": "2024年度",
+        "source_name": "資源エネルギー庁 令和6年度（2024年度）エネルギー需給実績（確報）",
+        "source_url": "https://www.meti.go.jp/press/2026/04/20260414001/20260414001.html"
+       }
+      },
+      {
+       "id": "jp-energy-food-security-power-mix-dc",
+       "name": "電源構成の転換とデータセンター電力需要増",
+       "description": "2024年度の電源構成は再エネ23.1%・原子力9.4%にとどまり、67.5%を火力が占める。第7次エネルギー基本計画はDX・GXの進展、特にデータセンター・半導体工場の新増設で2040年度の電力需要を9,000億〜1兆1,000億kWh程度（発電電力量1.1兆〜1.2兆kWh、2022年度比1〜2割増）と見込み、脱炭素電源の確保が供給安定とAI時代の産業競争力の前提条件になっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "2040年度の電力需要見通し（第7次エネルギー基本計画）",
+        "value": "9,000億〜1兆1,000億kWh程度",
+        "year": "2025年",
+        "source_name": "経済産業省「第7次エネルギー基本計画が閣議決定されました」",
+        "source_url": "https://www.meti.go.jp/press/2024/02/20250218001/20250218001.html"
+       }
+      },
+      {
+       "id": "jp-energy-food-security-calorie-38",
+       "name": "カロリーベース食料自給率38%の低迷",
+       "description": "令和6年度（2024年度）のカロリーベース食料自給率は38%で4年連続の横ばいにとどまり、主要先進国で最低水準が続く。政府は2030年度45%目標を掲げるが、小麦の単収減少や大豆・野菜・魚介類の生産減が押し下げ要因となり、目標との乖離は埋まっていない。なお生産額ベースは64%（前年度比+3ポイント）であり、指標の妥当性を巡る議論もある。",
+       "severity": 4,
+       "key_stat": {
+        "label": "カロリーベース食料自給率",
+        "value": "38%",
+        "year": "2024年度（令和6年度）",
+        "source_name": "農林水産省「令和6年度食料自給率」プレスリリース",
+        "source_url": "https://www.maff.go.jp/j/press/kanbo/anpo/251010.html"
+       }
+      },
+      {
+       "id": "jp-energy-food-security-farmer-aging",
+       "name": "農業従事者の半減と70歳以上が過半の高齢化",
+       "description": "基幹的農業従事者は2025年に102.1万人と2000年の240万人からほぼ半減し（2020年比でも25.1%減）、70歳以上が55.0%、49歳以下は12.6%にすぎない。今後5〜10年で高齢層の大量リタイアが避けられず、農地の維持と国内食料生産の基盤そのものが縮小する構造的危機にある。",
+       "severity": 5,
+       "key_stat": {
+        "label": "基幹的農業従事者に占める70歳以上の割合",
+        "value": "55.0%（102.1万人中56.2万人）",
+        "year": "2025年",
+        "source_name": "農林水産省 2025年農林業センサス結果の概要（概数値）",
+        "source_url": "https://www.maff.go.jp/j/tokei/kekka_gaiyou/noucen/040909/index.html"
+       }
+      },
+      {
+       "id": "jp-energy-food-security-supply-chain",
+       "name": "肥料・飼料・食料サプライチェーンの強靱化",
+       "description": "化学肥料の主要原料である尿素・りん安・塩化加里はほぼ全量を輸入に依存し、りん安は中国、塩化加里はカナダなど特定国への集中が著しい。輸出規制や紛争で供給が細るリスクに対し、2025年4月には食料供給困難事態対策法が施行され、コメ・小麦等の重要品目について不測時に政府が増産要請等を行う段階的な枠組みが始動した。下水汚泥からのリン回収など国産化の取り組みも途上にある。",
+       "severity": 4,
+       "key_stat": {
+        "label": "化学肥料主要原料（尿素・りん安・塩化加里）の輸入依存",
+        "value": "ほぼ100%",
+        "year": "2023年",
+        "source_name": "農林水産省 広報誌aff「輸入原料に頼らない国内資源由来の肥料をつくる」",
+        "source_url": "https://www.maff.go.jp/j/pr/aff/2312/spe1_04.html"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-inflation-real-wages",
+       "relation": "悪化させる",
+       "description": "エネルギー・食料の輸入依存は資源高・円安局面で輸入物価を通じて電気代・食品価格を押し上げ、物価高騰と実質賃金低迷の主要因となっている。"
+      },
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "共通の根本原因",
+       "description": "農業従事者の半減と70歳以上55%という担い手危機は、人口減少・少子高齢化という共通の構造要因が農村部で先鋭化したものである。"
+      },
+      {
+       "target_id": "jp-climate-extreme-heat",
+       "relation": "相互に影響",
+       "description": "猛暑は冷房需要の急増と米・農作物の不作（品質低下・供給不安）を招く一方、化石エネルギー依存度約8割（2024年度80.1%）の日本のエネルギー構造は気候変動の原因側でもある。"
+      },
+      {
+       "target_id": "jp-national-defense",
+       "relation": "相互に影響",
+       "description": "中東・台湾海峡等のシーレーンリスクはエネルギー・食料輸入の途絶リスクに直結し、エネルギー・食料安全保障は経済安全保障・防衛政策と一体で議論されている。"
+      },
+      {
+       "target_id": "jp-industrial-competitiveness-dx",
+       "relation": "解決策が競合",
+       "description": "AI・データセンター・半導体投資による産業競争力強化は電力需要を2040年度に9,000億〜1兆1,000億kWh程度へ押し上げる見通しで、脱炭素と供給力確保の制約下で電源をどう配分するかが競合する。"
+      }
+     ]
+    },
+    {
+     "category": "人口・社会",
+     "emoji": "👶",
+     "future_outlook": "社人研の令和5年中位推計では総人口は2070年に約8,700万人（2020年比約3割減）まで減少し、高齢化率は38.7%に達する見通しだが、実際の出生数は同推計を上回るペースで減少している。出産期の女性人口自体が既に縮小しているため、今後5年程度で出生数の反転は極めて困難であり、2026年は「丙午」の影響でさらなる落ち込みも予測されている。人口戦略会議は2050年までに744自治体で20〜39歳女性人口が半減し「消滅可能性」があると分析しており、地域社会の維持そのものが問われる局面に入る。",
+     "id": "jp-declining-birthrate",
+     "key_stats": [
+      {
+       "label": "年間出生数（2025年・概数）",
+       "value": "67万1,236人",
+       "year": "2025年",
+       "source_name": "厚生労働省「令和7年 人口動態統計月報年計（概数）」",
+       "source_url": "https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/geppo/nengai25/dl/gaikyouR7.pdf"
+      },
+      {
+       "label": "合計特殊出生率（10年連続低下で過去最低）",
+       "value": "1.14",
+       "year": "2025年",
+       "source_name": "厚生労働省「令和7年 人口動態統計月報年計（概数）」",
+       "source_url": "https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/geppo/nengai25/dl/gaikyouR7.pdf"
+      },
+      {
+       "label": "自然増減（出生数−死亡数）",
+       "value": "▲91万8,253人",
+       "year": "2025年",
+       "source_name": "厚生労働省「令和7年 人口動態統計月報年計（概数）」",
+       "source_url": "https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/geppo/nengai25/dl/gaikyouR7.pdf"
+      },
+      {
+       "label": "総人口（前年比▲59万人・▲0.48%）",
+       "value": "1億2,321万人",
+       "year": "2025年10月1日",
+       "source_name": "総務省統計局「人口推計」",
+       "source_url": "https://www.stat.go.jp/data/jinsui/pdf/202510.pdf"
+      },
+      {
+       "label": "2070年の推計総人口（出生中位・死亡中位）",
+       "value": "約8,700万人",
+       "year": "2023年推計",
+       "source_name": "国立社会保障・人口問題研究所「日本の将来推計人口（令和5年推計）」",
+       "source_url": "https://www.ipss.go.jp/pp-zenkoku/j/zenkoku2023/pp2023_gaiyou.pdf"
+      },
+      {
+       "label": "消滅可能性自治体数（全1,729自治体の43.0%）",
+       "value": "744自治体",
+       "year": "2024年",
+       "source_name": "人口戦略会議「令和6年・地方自治体『持続可能性』分析レポート」（北海道総合研究調査会掲載）",
+       "source_url": "https://www.hit-north.or.jp/information/2024/04/24/2171/"
+      },
+      {
+       "label": "婚姻件数（前年比+4,027組も歴史的低水準）",
+       "value": "48万9,119組",
+       "year": "2025年",
+       "source_name": "厚生労働省「令和7年 人口動態統計月報年計（概数）」",
+       "source_url": "https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/geppo/nengai25/dl/gaikyouR7.pdf"
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "悪化させる",
+       "description": "出生数減少により年金・医療・介護の支え手となる現役世代が縮小し、賦課方式を基本とする社会保障制度の持続可能性を直接損なう。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "原因となる",
+       "description": "生産年齢人口の継続的減少（総人口は年約60万人減）が、構造的な労働供給制約の最も根本的な原因である。"
+      },
+      {
+       "target_id": "jp-fiscal-debt",
+       "relation": "相互に影響",
+       "description": "少子化対策の財源確保（支援金・国債等）が財政負担となる一方、人口減少は将来の税収基盤と債務の担い手を縮小させる。"
+      },
+      {
+       "target_id": "jp-infrastructure-regional-decline",
+       "relation": "悪化させる",
+       "description": "若年人口の流出と自然減により744自治体が消滅可能性ありとされ、地方のインフラ・行政サービスの維持が困難になる。"
+      },
+      {
+       "target_id": "jp-immigration-foreign-workers",
+       "relation": "相互に影響",
+       "description": "人口減少・労働力不足が外国人材受け入れ拡大の背景となる一方、受け入れ・共生政策の帰趨は将来の人口動態にも影響する。"
+      }
+     ],
+     "name": "少子化・人口減少の加速",
+     "overview": "2025年の出生数は67万1,236人（概数）と10年連続で過去最少を更新し、合計特殊出生率は1.14と過去最低を記録、東京都は0.96と3年連続で1を割った。死亡数158万9,489人に対し自然減は年91万8,253人に達し、総人口は2025年10月1日時点で1億2,321万人（前年比▲59万人）と減少が続く。社人研の中位推計を大幅に上回るペースで少子化が進行しており、政府は「異次元の少子化対策」としてこども家庭庁予算約7.5兆円（2026年度）を投じるが、出生数の減少トレンドは反転していない。婚姻件数は2025年に48万9,119組と微増したものの、長期的な未婚化・晩婚化の流れは変わっていない。",
+     "score_inputs": {
+      "affected_population_man": 12321,
+      "affected_note": "人口減少・社会保障の支え手縮小・地域社会の縮小は全国民に影響が及ぶため、総人口1億2,321万人（総務省人口推計・2025年10月1日）を影響人口とした。特に直接の当事者である子育て世帯・若年層と、744消滅可能性自治体の住民への影響が大きい。",
+      "econ_impact_trillion_yen": 7.5,
+      "econ_note": "こども家庭庁の2026年度（令和8年度）予算総額7兆4,956億円（前年度比+1,686億円）を年間の直接的な政府支出として計上（こども家庭庁「令和8年度予算案のポイント」2025年12月26日・東京新聞すくすく報道）。このほか人口減少による潜在成長率低下・地方経済縮小など間接損失は含まない保守的な数字。",
+      "urgency": 5,
+      "urgency_rationale": "出生数は10年連続で過去最少を更新し、社人研中位推計を上回るペースで減少。出産期の女性人口自体が既に縮小しているため、今後5年で生まれなかった世代は将来にわたり取り戻せず、人口構造の悪化は文字通り不可逆。2026年は丙午の影響でさらなる出生減も予測され、対策効果が出るまでのタイムラグを考えると今後5年が決定的に重要。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-declining-birthrate-birth-decline",
+       "name": "出生数・出生率の連続的低下",
+       "description": "2025年の出生数は67万1,236人と前年比1万4,937人減で10年連続の過去最少更新、合計特殊出生率は1.14と10年連続で低下した。2024年に初めて70万人を割り込んだ後も減少が止まらず、社人研の将来推計を大幅に前倒しするペースで進行している。",
+       "severity": 5,
+       "key_stat": {
+        "label": "2025年の出生数（合計特殊出生率1.14）",
+        "value": "67万1,236人",
+        "year": "2025年",
+        "source_name": "厚生労働省「令和7年 人口動態統計月報年計（概数）」",
+        "source_url": "https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/geppo/nengai25/dl/gaikyouR7.pdf"
+       }
+      },
+      {
+       "id": "jp-declining-birthrate-unmarried",
+       "name": "未婚化・晩婚化と婚姻数の減少",
+       "description": "日本では出生の大半が婚姻内で生じるため、婚姻数の減少が出生数減少に直結する。50歳時未婚率は男性28.3%・女性17.8%（2020年国勢調査）と30年間で20ポイント以上上昇し、2025年の婚姻件数は48万9,119組と微増したものの歴史的低水準にとどまる。",
+       "severity": 5,
+       "key_stat": {
+        "label": "50歳時未婚率（男性／女性）",
+        "value": "男性28.3%・女性17.8%",
+        "year": "2020年",
+        "source_name": "こども家庭庁「結婚に関する現状と課題について」（令和2年国勢調査に基づく）",
+        "source_url": "https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/f27802a2-0546-424d-ac61-ac0641d67d38/cf9b37be/20240719_councils_lifedesign-wg_f27802a2_02.pdf"
+       }
+      },
+      {
+       "id": "jp-declining-birthrate-cost-burden",
+       "name": "子育て・教育費の経済的負担",
+       "description": "夫婦が理想の子ども数を持たない理由の第1位は「子育てや教育にお金がかかりすぎるから」で52.6%と半数を超える。児童手当拡充や高等教育無償化などの給付拡大が進む一方、教育費・住居費の負担感が出生意欲を抑制する構造は解消されていない。",
+       "severity": 4,
+       "key_stat": {
+        "label": "理想の子ども数を持たない理由1位「子育て・教育にお金がかかりすぎる」",
+        "value": "52.6%",
+        "year": "2021年",
+        "source_name": "国立社会保障・人口問題研究所「第16回出生動向基本調査」",
+        "source_url": "https://www.ipss.go.jp/ps-doukou/j/doukou16/JNFS16gaiyo.pdf"
+       }
+      },
+      {
+       "id": "jp-declining-birthrate-youth-income",
+       "name": "若年層の所得・雇用の不安定さ",
+       "description": "雇用者の36.5%（2,128万人）が非正規雇用であり、所得・雇用の不安定さが結婚・出産の前提となる経済基盤を弱めている。年収と未婚率には強い相関が指摘されており、若年期の低所得・不安定雇用が未婚化を通じて少子化の根本要因の一つとなっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "非正規雇用者数と比率（役員を除く雇用者に占める割合36.5%）",
+        "value": "2,128万人",
+        "year": "2025年平均",
+        "source_name": "総務省統計局「労働力調査（詳細集計）2025年平均」",
+        "source_url": "https://www.stat.go.jp/data/roudou/sokuhou/nen/dt/pdf/youyaku.pdf"
+       }
+      },
+      {
+       "id": "jp-declining-birthrate-tokyo-concentration",
+       "name": "東京一極集中と地方の人口流出",
+       "description": "2025年の東京圏（1都3県）の転入超過は12万3,534人と4年ぶりに縮小したが、30年連続の転入超過で一極集中は続く。出生率が全国最低の東京都（0.96）に若年層が集中することで国全体の出生数がさらに押し下げられ、地方では744自治体が消滅可能性ありと分析されている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "東京圏の転入超過数（30年連続の転入超過）",
+        "value": "12万3,534人",
+        "year": "2025年",
+        "source_name": "総務省「住民基本台帳人口移動報告 2025年結果」",
+        "source_url": "https://www.soumu.go.jp/menu_news/s-news/01toukei03_01000138.html"
+       }
+      },
+      {
+       "id": "jp-declining-birthrate-funding",
+       "name": "少子化対策の財源確保",
+       "description": "「こども未来戦略」加速化プランの財源として、2026年4月から医療保険料に上乗せする「子ども・子育て支援金」の徴収が開始され、2028年度にかけて段階的に約1兆円規模（加入者1人あたり平均月450円程度）まで引き上げられる。実質的な国民負担増との批判と、将来世代への投資として必要との立場があり、負担のあり方をめぐる論点は割れている。",
+       "severity": 3,
+       "key_stat": {
+        "label": "子ども・子育て支援金の規模（2026年度徴収開始、2028年度満年度）",
+        "value": "約1兆円",
+        "year": "2026〜2028年度",
+        "source_name": "こども家庭庁「子ども・子育て支援金制度について」",
+        "source_url": "https://www.cfa.go.jp/policies/kodomokosodateshienkinseido"
+       }
+      }
+     ],
+     "tagline": "国の土台が縮む、静かな有事",
+     "why_problem": "現役世代の縮小は年金・医療・介護など社会保障制度の支え手を減らし、労働力不足・地方の消滅可能性（744自治体）・経済規模の縮小を通じて国の基盤そのものを揺るがすため、政府は「静かな有事」として最重要課題に位置づけている。出生数の減少は将来の親世代の減少を意味し、放置すれば縮小が自己増幅する不可逆的な構造を持つ点が深刻さの核心である。一方で、対策のあり方をめぐっては、現金給付・保育拡充などの支援強化を求める立場と、若年層の雇用・賃金改善や東京一極集中の是正といった構造要因への対処を優先すべきとする立場があり、また個人の結婚・出産は自由な選択であり国家が出生率目標を掲げることへの慎重論も存在する。財源についても、支援金による保険料上乗せを負担増と批判する意見と、将来世代への投資として必要とする意見が併存している。"
+    },
+    {
+     "id": "jp-children-youth-crisis",
+     "name": "こども・若者の危機（不登校・いじめ・自殺・貧困）",
+     "emoji": "🧒",
+     "category": "健康・教育",
+     "tagline": "次世代が壊れゆく静かな国家的危機",
+     "overview": "2024年度（令和6年度）の小中学校の不登校は35万3,970人と12年連続で過去最多を更新し、高校を含めると約42万人に達する。いじめ認知件数は76万9,022件、重大事態は1,405件でいずれも過去最多となった。自殺者総数が初めて2万人を下回る中、小中高生の自殺は2025年に538人（確定値）と統計開始以来最多を更新し、子どもだけが逆行して増えている。2025年国民生活基礎調査ではひとり親世帯の相対的貧困率が44.7%と前回から微増し、母子世帯の82.1%が「生活が苦しい」と回答するなど、困窮の構造は改善していない。",
+     "why_problem": "子ども期の教育機会喪失や心身の危機は取り返しがつかず、貧困・低学力の世代間連鎖を通じて将来の労働力の質と社会保障の担い手を毀損するため、少子化下では一人ひとりの損失が国家的損失に直結する。日本財団の推計では、子どもの貧困を放置した場合の社会的損失は15歳の1学年だけで約2.9兆円、全学年で40兆円超に及ぶ。一方で、不登校の増加は「無理して登校させず休養させる」意識の定着や把握の丁寧化の表れでもあり、いじめ認知の増加も学校の積極的な把握姿勢の結果とする見方があるなど、数値の増加すべてを悪化と断じない議論もある。ただし、いじめ重大事態や児童生徒の自殺という最も重い指標まで最多更新が続いている点で、支援体制が実態に追いついていないことは広く共有されている。",
+     "future_outlook": "不登校の増加率は2024年度に2.2%へ鈍化したものの絶対数の最多更新は続いており、学びの多様化学校（不登校特例校）やスクールカウンセラー配置などの受け皿整備が追いつかない状態が当面続く見通しである。教員の精神疾患による長期病休が過去最多を更新し続けており、支援の最前線である学校の疲弊が子どもの危機をさらに深める悪循環が懸念される。こども家庭庁の「こどもまんなか実行計画」や自殺対策の強化が進むが、貧困率・自殺者数の反転には至っておらず、今後5年が世代の損失を食い止める正念場となる。",
+     "key_stats": [
+      {
+       "label": "小中学校の不登校児童生徒数（12年連続過去最多）",
+       "value": "35万3,970人",
+       "year": "2024年度",
+       "source_name": "文部科学省「令和6年度児童生徒の問題行動・不登校等生徒指導上の諸課題に関する調査」",
+       "source_url": "https://www.mext.go.jp/a_menu/shotou/seitoshidou/1422178_00006.htm"
+      },
+      {
+       "label": "いじめ認知件数（過去最多、前年度比5.0%増）",
+       "value": "76万9,022件",
+       "year": "2024年度",
+       "source_name": "文部科学省「令和6年度児童生徒の問題行動・不登校等生徒指導上の諸課題に関する調査」",
+       "source_url": "https://www.mext.go.jp/a_menu/shotou/seitoshidou/1422178_00006.htm"
+      },
+      {
+       "label": "いじめ重大事態の発生件数（過去最多、前年度比7.6%増）",
+       "value": "1,405件",
+       "year": "2024年度",
+       "source_name": "文部科学省「令和6年度児童生徒の問題行動・不登校等生徒指導上の諸課題に関する調査」",
+       "source_url": "https://www.mext.go.jp/a_menu/shotou/seitoshidou/1422178_00006.htm"
+      },
+      {
+       "label": "小中高生の自殺者数（確定値・1980年の統計開始以来最多）",
+       "value": "538人",
+       "year": "2025年",
+       "source_name": "厚生労働省「自殺の統計：各年の状況」（警察庁統計に基づく）",
+       "source_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/hukushi_kaigo/seikatsuhogo/jisatsu/jisatsu_year.html"
+      },
+      {
+       "label": "ひとり親世帯（大人が1人）の相対的貧困率",
+       "value": "44.7%",
+       "year": "2024年（2025年調査・2026年7月15日公表）",
+       "source_name": "厚生労働省「2025年国民生活基礎調査」",
+       "source_url": "https://www.mhlw.go.jp/toukei/list/20-21kekka.html"
+      },
+      {
+       "label": "児童相談所の児童虐待相談対応件数（前年度比0.8%減だが高止まり）",
+       "value": "22万3,691件",
+       "year": "2024年度",
+       "source_name": "こども家庭庁「令和6年度 児童相談所における児童虐待相談対応件数」",
+       "source_url": "https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/a176de99-390e-4065-a7fb-fe569ab2450c/844e601a/20260130_policies_jidougyakutai_45.pdf"
+      },
+      {
+       "label": "子どもの貧困放置による社会的損失（15歳の1学年のみの推計）",
+       "value": "約2.9兆円",
+       "year": "2015年推計",
+       "source_name": "日本財団・三菱UFJリサーチ&コンサルティング「子どもの貧困の社会的損失推計」",
+       "source_url": "https://www.murc.jp/news/information/news_151221/"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 250,
+      "affected_note": "相対的貧困状態にある18歳未満の子ども約180万人（子どもの貧困率11.5%〔2022年調査〕×子ども人口約1,600万人）に、不登校の小中高生約42万人、児童虐待相談対応約22万件、いじめ重大事態等の当事者を加味し、重複を考慮した概数。2025年調査（2026年7月公表）でも相対的貧困率15.0%・ひとり親世帯44.7%と改善しておらず規模感は維持。家族を含めれば影響はさらに広い。",
+      "econ_impact_trillion_yen": 2.9,
+      "econ_note": "日本財団・三菱UFJリサーチ&コンサルティングの推計（2015年）。現在15歳の1学年の子どもの貧困を放置した場合、生涯所得の減少等による社会的損失が約2.9兆円（うち政府の財政負担増1.1兆円）。毎年新たな1学年分が発生するため年換算2.9兆円とみなした。0〜15歳の全学年合計では約42.9兆円との推計もある。不登校・自殺等の損失は含まれず、実際のインパクトはこれを上回る可能性が高い。",
+      "urgency": 5,
+      "urgency_rationale": "小中高生の自殺は2024年529人・2025年538人と2年連続で過去最多を更新し、不登校は12年連続、いじめ重大事態も最多更新が続く。子ども期の発達・教育機会の喪失と自殺による生命の喪失は文字通り不可逆であり、当該世代が今後5年で進学・就労期を迎えるため、対策の遅れがそのまま世代の恒久的損失として固定化する。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-children-youth-crisis-futoko",
+       "name": "不登校の過去最多更新（小中約35.4万人・12年連続増）",
+       "description": "2024年度の小中学校の不登校は35万3,970人と12年連続で過去最多を更新し、高校でも約6万8千人に上る。増加率は2.2%と前年度（15.9%）から鈍化したが、学びの多様化学校や教育支援センター等の受け皿は不足しており、学びにアクセスできないまま孤立する子どもが多い。",
+       "severity": 4,
+       "key_stat": {
+        "label": "小中学校の不登校児童生徒数",
+        "value": "35万3,970人",
+        "year": "2024年度",
+        "source_name": "文部科学省「令和6年度問題行動・不登校等調査」",
+        "source_url": "https://www.mext.go.jp/a_menu/shotou/seitoshidou/1422178_00006.htm"
+       }
+      },
+      {
+       "id": "jp-children-youth-crisis-ijime",
+       "name": "いじめ認知件数・重大事態の過去最多",
+       "description": "2024年度のいじめ認知件数は76万9,022件（前年度比5.0%増）、生命・心身への重大な被害や長期欠席を伴う重大事態は1,405件（同7.6%増）でいずれも過去最多。SNSを介したいじめの増加と把握の難しさが指摘され、認知の積極化という側面と実害の増加が併存している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "いじめ重大事態の発生件数（過去最多）",
+        "value": "1,405件",
+        "year": "2024年度",
+        "source_name": "文部科学省「令和6年度問題行動・不登校等調査」",
+        "source_url": "https://www.mext.go.jp/a_menu/shotou/seitoshidou/1422178_00006.htm"
+       }
+      },
+      {
+       "id": "jp-children-youth-crisis-suicide",
+       "name": "児童生徒の自殺増加とメンタルヘルス支援不足",
+       "description": "2025年の小中高生の自殺は538人（確定値）と統計のある1980年以降で最多を更新した。内訳は高校生356人・中学生172人・小学生10人で、原因・動機は学校問題が最多の251件、次いで健康問題174件、家庭問題147件。自殺者総数が初めて2万人を下回る中で子どもだけが増加しており、SOSの受け止めと精神保健支援の体制不足が課題となっている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "小中高生の自殺者数（確定値・過去最多）",
+        "value": "538人",
+        "year": "2025年",
+        "source_name": "厚生労働省「自殺の統計：各年の状況」",
+        "source_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/hukushi_kaigo/seikatsuhogo/jisatsu/jisatsu_year.html"
+       }
+      },
+      {
+       "id": "jp-children-youth-crisis-poverty",
+       "name": "子どもの貧困とひとり親世帯の困窮（貧困率44.7%）",
+       "description": "2025年国民生活基礎調査でひとり親世帯（大人が1人）の相対的貧困率は44.7%と前回の44.5%から微増し、OECDでも最悪水準の「働いても貧しい」構造が続く。母子世帯の82.1%が生活を「苦しい」と回答し、平均所得は345万円と全世帯平均（575万円）の6割に満たない。教育格差を通じた貧困の世代間連鎖が最大の懸念である。",
+       "severity": 5,
+       "key_stat": {
+        "label": "ひとり親世帯の相対的貧困率",
+        "value": "44.7%",
+        "year": "2024年（2025年調査）",
+        "source_name": "厚生労働省「2025年国民生活基礎調査」",
+        "source_url": "https://www.mhlw.go.jp/toukei/list/20-21kekka.html"
+       }
+      },
+      {
+       "id": "jp-children-youth-crisis-abuse",
+       "name": "児童虐待相談対応の高止まり（22.4万件）",
+       "description": "2024年度の児童相談所における児童虐待相談対応件数は22万3,691件で、前年度比0.8%減と統計開始以来はじめて減少に転じたものの、10年前の約2.5倍という高止まりが続く。心理的虐待が約6割を占め、警察からの通告が半数以上。児童福祉司の増員が進む一方、一時保護や家庭支援の体制は依然として逼迫している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "児童相談所の児童虐待相談対応件数",
+        "value": "22万3,691件",
+        "year": "2024年度",
+        "source_name": "こども家庭庁「令和6年度 児童相談所における児童虐待相談対応件数」",
+        "source_url": "https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/a176de99-390e-4065-a7fb-fe569ab2450c/844e601a/20260130_policies_jidougyakutai_45.pdf"
+       }
+      },
+      {
+       "id": "jp-children-youth-crisis-teacher",
+       "name": "教員のメンタル不調・教員不足と支援体制の疲弊",
+       "description": "2024年度に精神疾患で1か月以上病気休暇・休職した公立学校教員は1万3,310人（在職者の1.44%、前年度比265人増）と過去最多で、うち休職者は7,087人と2年連続で7千人台。長時間労働と欠員補充の困難が常態化し、不登校・いじめ・虐待対応の最前線である学校の支援力そのものが低下する悪循環に陥っている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "精神疾患で1か月以上病休した公立学校教員数（過去最多）",
+        "value": "1万3,310人",
+        "year": "2024年度",
+        "source_name": "文部科学省「令和6年度公立学校教職員の人事行政状況調査」",
+        "source_url": "https://www.mext.go.jp/a_menu/shotou/jinji/1411820_00009.htm"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "相互に影響",
+       "description": "子育て世帯の経済的困窮や教育費負担・子育て環境への不安が出生意欲を下げる一方、少子化の進行は子ども一人あたりの危機の社会的コストを一層重くする。"
+      },
+      {
+       "target_id": "jp-loneliness-isolation",
+       "relation": "原因となる",
+       "description": "不登校・いじめ被害・虐待の経験は若年期のひきこもりや社会的孤立の主要な入口となることが孤独・孤立対策の政府調査等で指摘されている。"
+      },
+      {
+       "target_id": "jp-inflation-real-wages",
+       "relation": "共通の根本原因",
+       "description": "物価高騰と実質賃金の低迷が非正規雇用の多いひとり親世帯の家計を直撃し、子どもの貧困・生活困窮（母子世帯の82.1%が生活苦）を悪化させている。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "相互に影響",
+       "description": "教員不足は構造的な労働力不足の一断面であると同時に、不登校や貧困による教育機会の喪失は将来の労働供給の量と質をさらに損なう。"
+      }
+     ]
+    },
+    {
+     "id": "jp-inflation-real-wages",
+     "name": "物価高騰と実質賃金の低迷",
+     "emoji": "📈",
+     "category": "経済・財政",
+     "tagline": "賃上げが物価に追いつかない",
+     "overview": "2025年の全国消費者物価指数（総合）は前年比+3.2%と4年連続で日銀目標の2%を上回り、特に食料品の値上がりが顕著で、2人以上世帯のエンゲル係数は28.6%と1981年以来44年ぶりの高水準に達した。春闘の名目賃上げ率は2024〜2026年と3年連続で5%台に乗ったものの、物価上昇に追いつかず、2025年の実質賃金指数は前年比-1.3%と4年連続のマイナスとなった。政府は2025年11月、物価高対応を最優先とする国費等21.3兆円規模の総合経済対策を閣議決定し、ガソリン暫定税率廃止や電気・ガス代支援（2026年1〜3月）などを実施した。円の実質実効為替レートは2026年1月に67.73と変動相場制移行後の最低を更新し、家計の購買力低下が続いている。",
+     "why_problem": "内閣府「社会意識に関する世論調査」（令和7年10月調査）で「悪い方向に向かっている分野」に物価を挙げた人が73.1%と1998年の調査開始以来最高・4年連続首位となり、国民の生活不安の最大要因となっているためである。実質賃金のマイナスは家計の購買力を直接毀損し、食料支出比率の高い低所得世帯ほど直面する物価上昇率が高く（2021年からの5年間の累積で最上位層と約3%の差）、格差を拡大させる。一方で、物価と賃金がともに上がる状態はデフレ脱却の好機であり、過度な財政による物価対策はかえってインフレや財政悪化を招くとの指摘もあるなど、給付・減税中心の対策の是非については論点が分かれる。中小企業の価格転嫁率は54.2%にとどまり、賃上げ原資を確保できない企業と従業員に負担が偏っている点も構造問題とされる。",
+     "future_outlook": "日銀・民間シンクタンクは2026年度にかけて食料インフレの減速に伴い物価上昇率が鈍化し、名目賃上げ5%台の定着と合わせて実質賃金がプラスに転じる可能性を指摘するが、2026年春闘の最終集計（7月3日公表）の賃上げ率は5.01%と前年（5.25%）を下回っており、円安や国際商品市況次第で食料品インフレが再加速するリスクも残る。円の実質実効為替レートが最低水準で定着すれば、輸入物価経由の物価高圧力と購買力低下が長期化する恐れがある。エンゲル係数の10年連続上昇が示す家計の防衛的消費が続けば、個人消費の停滞を通じて「賃金と物価の好循環」の実現が遅れる可能性がある。",
+     "key_stats": [
+      {
+       "label": "消費者物価指数（総合）前年比（2025年平均、4年連続で2%超）",
+       "value": "+3.2%",
+       "year": "2025年",
+       "source_name": "総務省統計局 消費者物価指数（全国2025年平均）",
+       "source_url": "https://www.stat.go.jp/data/cpi/sokuhou/nen/index-z.html"
+      },
+      {
+       "label": "実質賃金指数 前年比（4年連続マイナス）",
+       "value": "-1.3%",
+       "year": "2025年",
+       "source_name": "厚生労働省 毎月勤労統計調査 2025年分結果確報",
+       "source_url": "https://www.mhlw.go.jp/toukei/itiran/roudou/monthly/r07/25cr/25cr.html"
+      },
+      {
+       "label": "「悪い方向に向かっている分野」に物価を挙げた割合（1998年以降最高・4年連続首位）",
+       "value": "73.1%",
+       "year": "2025年",
+       "source_name": "内閣府 社会意識に関する世論調査（令和7年10月調査）",
+       "source_url": "https://survey.gov-online.go.jp/living/202512/r07/r07-shakai/"
+      },
+      {
+       "label": "エンゲル係数（2人以上世帯・44年ぶり高水準）",
+       "value": "28.6%",
+       "year": "2025年",
+       "source_name": "総務省 家計調査（日本経済新聞報道）",
+       "source_url": "https://www.nikkei.com/article/DGXZQOUA0537D0V00C26A2000000/"
+      },
+      {
+       "label": "2026年春闘の平均賃上げ率（連合最終集計・3年連続5%超）",
+       "value": "5.01%",
+       "year": "2026年",
+       "source_name": "連合 2026春季生活闘争最終集計（時事通信報道）",
+       "source_url": "https://www.jiji.com/jc/article?k=2026070300852&g=eco"
+      },
+      {
+       "label": "中小企業のコスト全体の価格転嫁率",
+       "value": "54.2%",
+       "year": "2026年3月",
+       "source_name": "中小企業庁 価格交渉促進月間（2026年3月）フォローアップ調査",
+       "source_url": "https://www.meti.go.jp/press/2026/06/20260626003/20260626003.html"
+      },
+      {
+       "label": "円の実質実効為替レート（変動相場制移行後の最低水準、2020年=100）",
+       "value": "67.73",
+       "year": "2026年1月",
+       "source_name": "日本銀行 時系列統計データ（BIS実効為替レート）",
+       "source_url": "https://www.stat-search.boj.or.jp/ssi/mtshtml/fm09_m_1.html"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 12300,
+      "affected_note": "物価上昇は全国民（総人口約1億2,300万人）の家計に影響。特に雇用者約6,100万人は実質賃金4年連続マイナスの直接の当事者であり、食料支出比率が30.3%に達する低所得層（所得第1分位）ほど直面物価上昇率が高い（内閣府「日本経済レポート（2025年度）」分析）。",
+      "econ_impact_trillion_yen": 21.3,
+      "econ_note": "2025年11月21日閣議決定「『強い経済』を実現する総合経済対策」の国費等の規模（一般会計17.7兆円程度+減税分、財政投融資を含む国の財政措置等は25.5兆円程度）。物価高から国民の暮らしを守ることを最優先に掲げ、ガソリン暫定税率廃止・電気ガス代支援等を含む（首相官邸）。参考：第一生命経済研究所は物価上昇による家計負担増を2026年に4人家族で前年から約+8.9万円（物価高対策により約2.5万円軽減）と試算しており、全世帯換算で年数兆円規模の家計負担増に相当。",
+      "urgency": 4,
+      "urgency_rationale": "実質賃金は4年連続マイナス、エンゲル係数は44年ぶり高水準と家計悪化が進行中で、世論調査でも物価が国民の最大の不安要因（73.1%）。低所得層ほど打撃が大きく格差固定化のリスクがある。一方、名目賃上げ5%超が3年連続で定着し2026年度中の実質賃金プラス転化の可能性も指摘されており、「今後5年で不可逆的に悪化」とまでは断定できないため5ではなく4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-inflation-real-wages-food-energy",
+       "name": "食料品・エネルギー価格上昇による家計圧迫",
+       "description": "食料品の値上がりが物価高の中心となり、コメ価格高騰なども加わって家計の食費負担が急増。2人以上世帯のエンゲル係数は10年連続で上昇し、1981年以来44年ぶりの高水準に達した。政府はガソリン暫定税率廃止（1世帯年約1.2万円の負担減）や電気・ガス代支援（2026年1〜3月、1世帯約7,000円）で対応した。",
+       "severity": 4,
+       "key_stat": {
+        "label": "エンゲル係数（2人以上世帯、1981年以来の高水準・10年連続上昇）",
+        "value": "28.6%",
+        "year": "2025年",
+        "source_name": "総務省 家計調査（日本経済新聞報道）",
+        "source_url": "https://www.nikkei.com/article/DGXZQOUA0537D0V00C26A2000000/"
+       }
+      },
+      {
+       "id": "jp-inflation-real-wages-negative-real-wages",
+       "name": "実質賃金の4年連続マイナス",
+       "description": "名目賃金（現金給与総額）は2025年に前年比+2.3%増えたが、物価上昇に追いつかず実質賃金指数は前年比-1.3%と4年連続のマイナス。春闘賃上げ率が3年連続5%台でも、ベア分は3%台にとどまり物価上昇分を十分に上回れていない。家計の購買力が継続的に毀損され、消費の下押し要因となっている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "実質賃金指数の前年比（4年連続マイナス、名目は+2.3%）",
+        "value": "-1.3%",
+        "year": "2025年",
+        "source_name": "厚生労働省 毎月勤労統計調査 2025年分結果確報（JILPT解説）",
+        "source_url": "https://www.jil.go.jp/kokunai/blt/backnumber/2026/04/kokunai_01.html"
+       }
+      },
+      {
+       "id": "jp-inflation-real-wages-sme-pass-through",
+       "name": "中小企業への賃上げ・価格転嫁の波及不足",
+       "description": "中小企業庁の2026年3月調査（回答約7万社）でコスト全体の価格転嫁率は54.2%、労務費は50.0%にとどまり、転嫁できる企業とできない企業の二極化が続く。2026年春闘の最終集計でも中小（300人未満）の賃上げ率は4.69%と全体（5.01%）を下回り、雇用の約7割を占める中小企業への賃上げ波及が課題となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "中小企業の労務費の価格転嫁率（原材料費55.7%より約5.7ポイント低い）",
+        "value": "50.0%",
+        "year": "2026年3月",
+        "source_name": "中小企業庁 価格交渉促進月間（2026年3月）フォローアップ調査",
+        "source_url": "https://www.meti.go.jp/press/2026/06/20260626003/20260626003.html"
+       }
+      },
+      {
+       "id": "jp-inflation-real-wages-yen-depreciation",
+       "name": "円安による購買力低下",
+       "description": "円の実質実効為替レートは2026年1月に67.73（2020年=100）と変動相場制移行後の最低を更新し、ピークの1995年（193.95）の約3分の1の水準まで低下した。円安は輸入物価を通じて食料・エネルギー価格を押し上げるとともに、海外製品・海外旅行など対外購買力を大きく低下させている。低下の主因は名目円安に加え内外インフレ率格差との分析もある。",
+       "severity": 3,
+       "key_stat": {
+        "label": "円の実質実効為替レート（変動相場制移行後の最低、ピーク1995年の約3分の1）",
+        "value": "67.73",
+        "year": "2026年1月",
+        "source_name": "日本銀行 時系列統計データ（BIS実効為替レート）",
+        "source_url": "https://www.stat-search.boj.or.jp/ssi/mtshtml/fm09_m_1.html"
+       }
+      },
+      {
+       "id": "jp-inflation-real-wages-low-income",
+       "name": "低所得世帯の生活防衛",
+       "description": "内閣府の分析では、所得最下位層（第1分位）の食料支出比率は30.3%と最上位層（24.4%）より約6ポイント高く、食料中心の物価高の打撃を強く受ける。低所得層が直面する物価上昇率は2021年からの5年間の累積で最上位層より3%程度高く、実質所得の目減りも大きい。政府は住民税非課税世帯への給付や電気・ガス代支援などで生活防衛を支援している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "所得第1分位（低所得層）の食料支出比率（第5分位は24.4%）",
+        "value": "30.3%",
+        "year": "2025年度",
+        "source_name": "内閣府 日本経済レポート（2025年度）第2章第1節",
+        "source_url": "https://www5.cao.go.jp/keizai3/2025/0210nk/n25_2_1.html"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-fiscal-debt",
+       "relation": "悪化させる",
+       "description": "物価高対応を最優先に掲げた2025年11月の総合経済対策は国費等21.3兆円規模に達し、給付・減税による物価対策の常態化が財政赤字と政府債務の累増を加速させる。"
+      },
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "悪化させる",
+       "description": "実質賃金の4年連続マイナスと生活費高騰が若年層の経済的余裕を奪い、結婚・出産をためらわせる経済的障壁として少子化を進行させる。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "相互に影響",
+       "description": "構造的な人手不足が賃上げ圧力と人件費上昇を生み、価格転嫁を通じて物価を押し上げる一方、実質賃金低迷は人材確保のための持続的賃上げを一層必要にする。"
+      },
+      {
+       "target_id": "jp-energy-food-security",
+       "relation": "原因となる",
+       "description": "エネルギー・食料の高い輸入依存構造が、国際価格変動と円安を輸入物価経由で国内の食料・エネルギー価格高騰に直結させ、物価高の主要因となっている。"
+      },
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "悪化させる",
+       "description": "物価上昇はマクロ経済スライド下で年金の実質価値を目減りさせ、固定収入の高齢者世帯の生活を圧迫して社会保障による追加支援の必要性を高める。"
+      }
+     ]
+    },
+    {
+     "category": "環境・エネルギー",
+     "emoji": "🌡️",
+     "future_outlook": "温室効果ガスの累積という性質上、今後数十年の気温上昇は避けられず、猛暑日・熱帯夜や短時間強雨の頻度はさらに増加すると気象庁等は予測している。2035年度60%削減（2013年度比）の新NDC達成には現行対策の大幅な強化が必要とされ、緩和（排出削減）と適応（暑熱対策・治水・農業の品種転換等）の両輪を同時に進められるかが今後10年の分岐点となる。",
+     "id": "jp-climate-extreme-heat",
+     "key_stats": [
+      {
+       "label": "2025年夏（6〜8月）の日本の平均気温偏差",
+       "value": "+2.36℃（1898年の統計開始以来最高・3年連続で最高値更新）",
+       "year": "2025",
+       "source_name": "気象庁「日本の夏（6〜8月）平均気温偏差」",
+       "source_url": "https://www.data.jma.go.jp/cpdinfo/temp/sum_jpn.html"
+      },
+      {
+       "label": "熱中症による救急搬送者数（5〜9月・確定値）",
+       "value": "100,510人（2008年調査開始以来初の10万人超・過去最多）",
+       "year": "2025",
+       "source_name": "総務省消防庁「令和7年（5月〜9月）の熱中症による救急搬送状況」",
+       "source_url": "https://www.fdma.go.jp/disaster/heatstroke/items/r7/heatstroke_nenpou_r7.pdf"
+      },
+      {
+       "label": "熱中症による年間死亡数（確定数）",
+       "value": "2,160人（過去最多。2023年1,651人・2022年1,477人から大幅増）",
+       "year": "2024",
+       "source_name": "厚生労働省 人口動態統計（確定数）「熱中症による死亡数」",
+       "source_url": "https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/tokusyu/necchusho24/index.html"
+      },
+      {
+       "label": "水害被害額（暫定値）",
+       "value": "約7,700億円（過去10カ年で3番目の規模。石川県・山形県は統計開始以来最大）",
+       "year": "2024",
+       "source_name": "国土交通省 報道発表「令和6年の水害被害額（暫定値）を公表」",
+       "source_url": "https://www.mlit.go.jp/report/press/mizukokudo03_hh_001339.html"
+      },
+      {
+       "label": "1時間降水量50mm以上の年間発生回数",
+       "value": "約1.5倍（直近10年平均 vs 1976〜85年平均）",
+       "year": "2024",
+       "source_name": "気象庁「大雨や猛暑日など（極端現象）のこれまでの変化」",
+       "source_url": "https://www.data.jma.go.jp/cpdinfo/extreme/extreme_p.html"
+      },
+      {
+       "label": "GX実現に必要とされる官民投資（今後10年間）",
+       "value": "150兆円超",
+       "year": "2023",
+       "source_name": "経済産業省「GX経済移行債を活用した投資促進策について」",
+       "source_url": "https://www.meti.go.jp/policy/energy_environment/global_warming/gx_budget.html"
+      },
+      {
+       "label": "温室効果ガス削減目標（新NDC・2035年度）",
+       "value": "2013年度比60%削減（2040年度73%削減）",
+       "year": "2025",
+       "source_name": "環境省「日本のNDC（国が決定する貢献）」",
+       "source_url": "https://www.env.go.jp/earth/earth/ondanka/ndc.html"
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-megadisaster-preparedness",
+       "relation": "相互に影響",
+       "description": "2024年に能登半島地震の被災地を同年9月の豪雨が襲い、石川県の水害被害額が統計開始以来最大となるなど、地震と激甚化する豪雨の複合災害リスクが現実化している。"
+      },
+      {
+       "target_id": "jp-energy-food-security",
+       "relation": "悪化させる",
+       "description": "高温障害によるコメの品質・供給低下（2023年産一等米比率が過去最低水準）や猛暑による電力需要の急増が、食料・エネルギー安全保障の脆弱性を増幅する。"
+      },
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "悪化させる",
+       "description": "2025年の熱中症救急搬送者の57.1%が65歳以上であり、高齢化と猛暑の常態化の掛け算が救急・医療体制の負荷を押し上げている。"
+      },
+      {
+       "target_id": "jp-infrastructure-regional-decline",
+       "relation": "悪化させる",
+       "description": "1時間50mm以上の短時間強雨が約1.5倍に増え、老朽化した治水・下水道インフラの設計能力を超える降雨が地方の復旧・改修負担を増大させる。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "相互に影響",
+       "description": "暑熱下の屋外作業は労働災害と生産性低下を招き、2025年6月施行の職場熱中症対策義務化（罰則付き）は建設・物流など人手不足産業の負担増と対策強化を同時に迫っている。"
+      }
+     ],
+     "name": "気候変動と極端気象・猛暑の常態化",
+     "overview": "2025年夏（6〜8月）の日本の平均気温は基準値比+2.36℃と、1898年の統計開始以来の最高値を更新し、2023年・2024年（いずれも+1.76℃）を大きく上回った。熱中症による救急搬送者は2025年5〜9月で100,510人と初めて10万人を超え、2024年の熱中症による年間死亡数も2,160人（人口動態統計・確定数）と過去最多を記録した。1時間降水量50mm以上の短時間強雨は統計開始当初の約1.5倍に増え、2019年の水害被害額約2兆1,800億円（統計開始以来最大）、2024年の約7,700億円（暫定値・過去10カ年で3番目）など水害の激甚化が続く。2025年6月には職場の熱中症対策が罰則付きで義務化されるなど、猛暑は個人の注意喚起から社会制度で対応すべき恒常的リスクへと位置づけが変わった。",
+     "score_inputs": {
+      "affected_population_man": 12300,
+      "affected_note": "猛暑・極端気象は総人口約1億2,300万人（2025年）の全体に影響が及ぶ。直接的な健康被害として2025年は熱中症救急搬送100,510人（うち65歳以上が57.1%）、屋外労働者・高齢者・農業従事者が特に脆弱。",
+      "econ_impact_trillion_yen": 1.5,
+      "econ_note": "極端気象による直接被害のフロー概算（推計）。水害被害額は2024年約7,700億円（暫定値）、2019年は約2兆1,800億円（統計開始以来最大）と年約0.4〜2兆円規模で変動し、これに熱中症関連の医療・労働損失、コメ等の高温障害被害が加わるため年1.5兆円規模を目安とした。別枠でGX移行には官民150兆円超/10年（年平均15兆円規模）の投資が必要とされる。",
+      "urgency": 4,
+      "urgency_rationale": "夏の平均気温は2023・2024年の記録を2025年が大幅更新し（+2.36℃）猛暑は常態化、熱中症搬送も初の10万人超と被害は毎年拡大している。温室効果ガスの累積という性質上、気温上昇は短期的には不可逆。ただし暑熱対策義務化・治水・品種改良など適応策で被害の一部は軽減可能であり、5年で社会が壊滅的に不可逆化するわけではないため5ではなく4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-climate-extreme-heat-record-heat",
+       "name": "観測史上最高気温の更新と猛暑の常態化",
+       "description": "日本の夏の平均気温は2023年・2024年（基準値比+1.76℃）に続き2025年は+2.36℃と、3年連続で統計開始以来の最高を更新した。2025年8月には群馬県伊勢崎で41.8℃の国内最高気温を記録。猛暑日・熱帯夜の増加は健康・電力需要・都市生活の前提を変えつつあり、「異常」ではなく「常態」として制度設計を迫っている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "2025年夏の日本平均気温偏差",
+        "value": "+2.36℃（1898年統計開始以来最高）",
+        "year": "2025",
+        "source_name": "気象庁",
+        "source_url": "https://www.data.jma.go.jp/cpdinfo/temp/sum_jpn.html"
+       }
+      },
+      {
+       "id": "jp-climate-extreme-heat-heatstroke",
+       "name": "熱中症搬送・死亡の増加と職場暑熱対策の義務化",
+       "description": "2025年5〜9月の熱中症救急搬送は100,510人と2008年の調査開始以来初めて10万人を超え、65歳以上が57.1%を占めた。2024年の年間死亡数も2,160人（人口動態統計・確定数）と過去最多。2025年6月施行の改正労働安全衛生規則により、WBGT28℃以上等の作業での対策が罰則付き（6月以下の拘禁刑または50万円以下の罰金）で事業者に義務化された。",
+       "severity": 5,
+       "key_stat": {
+        "label": "熱中症救急搬送者数（5〜9月・確定値）",
+        "value": "100,510人（初の10万人超・過去最多）",
+        "year": "2025",
+        "source_name": "総務省消防庁「令和7年（5月〜9月）の熱中症による救急搬送状況」",
+        "source_url": "https://www.fdma.go.jp/disaster/heatstroke/items/r7/heatstroke_nenpou_r7.pdf"
+       }
+      },
+      {
+       "id": "jp-climate-extreme-heat-flood",
+       "name": "豪雨・線状降水帯による水害の激甚化",
+       "description": "1時間降水量50mm以上の短時間強雨の年間発生回数は統計開始当初の約1.5倍に増加した。2019年の水害被害額は約2兆1,800億円と1961年の統計開始以来最大を記録し、2024年も能登半島の地震被災地を豪雨が襲い石川県で統計開始以来最大の被害となるなど、全国で約7,700億円（暫定値）の被害が発生。治水インフラの設計前提を超える降雨が常態化しつつある。",
+       "severity": 4,
+       "key_stat": {
+        "label": "水害被害額（確報値）",
+        "value": "約2兆1,800億円（1961年統計開始以来最大）",
+        "year": "2019",
+        "source_name": "国土交通省 報道発表",
+        "source_url": "https://www.mlit.go.jp/report/press/mizukokudo03_hh_001056.html"
+       }
+      },
+      {
+       "id": "jp-climate-extreme-heat-agriculture",
+       "name": "農作物・水産資源・生態系への影響",
+       "description": "猛暑によるコメの高温障害（白未熟粒）で2023年産の一等米比率は59.6%（9月末時点）と2004年以降最低に落ち込み、主産地の新潟では13.5%（9月末時点）まで急落した。2024年産は77%前後まで回復したものの年による振れが大きく、果樹の着色不良、海水温上昇による漁場の変化・不漁など食料生産の広範囲で影響が顕在化し、高温耐性品種への転換や作期移動などの適応が急務となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "2023年産米の一等米比率（9月末時点）",
+        "value": "59.6%（2004年以降最低）",
+        "year": "2023",
+        "source_name": "農林水産省発表（JAcom 農業協同組合新聞）",
+        "source_url": "https://www.jacom.or.jp/kome/news/2023/11/231101-70392.php"
+       }
+      },
+      {
+       "id": "jp-climate-extreme-heat-gx",
+       "name": "脱炭素（GX）移行と削減目標の達成",
+       "description": "日本は2025年2月、2035年度60%・2040年度73%削減（2013年度比）の新NDCを国連に提出し、2050年カーボンニュートラルへの直線的経路を掲げた。実現には今後10年で150兆円超の官民GX投資が必要とされ、GX経済移行債による20兆円規模の先行投資支援が始まっているが、目標水準の妥当性と達成可能性の両面で議論が続く。",
+       "severity": 3,
+       "key_stat": {
+        "label": "GX実現に必要な官民投資（今後10年間）",
+        "value": "150兆円超（うち国の先行投資支援20兆円規模）",
+        "year": "2023",
+        "source_name": "経済産業省",
+        "source_url": "https://www.meti.go.jp/policy/energy_environment/global_warming/gx_budget.html"
+       }
+      }
+     ],
+     "tagline": "猛暑が「日常」になった国",
+     "why_problem": "猛暑・豪雨の激甚化は熱中症死・水害・農業被害という直接的な人命・経済損失を毎年発生させており、高齢化・インフラ老朽化と重なって被害が構造的に拡大している点で全国民的課題とされる。同時に2050年カーボンニュートラルと新NDC（2035年度60%減）へのGX移行は、150兆円超の投資を要する産業構造の転換を迫る。対応の方向性では立場が分かれ、気候科学や再エネ推進の立場からは「政府案の削減目標は1.5℃目標との整合で不十分であり排出削減の加速が必要」との批判がある一方、産業界等には「エネルギーコスト上昇や産業競争力・雇用への影響を踏まえた現実的な移行ペースが必要」との慎重論があり、原子力活用の是非を含め合意形成が課題となっている。いずれの立場でも、適応策（暑熱対策・治水）の強化が急務である点は概ね共有されている。"
+    },
+    {
+     "id": "jp-megadisaster-preparedness",
+     "name": "巨大地震等の大規模災害リスク",
+     "emoji": "🌊",
+     "category": "安全保障・災害",
+     "tagline": "国難級災害へ、事前防災の最終猶予",
+     "overview": "2025年3月、内閣府は南海トラフ巨大地震の被害想定を13年ぶりに改定し、最大死者約29.8万人・経済被害約292兆円（2024年度名目GDP約609兆円の半分近く）とした。震度6弱以上の揺れか3m以上の津波に見舞われる地域は31都府県764市町村に及び、日本の人口の約5割が居住する。2025年12月には首都直下地震の被害想定も12年ぶりに見直され、最大死者約1.8万人・経済被害約83兆円と、耐震化の進展で前回（約2.3万人・約95兆円）から減少したものの、政府の死者半減目標には届いていない。令和6年能登半島地震では災害関連死（364名・2025年5月時点）が直接死（230名）を上回り、関連死の認定はその後も続いて2026年7月時点の死者は744名（うち関連死516名）に達したと報じられている。令和7年版防災白書は防災庁設置を含む「本気の事前防災」を掲げている。",
+     "why_problem": "南海トラフ巨大地震（最大死者29.8万人・被害292兆円）と首都直下地震（最大死者約1.8万人・被害約83兆円）はいずれも30年以内の発生確率が最高ランクとされ、発生すれば人的・経済的損失が不可逆で国家の存立に関わる「国難級」となるため、発災前にしか実行できない事前防災が国を挙げた課題とされる。能登半島地震では災害関連死が直接死を上回り、避難生活の質の低さが命を奪う構造も顕在化した。一方で論点もあり、発生確率の科学的根拠には限界が指摘され2025年9月に2つの推計値の併記へ改められたほか、5年20兆円強の国土強靱化投資については、財政制約下での規模・優先順位や公共事業偏重への懸念と、被害292兆円に比べ安価な保険だとする推進論が併存する。",
+     "future_outlook": "政府の地震調査委員会は2025年9月、南海トラフ地震の30年以内発生確率を「60〜90%程度以上」と「20〜50%」の併記に改めたが、いずれも高い確率であり切迫性は変わらないとしている。政府は2026〜2030年度の第1次国土強靱化実施中期計画（事業規模20兆円強、2025年6月閣議決定）を進めるとともに、2026年3月に防災庁設置法案を閣議決定し同年11月の防災庁発足を予定して「本気の事前防災」を掲げるが、耐震化・津波避難・避難所環境・担い手確保の遅れが解消されないまま発災すれば、人口減少・財政悪化と相まって国家の回復力そのものが損なわれる恐れがある。",
+     "key_stats": [
+      {
+       "label": "南海トラフ巨大地震の想定最大死者数（2025年3月新想定、うち津波死者約21.5万人）",
+       "value": "約29.8万人",
+       "year": "2025",
+       "source_name": "内閣府 南海トラフ巨大地震対策検討ワーキンググループ（被害想定報告書）",
+       "source_url": "https://www.bousai.go.jp/jishin/nankai/nankaitrough_info.html"
+      },
+      {
+       "label": "南海トラフ巨大地震の想定経済被害（2024年度名目GDP約609兆円の半分近く）",
+       "value": "約292兆円",
+       "year": "2025",
+       "source_name": "Science Portal（JST）・内閣府作業部会報告",
+       "source_url": "https://scienceportal.jst.go.jp/stories/20250401_e01/"
+      },
+      {
+       "label": "首都直下地震の想定最大死者数（2025年12月19日・12年ぶり新想定）",
+       "value": "約1.8万人",
+       "year": "2025",
+       "source_name": "Science Portal（JST）・中央防災会議作業部会公表",
+       "source_url": "https://scienceportal.jst.go.jp/stories/20251225_e01/"
+      },
+      {
+       "label": "住宅の耐震化率（全国、総戸数約5,570万戸中、耐震性あり約5,000万戸）",
+       "value": "約90%",
+       "year": "2023",
+       "source_name": "国土交通省「住宅の耐震化率（全国）」",
+       "source_url": "https://www.mlit.go.jp/jutakukentiku/house/content/001864405.pdf"
+      },
+      {
+       "label": "令和6年能登半島地震の死者・行方不明者（2025年5月13日時点、うち災害関連死364名。関連死認定は継続中で、報道では2026年7月時点の死者744名）",
+       "value": "594名",
+       "year": "2025",
+       "source_name": "内閣府 令和7年版防災白書 特集",
+       "source_url": "https://www.bousai.go.jp/kaigirep/hakusho/r07/honbun/t1_1s_01_00.html"
+      },
+      {
+       "label": "消防団員数（2025年4月1日現在、前年比14,458人減）",
+       "value": "約73.2万人",
+       "year": "2025",
+       "source_name": "総務省消防庁「消防団の組織概要等に関する調査（令和7年度）」",
+       "source_url": "https://www.soumu.go.jp/menu_news/s-news/01shoubo01_02001087.html"
+      },
+      {
+       "label": "第1次国土強靱化実施中期計画の事業規模（2026〜2030年度、2025年6月6日閣議決定）",
+       "value": "20兆円強",
+       "year": "2025",
+       "source_name": "内閣官房「第1次国土強靱化実施中期計画」",
+       "source_url": "https://www.cas.go.jp/jp/seisaku/kokudo_kyoujinka/dai1_chuukikeikaku/index.html"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 6200,
+      "affected_note": "南海トラフ地震で震度6弱以上または3m以上の津波が想定される31都府県764市町村に日本の人口の約5割（約6,200万人）が居住（Science Portal/内閣府2025年想定）。首都直下地震の想定地域（首都圏約4,400万人）と重複を除いても、国民の過半が直接の被災リスク圏内にある。",
+      "econ_impact_trillion_yen": 9,
+      "econ_note": "推計（期待損失の年換算値）。南海トラフ約292兆円×30年以内発生確率（60〜90%程度以上/20〜50%の併記、2025年9月地震調査委員会）＋首都直下約83兆円×30年以内約70%（南関東M7クラス）を単純期待値化すると概ね年6〜10兆円規模となり中央値9兆円を採用。別途、国土強靱化実施中期計画で事業規模20兆円強/5年（年約4兆円）の政府投資が計画されている。",
+      "urgency": 5,
+      "urgency_rationale": "南海トラフ地震の30年以内発生確率は2つの手法いずれでも高い水準（60〜90%程度以上/20〜50%）で、今後5年内の発生も否定できない。事前防災（耐震化・津波避難・避難所整備）は発災後には実行不可能であり、発災すれば最大29.8万人の死者と292兆円の損失という不可逆の結果となる。政府も2026〜2030年度を集中対策期間と位置づけ、2026年11月に防災庁発足を予定している。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-megadisaster-preparedness-nankai-trough",
+       "name": "南海トラフ巨大地震（死者29.8万人・被害292兆円想定）",
+       "description": "2025年3月の新想定では最大死者約29.8万人（うち津波による死者約21.5万人）、経済被害約292兆円と、被害額は前回想定から約72兆円悪化した。津波浸水域は前回比約3割拡大し、建物・インフラの老朽化が被害を押し上げているほか、初めて災害関連死が最大約5.2万人と推計された。発生確率の科学的表現には議論があり、2025年9月に「60〜90%程度以上」と「20〜50%」の2つの推計が併記されたが、政府はいずれも高い確率だとして対策強化を求めている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "30年以内の発生確率（2025年9月改定・2手法併記）",
+        "value": "60〜90%程度以上／20〜50%",
+        "year": "2025",
+        "source_name": "地震調査研究推進本部「南海トラフの地震活動の長期評価（一部改訂）」",
+        "source_url": "https://www.jishin.go.jp/evaluation/long_term_evaluation/subduction_fault/summary_nankai/"
+       }
+      },
+      {
+       "id": "jp-megadisaster-preparedness-tokyo-inland",
+       "name": "首都直下地震への備え",
+       "description": "2025年12月19日に12年ぶりに改定された被害想定では、都心南部直下地震（M7クラス）で最大死者約1.8万人・全壊焼失約40.2万棟・経済被害約83兆円。耐震化や木密地域の解消により前回2013年想定（死者約2.3万人・約95兆円・約61万棟）から減少したが、政府の死者半減目標には届かず（約35%減）、首都中枢機能の維持・帰宅困難者対策・木密地域の火災対策が引き続き課題となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "首都直下地震の想定経済被害（2025年12月新想定）",
+        "value": "約83兆円",
+        "year": "2025",
+        "source_name": "日経クロステック（中央防災会議作業部会公表の解説）",
+        "source_url": "https://xtech.nikkei.com/atcl/nxt/column/18/00154/02658/"
+       }
+      },
+      {
+       "id": "jp-megadisaster-preparedness-retrofit-tsunami",
+       "name": "住宅耐震化・津波避難対策の遅れ",
+       "description": "住宅の耐震化率は2023年時点で約90%（総戸数約5,570万戸中、耐震性あり約5,000万戸）まで向上したが、残る約570万戸は耐震性が不十分で、国の目標（2030年に耐震性不十分な住宅をおおむね解消）にはなお隔たりがあり、高齢世帯や地方部で改修が進みにくい。南海トラフの想定死者29.8万人のうち津波による死者は約21.5万人と最大要因であり、早期避難の徹底と避難タワー・避難路の整備が減災の鍵となる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "住宅の耐震化率（全国・2023年時点）",
+        "value": "約90%",
+        "year": "2023",
+        "source_name": "国土交通省",
+        "source_url": "https://www.mlit.go.jp/jutakukentiku/house/content/001864405.pdf"
+       }
+      },
+      {
+       "id": "jp-megadisaster-preparedness-related-death",
+       "name": "災害関連死の防止と避難所環境改善",
+       "description": "令和6年能登半島地震では死者594名のうち災害関連死が364名と直接死（230名）を上回り（令和7年版防災白書・2025年5月13日時点）、避難生活の質が生死を分けることが改めて示された。関連死の認定はその後も続き、報道によれば2026年7月時点で関連死は516名、死者数は744名に達している。トイレ・キッチン・ベッド（TKB）など避難所環境の国際水準（スフィア基準）への引き上げ、福祉避難所の確保、広域避難時の医療・介護継続が課題であり、令和7年版防災白書も避難生活支援の抜本強化を掲げている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "能登半島地震の災害関連死（直接死230名を上回る、2025年5月時点・認定継続中）",
+        "value": "364名",
+        "year": "2025",
+        "source_name": "内閣府 令和7年版防災白書 特集",
+        "source_url": "https://www.bousai.go.jp/kaigirep/hakusho/r07/honbun/t1_1s_01_00.html"
+       }
+      },
+      {
+       "id": "jp-megadisaster-preparedness-community-capacity",
+       "name": "防災人材・地域防災力の確保",
+       "description": "地域防災の中核を担う消防団員は2025年4月時点で73万2,223人と減少が続き、2年前からの2年間で約3.0万人減った。人口減少・高齢化が進む地域ほど発災時の共助の担い手が細っており、防災白書は過疎・高齢化を「言い訳にしない」事前防災と、防災庁設置（2026年11月発足予定）による国の体制強化・専門人材育成を打ち出している。",
+       "severity": 3,
+       "key_stat": {
+        "label": "消防団員数（2025年4月1日現在、前年比14,458人減）",
+        "value": "約73.2万人",
+        "year": "2025",
+        "source_name": "総務省消防庁",
+        "source_url": "https://www.soumu.go.jp/menu_news/s-news/01shoubo01_02001087.html"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-fiscal-debt",
+       "relation": "悪化させる",
+       "description": "最大292兆円（名目GDPの半分近く）の被害と巨額の復旧・復興費は政府債務を急増させる一方、平時の事前防災投資（5年20兆円強）も財政制約との間で緊張関係にある。"
+      },
+      {
+       "target_id": "jp-infrastructure-regional-decline",
+       "relation": "相互に影響",
+       "description": "2025年の南海トラフ新想定で被害額が悪化した一因にインフラ老朽化が挙げられており、逆に被災は地方の人口流出と衰退を決定的に加速させる。"
+      },
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "相互に影響",
+       "description": "高齢化は避難行動要支援者と災害関連死リスクを増大させ（能登半島地震では関連死364名〔2025年5月時点、その後も認定が継続し増加〕が直接死230名を上回った）、大規模災害は医療・介護提供体制を毀損する。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "相互に影響",
+       "description": "建設業の担い手不足や消防団員の減少（2025年約73.2万人）が事前防災と復旧の実行力を制約し、発災すれば労働供給自体がさらに毀損される。"
+      },
+      {
+       "target_id": "jp-climate-extreme-heat",
+       "relation": "悪化させる",
+       "description": "気候変動による風水害の激甚化・頻発化が複合災害リスクを高め、防災白書も地震対策と併せた風水害の事前対策強化を国を挙げた課題としている。"
+      }
+     ]
+    },
+    {
+     "id": "jp-aging-social-security",
+     "name": "超高齢化と社会保障制度の持続可能性",
+     "emoji": "👴",
+     "category": "人口・社会",
+     "tagline": "世界最速の高齢化、支え手なき給付膨張",
+     "overview": "日本の高齢化率は2025年10月1日時点で29.4%（65歳以上3,622万人、うち75歳以上2,127万人）と世界最高水準にあり、団塊の世代は全員が75歳以上の後期高齢者となった。社会保障給付費は2023年度確定値で135兆4,928億円に達し、国の一般会計に占める社会保障関係費も2026年度当初予算で約39.1兆円（39兆559億円）と過去最大を更新し続けている。一方で支え手となる現役世代は縮小を続け、介護分野では2040年度に約57万人の人材不足が見込まれる。給付の膨張と負担の増大、担い手不足が同時進行する構造的課題である。",
+     "why_problem": "年金・医療・介護の給付が高齢者数の増加とともに膨張する一方、保険料と税を負担する生産年齢人口が減り続けるため、現行の給付水準と負担水準を両立させることが構造的に困難になっている。国民負担率は45〜46%程度で推移し、現役世代の手取り圧迫が少子化をさらに進める悪循環も指摘される。内閣府の世論調査（令和7年8月調査）では日常生活の悩み・不安として「老後の生活設計」を挙げた人が63.9%で最多となるなど、国民的関心も極めて高い。ただし論点は割れており、「給付抑制・負担上限引き上げ（高額療養費見直し等）は現役世代の負担軽減に不可欠」とする立場と、「受診抑制や患者・低所得高齢者の生活圧迫を招く」とする立場が対立し、2025年には高額療養費の負担上限引き上げがいったん凍結・再検討となるなど合意形成は難航している。",
+     "future_outlook": "国立社会保障・人口問題研究所の推計（令和5年推計）では、2070年に高齢化率は38.7%となり、2.6人に1人が65歳以上、総人口は8,700万人程度まで減少する見通しである。2040年には認知症高齢者約584万人・MCI約613万人（合計約1,197万人）、2050年には65歳以上の一人暮らしが約1,084万世帯に達すると推計され、医療・介護需要と担い手不足のギャップは一段と拡大する。給付と負担の再設計（全世代型社会保障）、介護人材の処遇改善と外国人材受け入れ、DXによる生産性向上をどこまで進められるかが持続可能性を左右する。",
+     "key_stats": [
+      {
+       "label": "高齢化率（65歳以上人口の割合）",
+       "value": "29.4%（3,622万人）",
+       "year": "2025年10月1日時点",
+       "source_name": "令和8年版高齢社会白書（内閣府）",
+       "source_url": "https://www8.cao.go.jp/kourei/whitepaper/w-2026/zenbun/pdf/1s1s_01.pdf"
+      },
+      {
+       "label": "2070年の高齢化率見通し（2.6人に1人が65歳以上）",
+       "value": "38.7%",
+       "year": "2070年（令和5年推計）",
+       "source_name": "令和8年版高齢社会白書（内閣府）／国立社会保障・人口問題研究所",
+       "source_url": "https://www8.cao.go.jp/kourei/whitepaper/w-2026/zenbun/pdf/1s1s_01.pdf"
+      },
+      {
+       "label": "社会保障給付費（ILO基準・確定値）",
+       "value": "135兆4,928億円",
+       "year": "2023年度",
+       "source_name": "令和5年度社会保障費用統計（国立社会保障・人口問題研究所）",
+       "source_url": "https://www.ipss.go.jp/ss-cost/j/fsss-R05/fsss_R05.html"
+      },
+      {
+       "label": "国の社会保障関係費（当初予算・過去最大）",
+       "value": "約39.1兆円（39兆559億円）",
+       "year": "2026年度",
+       "source_name": "令和8年度予算のポイント（財務省）",
+       "source_url": "https://www.mof.go.jp/policy/budget/budger_workflow/budget/fy2026/seifuan2026/01.pdf"
+      },
+      {
+       "label": "介護職員の不足数見通し（必要数約272万人に対し）",
+       "value": "約57万人不足",
+       "year": "2040年度",
+       "source_name": "厚生労働省「第9期介護保険事業計画に基づく介護職員の必要数について」",
+       "source_url": "https://www.mhlw.go.jp/stf/newpage_41379.html"
+      },
+      {
+       "label": "認知症＋MCI（軽度認知障害）高齢者の推計",
+       "value": "約1,197万人（認知症584万人＋MCI613万人）",
+       "year": "2040年推計（2024年公表）",
+       "source_name": "厚生労働省・認知症有病率調査研究班（九州大学 二宮利治教授ら）公表資料",
+       "source_url": "https://www.mhlw.go.jp/content/001279920.pdf"
+      },
+      {
+       "label": "日常生活の悩み・不安で「老後の生活設計」を挙げた割合（1位）",
+       "value": "63.9%",
+       "year": "2025年（令和7年8月調査）",
+       "source_name": "国民生活に関する世論調査（内閣府）",
+       "source_url": "https://survey.gov-online.go.jp/living/202509/r07/r07-life/"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 12322,
+      "affected_note": "社会保険制度（年金・医療・介護）は全国民が加入・負担・受給するため総人口約1億2,322万人（2025年10月1日時点、令和8年版高齢社会白書）が影響対象。直接の受給中心層は65歳以上の3,622万人。",
+      "econ_impact_trillion_yen": 135.5,
+      "econ_note": "2023年度の社会保障給付費（ILO基準・確定値135兆4,928億円、国立社会保障・人口問題研究所）。年金・医療・福祉その他の年間給付フロー総額であり、対GDP比は2割超。2025年度予算ベースでは140.7兆円（対GDP比22.4%）に拡大している（厚生労働省「社会保障の給付と負担」）。",
+      "urgency": 4,
+      "urgency_rationale": "団塊の世代が2025年までに全員75歳以上となり後期高齢者医療・介護需要が急増する局面に既に入っている。社会保障関係費は2026年度当初予算で約39.1兆円と過去最大を更新し続け、介護人材は2026年度時点で約25万人、2040年度に約57万人の不足が推計されるなど、担い手不足は今後5年で確実に深刻化する。制度全体が5年内に崩壊するわけではないが、負担増・人材不足の構造は不可逆的に進行するため4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-aging-social-security-benefit-expansion",
+       "name": "年金・医療・介護給付の膨張と現役世代の負担増",
+       "description": "社会保障給付費は2023年度確定値で135兆4,928億円（年金56.4兆円・医療45.6兆円・福祉その他33.5兆円）に達し、国の社会保障関係費も2026年度に約39.1兆円と過去最大を更新した。財源の約6割は保険料（2025年度予算ベースで59.8%）であり、現役世代と企業の負担が年々重くなっている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "社会保障給付費（ILO基準・確定値）",
+        "value": "135兆4,928億円",
+        "year": "2023年度",
+        "source_name": "令和5年度社会保障費用統計（国立社会保障・人口問題研究所）",
+        "source_url": "https://www.ipss.go.jp/ss-cost/j/fsss-R05/fsss_R05.html"
+       }
+      },
+      {
+       "id": "jp-aging-social-security-care-workforce",
+       "name": "介護人材の不足（2040年度57万人不足推計）",
+       "description": "厚生労働省の集計では、介護職員は2040年度に約272万人必要となるのに対し、2022年度時点の職員数は約215万人で、約57万人の不足が見込まれる。2026年度時点でも約25万人の上積みが必要とされ、処遇改善・離職防止・外国人材受け入れが急務となっている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "2040年度の介護職員不足数（必要数約272万人に対し）",
+        "value": "約57万人",
+        "year": "2024年7月公表",
+        "source_name": "厚生労働省「第9期介護保険事業計画に基づく介護職員の必要数について」",
+        "source_url": "https://www.mhlw.go.jp/stf/newpage_41379.html"
+       }
+      },
+      {
+       "id": "jp-aging-social-security-dementia-solitary",
+       "name": "認知症・独居高齢者の急増",
+       "description": "厚労省研究班の推計では2040年に認知症高齢者は約584万人（65歳以上の約15%）、MCIは約613万人で合計約1,197万人に達する。また社人研の世帯推計（2024年推計）では65歳以上の一人暮らしは2050年に約1,084万世帯と2020年（738万世帯）比約1.5倍に増え、見守り・成年後見・身元保証など生活支援基盤の不足が深刻化する。",
+       "severity": 4,
+       "key_stat": {
+        "label": "2040年の認知症＋MCI高齢者数の推計",
+        "value": "約1,197万人（認知症584万人＋MCI613万人）",
+        "year": "2040年推計（2024年公表）",
+        "source_name": "厚生労働省・認知症有病率調査研究班公表資料",
+        "source_url": "https://www.mhlw.go.jp/content/001279920.pdf"
+       }
+      },
+      {
+       "id": "jp-aging-social-security-benefit-burden-reform",
+       "name": "給付と負担の見直し（高額療養費・全世代型社会保障）",
+       "description": "国民負担率は2026年度見通しで45.7%（財政赤字を含む潜在的な国民負担率は48.4%）と高止まりし、能力に応じた負担への見直し（全世代型社会保障）が進む。ただし高額療養費の自己負担上限引き上げは患者団体等の反発を受け2025年にいったん凍結・再検討となるなど、「現役負担の軽減に不可欠」とする立場と「患者・低所得高齢者の生活を圧迫する」とする立場で合意形成が難航している。",
+       "severity": 3,
+       "key_stat": {
+        "label": "国民負担率（租税＋社会保障負担の対国民所得比）",
+        "value": "45.7%（見通し）",
+        "year": "2026年度（令和8年度）",
+        "source_name": "令和8年度の国民負担率を公表します（財務省・2026年3月5日）",
+        "source_url": "https://www.mof.go.jp/policy/budget/topics/futanritsu/20260305.html"
+       }
+      },
+      {
+       "id": "jp-aging-social-security-retirement-anxiety",
+       "name": "老後の生活設計への国民的不安",
+       "description": "内閣府の世論調査（2025年8月調査）では、日常生活での悩みや不安として「老後の生活設計」を挙げた人が63.9%で最多となった。「自分の健康」62.7%、「今後の収入や資産の見通し」60.5%がこれに続き、年金水準や医療・介護費用への不安が消費や資産形成行動にも影響している。",
+       "severity": 3,
+       "key_stat": {
+        "label": "悩み・不安の内容で「老後の生活設計」を挙げた割合（1位）",
+        "value": "63.9%",
+        "year": "2025年（令和7年8月調査）",
+        "source_name": "国民生活に関する世論調査（内閣府）",
+        "source_url": "https://survey.gov-online.go.jp/living/202509/r07/r07-life/"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "相互に影響",
+       "description": "少子化による支え手の減少が給付と負担の不均衡の根本原因である一方、社会保険料増による現役世代の手取り圧迫が結婚・出産をさらに抑制する悪循環が指摘されている。"
+      },
+      {
+       "target_id": "jp-fiscal-debt",
+       "relation": "悪化させる",
+       "description": "社会保障関係費は一般会計歳出（2026年度約122.3兆円）の約3分の1を占めて過去最大を更新し続け、給付費の公費負担の相当部分を国債発行に依存しているため、政府債務累増の最大の構造要因となっている。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "悪化させる",
+       "description": "介護分野だけで2040年度に約57万人の人材不足が推計されるうえ、高齢化に伴う生産年齢人口の減少が経済全体の労働供給制約を一段と深刻化させる。"
+      },
+      {
+       "target_id": "jp-loneliness-isolation",
+       "relation": "悪化させる",
+       "description": "65歳以上の一人暮らしが2050年に約1,084万世帯へ増加すると推計され（社人研2024年世帯推計）、高齢期の孤独・孤立や孤立死・認知症の発見遅れのリスクを拡大させる。"
+      },
+      {
+       "target_id": "jp-immigration-foreign-workers",
+       "relation": "相互に影響",
+       "description": "介護人材確保策として特定技能・EPA等による外国人介護人材の受け入れ拡大が政府の総合的確保対策に位置づけられており、受け入れ・共生政策の成否が介護提供体制の持続性を左右する。"
+      }
+     ]
+    },
+    {
+     "id": "jp-labor-shortage",
+     "name": "構造的な労働力不足（労働供給制約）",
+     "emoji": "🏗️",
+     "category": "労働・雇用",
+     "tagline": "働き手が消える、社会が回らない",
+     "overview": "日本の生産年齢人口（15〜64歳）は2025年12月時点で7,358万人と前年から約20万人の減少を続けており、有効求人倍率は2026年5月時点でも1.17倍と、緩やかに低下しつつも求人が求職を上回る状態が続いている。パーソル総合研究所×中央大学は2030年に644万人、リクルートワークス研究所は2040年に約1,100万人の労働供給不足を推計し、不足は介護（25.2%）・ドライバー（24.1%）・建設（22.0%）など生活維持サービスに集中する。2025年度の人手不足倒産は441件（前年度比約1.3倍）と3年連続で過去最多を更新し、景気要因ではない慢性的・構造的な「労働供給制約」が顕在化している。令和7年版労働経済白書も「労働力供給制約の下での持続的な経済成長」を主題に据えた。",
+     "why_problem": "単なる企業の採用難ではなく、物流・介護・建設・医療といった社会機能の維持自体が困難になる点が本質的な問題であり、日本経済新聞と日本総合研究所（西岡慎一主席研究員）の共同試算では人手不足による成長機会損失は2024年に約16.1兆円へ拡大した。少子化により新規労働力の流入が細る一方、女性・高齢者の労働参加は既に高水準に達しており、従来型の「参加率引き上げ」での穴埋め余地が縮小している。他方で「日本は時間当たり労働生産性がOECD38カ国中28位と低く、省人化・生産性向上の余地が大きいため悲観すべきでない」という論点や、「低生産性の背後に潜在的な過剰雇用が残っている」とする日本経済研究センターの慎重論もある。いずれの立場でも、生活維持サービスの担い手不足が地域住民の生活水準を直撃するリスクは共有されている。",
+     "future_outlook": "リクルートワークス研究所の推計では2040年に約1,100万人の労働供給不足となり、人口流入が続く東京都など一部大都市圏を除くすべての地域で不足が生じ、北海道・東北をはじめ地方ほど深刻になると見込まれる。NX総研の推計では2030年度に営業用トラックの輸送能力が34.1%（9.4億トン相当）不足し、介護職員は2040年度に約272万人（2022年度比+約57万人）が必要となる。省人化投資・外国人材・高齢者活躍などの対策が進まなければ、「荷物が届かない」「介護が受けられない」「インフラが直せない」事態が地方から順に常態化すると見込まれる。",
+     "key_stats": [
+      {
+       "label": "2040年の労働供給不足（推計）",
+       "value": "約1,100万人",
+       "year": "2040年（2023年発表）",
+       "source_name": "リクルートワークス研究所「未来予測2040 労働供給制約社会がやってくる」",
+       "source_url": "https://recruit-holdings.com/ja/blog/post_20230926_0001/"
+      },
+      {
+       "label": "2030年の人手不足（推計）",
+       "value": "644万人",
+       "year": "2030年（2018年10月発表・2020年12月改訂）",
+       "source_name": "パーソル総合研究所×中央大学「労働市場の未来推計2030」",
+       "source_url": "https://rc.persol-group.co.jp/thinktank/spe/roudou2030/"
+      },
+      {
+       "label": "人手不足による成長機会損失（年間・試算）",
+       "value": "約16.1兆円",
+       "year": "2024年",
+       "source_name": "日本経済新聞×日本総合研究所（西岡慎一主席研究員）共同試算",
+       "source_url": "https://vdata.nikkei.com/newsgraphics/labor-supply-constraint/"
+      },
+      {
+       "label": "人手不足倒産件数（3年連続過去最多）",
+       "value": "441件（前年度比約1.3倍）",
+       "year": "2025年度",
+       "source_name": "帝国データバンク「人手不足倒産の動向調査（2025年度）」",
+       "source_url": "https://www.tdb.co.jp/report/economic/20260409-laborshortage-br25fy/"
+      },
+      {
+       "label": "生産年齢人口（15〜64歳）",
+       "value": "7,358万人（前年同月比▲20万人）",
+       "year": "2025年12月1日（概算値）",
+       "source_name": "総務省統計局「人口推計」",
+       "source_url": "https://www.stat.go.jp/data/jinsui/pdf/202512.pdf"
+      },
+      {
+       "label": "有効求人倍率",
+       "value": "1.17倍（前月比▲0.01ポイント）",
+       "year": "2026年5月",
+       "source_name": "厚生労働省「一般職業紹介状況（令和8年5月分）」",
+       "source_url": "https://www.mhlw.go.jp/stf/newpage_74004.html"
+      },
+      {
+       "label": "時間当たり労働生産性",
+       "value": "60.1ドル（OECD38カ国中28位、実質上昇率▲0.6%）",
+       "year": "2024年（2025年12月公表）",
+       "source_name": "日本生産性本部「労働生産性の国際比較2025」",
+       "source_url": "https://www.jpc-net.jp/research/detail/007846.html"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 12316,
+      "affected_note": "物流・介護・建設・医療など生活維持サービスの縮退は全住民に波及するため総人口ベース（2025年12月1日概算値1億2,316万人・前年同月比▲59万人、総務省人口推計）。直接の欠員数としては2040年に約1,100万人の労働供給不足が推計されている（リクルートワークス研究所）。",
+      "econ_impact_trillion_yen": 16.1,
+      "econ_note": "日本経済新聞と日本総合研究所（西岡慎一主席研究員）の共同試算による、人手不足に起因する年間の成長機会損失（2024年）。2019年の4.5兆円から約3.6倍に拡大しており、フロー（毎年発生する損失）の値。",
+      "urgency": 5,
+      "urgency_rationale": "生産年齢人口は毎年約20万人ずつ減少しており人口動態的に不可逆。644万人不足が推計される2030年まで5年を切り、人手不足倒産は2025年度に441件と3年連続過去最多を更新、2024年問題による輸送能力不足も既に顕在化している。今後5年の省人化投資・人材確保の成否が2030〜2040年の社会機能維持を左右する。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-labor-shortage-care-medical",
+       "name": "介護・医療分野の人材不足",
+       "description": "高齢化による需要増で介護職員は2040年度に約272万人が必要と推計され、2022年度（約215万人）から約57万人（年3.2万人ペース）の増員が求められる。しかし2023年度には介護職員数が調査開始以来初めて減少（約215.4万人→約212.6万人）に転じ、2025年度の老人福祉事業の人手不足倒産（22件）も業種別過去最多となるなど、需要と供給が逆方向に動いている。リクルートワークス研究所の推計でも2040年の不足率は介護サービスが25.2%と全職種で最大。",
+       "severity": 5,
+       "key_stat": {
+        "label": "2040年度に必要な介護職員数",
+        "value": "約272万人（2022年度比+約57万人）",
+        "year": "2040年度（2024年7月公表）",
+        "source_name": "厚生労働省「第9期介護保険事業計画に基づく介護職員の必要数」",
+        "source_url": "https://www.mhlw.go.jp/stf/newpage_02977.html"
+       }
+      },
+      {
+       "id": "jp-labor-shortage-construction-logistics-2024",
+       "name": "建設・物流の担い手不足（2024年問題）",
+       "description": "2024年4月からの時間外労働上限規制の適用により、NX総合研究所はドライバー不足と合わせて2030年度に営業用トラック輸送能力の34.1%（9.4億トン相当）が不足すると推計する（ドライバー不足のみでは19.5%・5.4億トン）。建設業でも2025年度の人手不足倒産の業種別最多が建設業（112件・全体の25.4%）となるなど、インフラ整備・維持の担い手確保が危機的水準にある。",
+       "severity": 5,
+       "key_stat": {
+        "label": "2030年度のトラック輸送能力の不足率（推計）",
+        "value": "34.1%（9.4億トン相当）",
+        "year": "2030年度（2022年11月発表）",
+        "source_name": "NX総合研究所（経産省・国交省・農水省「持続可能な物流の実現に向けた検討会」第3回資料）",
+        "source_url": "https://www.meti.go.jp/shingikai/mono_info_service/sustainable_logistics/pdf/003_01_00.pdf"
+       }
+      },
+      {
+       "id": "jp-labor-shortage-working-age-decline",
+       "name": "生産年齢人口の減少",
+       "description": "生産年齢人口（15〜64歳）は1995年をピークに減少を続け、2025年12月時点で7,358万人と前年から約20万人（▲0.27%）減少した。少子化により今後の減少は既に確定しており、労働供給制約の最も根本的な要因となっている。総人口も1億2,316万人と前年比59万人減（▲0.47%）で減少が続いている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "生産年齢人口（15〜64歳）",
+        "value": "7,358万人（前年同月比▲20万人・▲0.27%）",
+        "year": "2025年12月1日（概算値）",
+        "source_name": "総務省統計局「人口推計」",
+        "source_url": "https://www.stat.go.jp/data/jinsui/pdf/202512.pdf"
+       }
+      },
+      {
+       "id": "jp-labor-shortage-participation-ceiling",
+       "name": "女性・高齢者の労働参加拡大の限界",
+       "description": "65歳以上の就業者は2024年に930万人と21年連続で増加し就業者総数の13.7%（過去最高）を占め、就業率も25.7%に達した。女性のM字カーブもほぼ解消するなど、これまで人手不足を補ってきた女性・高齢者の追加参加余地は縮小しつつある。高齢の雇用者（役員を除く）の76.9%は非正規雇用であり、量だけでなく担える業務の質・時間にも制約がある。",
+       "severity": 4,
+       "key_stat": {
+        "label": "65歳以上の就業者数（21年連続増・過去最多）",
+        "value": "930万人（就業率25.7%）",
+        "year": "2024年（2025年9月公表）",
+        "source_name": "総務省統計局「統計からみた我が国の高齢者」（統計トピックスNo.146）",
+        "source_url": "https://www.stat.go.jp/data/topics/pdf/topics146.pdf"
+       }
+      },
+      {
+       "id": "jp-labor-shortage-automation-lag",
+       "name": "省人化・自動化投資（AI・ロボティクス）の遅れ",
+       "description": "日本の時間当たり労働生産性は2024年に60.1ドルとOECD加盟38カ国中28位にとどまり、実質上昇率は▲0.6%（同33位）と低迷している。パーソル総合研究所の推計では、2030年の644万人不足のうち298万人分を生産性向上（AI等の技術革新）で代替する必要があるとされ、省人化投資の成否が労働供給制約克服の最大の鍵とされるが、中小企業を中心に投資は途上にある。",
+       "severity": 4,
+       "key_stat": {
+        "label": "2030年の不足644万人のうち生産性向上での充当必要分",
+        "value": "298万人",
+        "year": "2030年（2018年10月発表・2020年12月改訂）",
+        "source_name": "パーソル総合研究所×中央大学「労働市場の未来推計2030」",
+        "source_url": "https://rc.persol-group.co.jp/thinktank/spe/roudou2030/"
+       }
+      },
+      {
+       "id": "jp-labor-shortage-aging-workforce",
+       "name": "担い手の高齢化（農業・建設等）",
+       "description": "2025年農林業センサス（概数値）で個人経営体の基幹的農業従事者は102.1万人と2020年から34.2万人（25.1%）減少し、平均年齢は67.6歳、65歳以上が約7割を占める。建設業も55歳以上が36.7%・29歳以下が11.7%（2024年、全産業は32.4%・16.9%）と全産業平均より高齢化が進んでおり、今後10年で大量引退が見込まれる。技能承継が間に合わなければ食料生産・インフラ維持の現場能力が急減する。",
+       "severity": 4,
+       "key_stat": {
+        "label": "基幹的農業従事者数（個人経営体・平均年齢67.6歳）",
+        "value": "102.1万人（2020年比▲34.2万人・▲25.1%）",
+        "year": "2025年2月1日現在（農林業センサス概数値・2025年11月公表）",
+        "source_name": "農林水産省「2025年農林業センサス結果の概要（概数値）」",
+        "source_url": "https://www.maff.go.jp/j/tokei/kekka_gaiyou/noucen/040909/index.html"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "原因となる",
+       "description": "少子化による生産年齢人口の減少が労働供給制約の最も根本的な原因であり、今後数十年の労働力人口減少は人口動態上ほぼ確定している。"
+      },
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "相互に影響",
+       "description": "高齢化が介護・医療の労働需要を押し上げて人材不足を深刻化させる一方、労働力不足は社会保障制度の支え手（保険料負担者）の減少に直結する。"
+      },
+      {
+       "target_id": "jp-immigration-foreign-workers",
+       "relation": "相互に影響",
+       "description": "労働力不足が育成就労制度など外国人材受け入れ拡大の直接の駆動要因であり、パーソル総研の推計でも2030年の不足解消には外国人労働者81万人増が必要とされる。"
+      },
+      {
+       "target_id": "jp-industrial-competitiveness-dx",
+       "relation": "相互に影響",
+       "description": "省人化・DX投資の遅れ（時間当たり労働生産性OECD38カ国中28位）が人手依存の労働需要を高止まりさせ、逆に人手不足は約16.1兆円（2024年・試算）の成長機会損失として産業競争力を毀損している。"
+      },
+      {
+       "target_id": "jp-infrastructure-regional-decline",
+       "relation": "悪化させる",
+       "description": "建設業の担い手不足（2025年度の人手不足倒産の業種別最多・112件）と高齢化が、老朽インフラの維持・更新や災害復旧の実施能力を低下させ、地方の衰退を加速させる。"
+      }
+     ]
+    },
+    {
+     "id": "jp-loneliness-isolation",
+     "name": "孤独・孤立の広がり",
+     "emoji": "🫂",
+     "category": "人口・社会",
+     "tagline": "つながりを失う社会、年7.7万人の孤独死",
+     "overview": "内閣府の「孤独・孤立の実態把握に関する全国調査（令和7年実施、2025年11月〜2026年1月調査・2026年4月公表）」では、孤独感が「しばしば・常にある」4.5%、「時々ある」13.7%、「たまにある」19.5%と、計約37.7%（4割弱）が何らかの孤独感を訴え、30代で約43%と最も高く20〜50代の現役世代がいずれも4割を超えた。警察庁の集計では2025年の1年間に自宅で死亡した一人暮らしの人（いわゆる孤独死）は76,941人で、うち65歳以上が58,919人と約76%を占め、死後8日以上経過して発見された「孤立死」は約2.2万人と内閣府が推計した。OECDのデータでは家族以外との交流が「ない・ほとんどない」日本人は15.3%と調査対象20か国中最下位で、構造的に社会的つながりが細い。2024年4月に孤独・孤立対策推進法が施行され、国と自治体による対策の法的枠組みが整えられた。",
+     "why_problem": "孤独・孤立は主観的な感情にとどまらず、うつ・心疾患・認知症・自殺リスクの上昇など健康被害と、医療介護費増・労働生産性低下という社会的コストをもたらすことが国内外の研究で指摘され、英国では年320億ポンド（約4.7兆円）の経済損失と試算されている。日本は英国に次ぎ世界で2番目に孤独・孤立対策の担当大臣と法律を設けたが、政策介入の是非には論点もある。孤独を「個人の自由や生き方の問題」とみて行政の過度な介入を疑問視する立場と、「望まない孤独・孤立」は社会構造（未婚化・単身化・地域縮小）が生む公共課題であり予防的支援が必要とする立場が併存する。ただし孤独死年7.7万人や146万人のひきこもりといった実態は、放置すれば発見・支援がより困難になる点で広く共有された課題である。",
+     "future_outlook": "国立社会保障・人口問題研究所の2024年推計では、2050年に単独世帯が全世帯の44.3%（約2,330万世帯）に達し、65歳以上の独居率は男性16.4%→26.1%、女性23.6%→29.3%へ上昇、高齢独居男性の約6割（59.7%）が未婚者となり家族による支えを期待できない層が急増する。ひきこもりの高齢化（8050問題→9060問題）も進行し、親の死後に支援につながらないまま孤立するケースの増加が懸念される。孤独・孤立対策推進法の下で地方版官民連携プラットフォームや居場所づくりが広がるかが、今後10年の分岐点となる。",
+     "key_stats": [
+      {
+       "label": "何らかの孤独感がある人の割合（16歳以上）",
+       "value": "約37.7%（4割弱）",
+       "year": "令和7年実施（2025年11月〜2026年1月調査、2026年4月公表）",
+       "source_name": "内閣府「孤独・孤立の実態把握に関する全国調査（令和7年）」",
+       "source_url": "https://www.cao.go.jp/kodoku_koritsu/torikumi/zenkokuchousa/r7.html"
+      },
+      {
+       "label": "家族以外の人と交流のない人の割合（OECD調査対象20か国中最下位）",
+       "value": "15.3%",
+       "year": "2005年（OECD Society at a Glance 2005）",
+       "source_name": "国土交通省掲載資料「世界一孤独な日本人」（OECD「Society at a Glance 2005」引用）",
+       "source_url": "https://www.mlit.go.jp/common/001281620.pdf"
+      },
+      {
+       "label": "自宅で死亡した一人暮らしの人（孤独死）の年間人数",
+       "value": "76,941人（うち65歳以上58,919人・約76%）",
+       "year": "2025年（2026年4月公表）",
+       "source_name": "警察庁集計・内閣府推計（nippon.com）",
+       "source_url": "https://www.nippon.com/ja/japan-data/h02768/"
+      },
+      {
+       "label": "死後8日以上経過して発見された「孤立死」の推計",
+       "value": "22,222人",
+       "year": "2025年（2026年4月公表）",
+       "source_name": "内閣府孤独・孤立対策推進室推計（nippon.com）",
+       "source_url": "https://www.nippon.com/ja/japan-data/h02768/"
+      },
+      {
+       "label": "ひきこもり状態にある人の全国推計（15〜64歳）",
+       "value": "約146万人（約50人に1人）",
+       "year": "2022年度（2023年3月公表）",
+       "source_name": "内閣府「こども・若者の意識と生活に関する調査」（日本経済新聞）",
+       "source_url": "https://www.nikkei.com/article/DGXZQOUE31BPU0R30C23A3000000/"
+      },
+      {
+       "label": "2050年の単独世帯割合",
+       "value": "44.3%（約2,330万世帯）",
+       "year": "2024年推計",
+       "source_name": "国立社会保障・人口問題研究所「日本の世帯数の将来推計（令和6年推計）」",
+       "source_url": "https://www.ipss.go.jp/pp-ajsetai/j/HPRJ2024/hprj2024_gaiyo_20240412.pdf"
+      },
+      {
+       "label": "英国における孤独の経済損失試算（参考・日本には公式推計なし）",
+       "value": "年間約320億ポンド（約4.7兆円）",
+       "year": "2017年",
+       "source_name": "英ジョー・コックス孤独委員会（SOMPO未来研究所コラム）",
+       "source_url": "https://www.sompo-rc.co.jp/columns/view/14"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 4000,
+      "affected_note": "内閣府令和7年全国調査で16歳以上の約37.7%が何らかの孤独感を回答。16歳以上人口約1.08億人に当てはめると約4,000万人。うち「しばしば・常に」の強い孤独感は4.5%（約490万人）、ひきこもり推計146万人、孤独死は年約7.7万人。",
+      "econ_impact_trillion_yen": 4.7,
+      "econ_note": "日本には孤独・孤立の総経済損失の公式推計が存在しないため、英ジョー・コックス委員会の試算（人口約6,600万人の英国で年320億ポンド≈約4.7兆円。医療費増・生産性低下等）を参考値として採用。日本は人口が英国の約1.9倍で家族外交流の欠如率もOECD調査で最下位水準のため、同水準以上の損失が生じている可能性がある保守的な参照値。",
+      "urgency": 4,
+      "urgency_rationale": "孤独死は既に年7.7万人規模で毎年発生し、団塊世代全員が75歳以上となる2025年以降、独居後期高齢者が急増局面に入っている。ひきこもりの高齢化（8050問題）は親の死亡とともに支援接点を失う不可逆的な悪化経路を持つ。一方、2024年に孤独・孤立対策推進法が施行され政策枠組みは整備済みで、孤独感がある人の割合は前年調査の39.3%から37.7%へ微減しており、5年で全面的に不可逆化するとまでは言えないため4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-loneliness-isolation-working-age",
+       "name": "現役世代（20〜50代）の高い孤独感",
+       "description": "孤独感がある人の割合は高齢層より現役世代で高く、令和7年調査では30代が約43%と最も高く、20代・40代・50代もいずれも4割を超えた。非正規雇用・未婚化・転職やリモートワークによる職場のつながりの希薄化が背景とされ、誰かと食事を共にする頻度が低い人ほど強い孤独感を持つ傾向も同調査で確認された。",
+       "severity": 4,
+       "key_stat": {
+        "label": "30代で孤独感がある人の割合（全年代で最高）",
+        "value": "約43%",
+        "year": "令和7年調査（2026年4月公表）",
+        "source_name": "内閣府「孤独・孤立の実態把握に関する全国調査（令和7年）」（日本経済新聞）",
+        "source_url": "https://www.nikkei.com/article/DGXZQOUA137ZX0T10C26A4000000/"
+       }
+      },
+      {
+       "id": "jp-loneliness-isolation-elderly-solitary-death",
+       "name": "独居高齢者の増加と孤立・孤独死",
+       "description": "2025年に自宅で死亡した一人暮らしの人は76,941人で、65歳以上が58,919人と約76%を占める。死後8日以上発見されない孤立死は約2.2万人、1か月以上発見されないケースも約7,100件（7,148件）に上る。2050年には65歳以上の独居率が男性26.1%・女性29.3%に達し、看取り手のない死は構造的に増える。",
+       "severity": 5,
+       "key_stat": {
+        "label": "自宅で死亡した一人暮らしの人（うち65歳以上58,919人）",
+        "value": "76,941人",
+        "year": "2025年（2026年4月公表）",
+        "source_name": "警察庁集計（nippon.com）",
+        "source_url": "https://www.nippon.com/ja/japan-data/h02768/"
+       }
+      },
+      {
+       "id": "jp-loneliness-isolation-hikikomori-8050",
+       "name": "ひきこもりの長期高齢化（8050問題）",
+       "description": "内閣府の令和4年度調査では15〜64歳のひきこもりは全国推計146万人で、うち40〜64歳が約85万人と若年層（約61万人）を上回る。80代の親が50代のひきこもりの子を支える「8050問題」は、親の介護・死亡を機に生活が破綻し、支援につながらないまま孤立死や生活困窮に至るリスクを抱える。",
+       "severity": 4,
+       "key_stat": {
+        "label": "ひきこもり全国推計（うち40〜64歳約85万人）",
+        "value": "約146万人",
+        "year": "2022年度（2023年3月公表）",
+        "source_name": "内閣府「こども・若者の意識と生活に関する調査」（日本経済新聞）",
+        "source_url": "https://www.nikkei.com/article/DGXZQOUE31BPU0R30C23A3000000/"
+       }
+      },
+      {
+       "id": "jp-loneliness-isolation-single-households",
+       "name": "単身世帯の増加と地域コミュニティの希薄化",
+       "description": "社人研の2024年推計では、単独世帯は2050年に全世帯の44.3%・約2,330万世帯に達し、平均世帯人員は2033年に1.99人と2人を割り込む。65歳以上の独居男性に占める未婚者は33.7%（2020年）から59.7%（2050年）へ急増し、家族にも地域にも頼れない層が拡大する。自治会・町内会加入率の低下と併せ、日常的な見守り機能が細っている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "2050年の単独世帯割合（65歳以上独居率は男26.1%・女29.3%）",
+        "value": "44.3%",
+        "year": "2024年推計",
+        "source_name": "国立社会保障・人口問題研究所「日本の世帯数の将来推計（令和6年推計）」",
+        "source_url": "https://www.ipss.go.jp/pp-ajsetai/j/HPRJ2024/hprj2024_gaiyo_20240412.pdf"
+       }
+      },
+      {
+       "id": "jp-loneliness-isolation-support-system",
+       "name": "相談支援・居場所づくり体制の整備の遅れ",
+       "description": "2024年4月施行の孤独・孤立対策推進法により自治体の地域協議会や官民連携の枠組みが制度化されたが、内閣府の令和7年世論調査では孤独・孤立の問題を「身近に感じる」人が48.7%に上る一方、政府が総合的な対策を推進していることを「知らない」と答えた人が84.3%と認知度は低い。強い孤独感を抱える人ほど行政・NPOの支援につながっていないという届かなさが課題である。",
+       "severity": 3,
+       "key_stat": {
+        "label": "孤独・孤立の問題を身近に感じる人の割合（政府の対策を「知らない」は84.3%）",
+        "value": "48.7%",
+        "year": "2025年10月調査（2025年12月速報）",
+        "source_name": "内閣府「孤独・孤立対策に関する世論調査（令和7年10月調査）」",
+        "source_url": "https://survey.gov-online.go.jp/coexistence/202512/hutai/r07/r07-kodoku/"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "悪化させる",
+       "description": "社会的孤立は高齢者の要介護化・認知症・救急搬送リスクを高め、独居高齢者の急増（2050年男26.1%・女29.3%）と相まって医療・介護費と行政の見守りコストを押し上げる。"
+      },
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "共通の根本原因",
+       "description": "未婚化・単身化・地域や職場の人間関係の希薄化という同一の社会構造変化が、出会い・結婚の減少（少子化）と孤独・孤立の拡大の双方を生んでいる。"
+      },
+      {
+       "target_id": "jp-children-youth-crisis",
+       "relation": "相互に影響",
+       "description": "不登校やいじめが若年層の孤独・孤立とひきこもりの入口となる一方、孤独感の高さは若者の自殺リスク要因として自殺対策でも重視されており、両課題は連鎖する。"
+      },
+      {
+       "target_id": "jp-infrastructure-regional-decline",
+       "relation": "相互に影響",
+       "description": "地方の人口流出と商店・交通・自治会など地域機能の衰退が住民の孤立を深め、逆に担い手の孤立・高齢化が地域コミュニティ活動をさらに縮小させる悪循環が指摘される。"
+      }
+     ]
+    },
+    {
+     "id": "jp-infrastructure-regional-decline",
+     "name": "インフラ老朽化と地方の衰退",
+     "emoji": "🌉",
+     "category": "人口・社会",
+     "tagline": "国土の維持限界が迫る",
+     "overview": "高度経済成長期に集中整備された社会資本が一斉に耐用年数を迎えつつあり、建設後50年を超えた道路橋は2023年3月時点で約37%、2040年には約75%に達する見込みである。水道管路は法定耐用年数40年を超えた割合（管路経年化率）が25.4%（令和5年度）に達する一方、年間更新率は0.61%にとどまり、2025年1月には埼玉県八潮市で下水道管破損に起因する大規模道路陥没事故が発生した。空き家は900万戸（空き家率13.8%）と過去最多を更新し、2024年には744自治体が「消滅可能性自治体」と分析されるなど、人口減少がインフラ維持の担い手・財源不足に直結している。国土面積の約6割（63.2%）を占める過疎地域に住む人口は全国の9.3%にすぎず、維持すべきインフラ量と支える人口の乖離が拡大している。",
+     "why_problem": "国土交通省の推計では、所管インフラの維持管理・更新費は事後保全のままなら今後30年間で約254.7〜284.6兆円、予防保全に転換すれば約176.5〜194.6兆円と、約90兆円規模の差が生じるとされ、転換の遅れがそのまま将来負担の増大となる。老朽化を放置すれば八潮市の陥没事故（一時約120万人に下水道使用自粛要請）のような生活・経済への直接被害が全国で頻発しかねない。一方で対応方針には論点があり、「全インフラの維持は不可能であり集約・撤去やコンパクト化を進めるべき」とする立場と、「地方の生活基盤維持は国の責務であり撤退は地方衰退を加速させる」とする立場が対立する。水道料金値上げや路線バス・鉄道の廃止・転換など、負担と受益の再配分を巡る合意形成も難しい。",
+     "future_outlook": "2040年には建設後50年超の割合が道路橋で約75%、トンネルで約52%に達し、事後保全のままでは年間の維持管理・更新費が2048年度に2018年度の約2.4倍へ膨らむと推計される。八潮事故を受けて2026年7月に改正下水道法が成立し、診断基準の法制化や維持管理情報の公表義務化が導入されたが、市町村の技術系職員は5人以下が約5割という体制のままでは点検・更新の実施能力が追いつかない恐れがある。予防保全への転換、広域化・DX・施設集約の進捗が、負担増を抑えられるかの分水嶺となる。",
+     "key_stats": [
+      {
+       "label": "建設後50年以上経過した道路橋の割合",
+       "value": "約37%（2040年に約75%）",
+       "year": "2023年3月時点",
+       "source_name": "国土交通省「社会資本の老朽化の現状と将来」",
+       "source_url": "https://www.mlit.go.jp/sogoseisaku/maintenance/02research/02_01.html"
+      },
+      {
+       "label": "今後30年間の維持管理・更新費（予防保全ケース）",
+       "value": "約176.5〜194.6兆円",
+       "year": "2018年度推計",
+       "source_name": "国土交通省「国土交通省所管分野における社会資本の将来の維持管理・更新費の推計」",
+       "source_url": "https://www.mlit.go.jp/common/001271515.pdf"
+      },
+      {
+       "label": "水道の管路経年化率（法定耐用年数40年超の割合）",
+       "value": "25.4%（管路更新率は0.61%）",
+       "year": "令和5（2023）年度",
+       "source_name": "総務省「水道事業の現状等（最新追加資料）」（令和7年7月）",
+       "source_url": "https://www.soumu.go.jp/main_content/001022598.pdf"
+      },
+      {
+       "label": "空き家数・空き家率",
+       "value": "900万戸・13.8%",
+       "year": "2023年",
+       "source_name": "総務省統計局「令和5年住宅・土地統計調査」",
+       "source_url": "https://www.stat.go.jp/data/jyutaku/2023/tyousake.html"
+      },
+      {
+       "label": "消滅可能性自治体数（20〜39歳女性が30年で半減と推計）",
+       "value": "744自治体（全体の約4割）",
+       "year": "2024年",
+       "source_name": "人口戦略会議「令和6年・地方自治体『持続可能性』分析レポート」",
+       "source_url": "https://www.hit-north.or.jp/cms/wp-content/uploads/2024/04/01_report-1.pdf"
+      },
+      {
+       "label": "下水道管路に起因する道路陥没件数",
+       "value": "約2,600件/年",
+       "year": "2022年度",
+       "source_name": "国土交通省「令和7年版国土交通白書」コラム（八潮市道路陥没事故）",
+       "source_url": "https://www.mlit.go.jp/hakusyo/mlit/r06/hakusho/r07/html/n1213c01.html"
+      },
+      {
+       "label": "過疎地域の面積・人口シェア",
+       "value": "面積は国土の63.2%・人口は全国の9.3%（約1,167万人）",
+       "year": "令和5年度版（令和2年国勢調査ベース）",
+       "source_name": "総務省「過疎対策の現況（概要版）」",
+       "source_url": "https://www.soumu.go.jp/main_content/001000617.pdf"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 12000,
+      "affected_note": "道路・上下水道等の基幹インフラはほぼ全人口（約1.2億人）が日常的に利用し、老朽化リスクは全国民に及ぶ。八潮市の陥没事故1件だけでも一時約120万人に下水道使用自粛が要請された。生活サービス縮小の直接影響を受ける過疎地域人口は約1,167万人（全国の9.3%）。",
+      "econ_impact_trillion_yen": 6.3,
+      "econ_note": "国土交通省所管インフラの維持管理・更新費は予防保全に転換しても今後30年間で約176.5〜194.6兆円（年平均約6.3兆円）と推計され、この年平均値を採用。事後保全のままなら30年で約254.7〜284.6兆円（約90兆円増）となり、2048年度の年間費用は2018年度の約2.4倍に達する。空き家の経済損失や事故被害（八潮事故は復旧・補償費で約280億円と報道）は別途上乗せされる。",
+      "urgency": 4,
+      "urgency_rationale": "建設後50年超インフラの割合は今後5年で加速度的に上昇し（道路橋は2030年頃に5割超へ）、予防保全への転換が遅れるほど累計約90兆円規模の追加負担が確定していく。2025年の八潮陥没事故で事故リスクは既に顕在化し、技術系職員5人以下の市町村が約5割という体制では点検・修繕の遅れが蓄積しつつある。5年で全国一斉に不可逆化するわけではないが、放置分だけ劣化と費用が不可逆に積み上がるため4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-infrastructure-regional-decline-aging-bridges-cost",
+       "name": "建設後50年超インフラの急増と維持更新費の増大",
+       "description": "高度成長期に整備された道路橋・トンネル・港湾等が一斉に高齢化し、2040年には道路橋の約75%、トンネルの約52%が建設後50年超となる。事後保全のままでは維持管理・更新費が2048年度に2018年度の約2.4倍に膨らむと推計され、予防保全への転換が急務とされる。",
+       "severity": 5,
+       "key_stat": {
+        "label": "2040年時点で建設後50年超となる道路橋の割合",
+        "value": "約75%",
+        "year": "2040年（2023年公表推計）",
+        "source_name": "国土交通省「社会資本の老朽化の現状と将来」",
+        "source_url": "https://www.mlit.go.jp/sogoseisaku/maintenance/02research/02_01.html"
+       }
+      },
+      {
+       "id": "jp-infrastructure-regional-decline-water-sewer",
+       "name": "上下水道の老朽化・漏水/陥没事故",
+       "description": "水道管路の25.4%（令和5年度）が法定耐用年数40年を超える一方、更新率は年0.61%にとどまり、単純計算で全更新に150年以上かかるペース。漏水・破損事故は年2万件規模で発生し、下水道管に起因する道路陥没も年約2,600件に上る。2025年1月の八潮市陥没事故を受け、2026年7月に診断基準の法制化・維持管理情報の公表義務化を盛り込んだ改正下水道法が成立した。",
+       "severity": 5,
+       "key_stat": {
+        "label": "水道の管路経年化率（更新率は0.61%）",
+        "value": "25.4%",
+        "year": "令和5（2023）年度",
+        "source_name": "総務省「水道事業の現状等（最新追加資料）」（令和7年7月）",
+        "source_url": "https://www.soumu.go.jp/main_content/001022598.pdf"
+       }
+      },
+      {
+       "id": "jp-infrastructure-regional-decline-vacant-houses",
+       "name": "空き家900万戸の管理・活用問題",
+       "description": "空き家は900万戸・空き家率13.8%と過去最多を更新し、うち賃貸・売却用等を除く「その他空き家」は385万戸に達する。管理不全の空き家は倒壊・防犯・景観の外部不経済を生み、和歌山県・徳島県では空き家率が21.2%に上るなど地方ほど深刻で、除却・利活用と所有者特定のコストが自治体に重くのしかかる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "空き家数・空き家率（過去最多）",
+        "value": "900万戸・13.8%",
+        "year": "2023年",
+        "source_name": "総務省統計局「令和5年住宅・土地統計調査」",
+        "source_url": "https://www.stat.go.jp/data/jyutaku/2023/tyousake.html"
+       }
+      },
+      {
+       "id": "jp-infrastructure-regional-decline-shrinking-services",
+       "name": "消滅可能性自治体と生活サービス（交通・医療）の縮小",
+       "description": "2024年の人口戦略会議分析では、20〜39歳女性人口が2050年までに半減すると推計される「消滅可能性自治体」が744と全体の約4割を占めた。地域公共交通はコロナ前からの赤字構造が悪化し、輸送密度の低いローカル鉄道の存廃・バス転換議論が各地で進行、無医地区の多くが過疎地域に存在するなど、交通・医療といった生活サービスの縮小が居住継続を困難にしている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "消滅可能性自治体数",
+        "value": "744自治体（全体の約4割）",
+        "year": "2024年",
+        "source_name": "人口戦略会議「令和6年・地方自治体『持続可能性』分析レポート」",
+        "source_url": "https://www.hit-north.or.jp/cms/wp-content/uploads/2024/04/01_report-1.pdf"
+       }
+      },
+      {
+       "id": "jp-infrastructure-regional-decline-municipal-capacity",
+       "name": "自治体の技術者・財源不足",
+       "description": "市町村の土木部門職員はピーク時から約14%減少し、技術系職員が5人以下の市町村が約5割、不在の市町村も約4分の1に上る。点検・修繕の判断を担う人材と財源を欠いたまま管理施設だけが増え、修繕が必要と判定された橋梁の着手が遅れるなど、老朽化対策のボトルネックとなっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "土木部門の技術系職員が5人以下の市町村の割合",
+        "value": "約5割",
+        "year": "2021年度（2022年公表資料）",
+        "source_name": "国土交通省「インフラメンテナンスに関するこれまでの取組のレビュー」",
+        "source_url": "https://www.mlit.go.jp/policy/shingikai/content/001478603.pdf"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "共通の根本原因",
+       "description": "人口減少・少子化がインフラ利用者・税収・維持の担い手を同時に細らせ、消滅可能性744自治体に象徴される地方衰退と維持管理能力の低下の根底にある。"
+      },
+      {
+       "target_id": "jp-fiscal-debt",
+       "relation": "悪化させる",
+       "description": "予防保全に転換しても30年間で約190兆円規模に上る維持管理・更新費が、国・自治体の財政を長期にわたり圧迫し債務累増要因となる。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "相互に影響",
+       "description": "建設業就業者の減少・高齢化と市町村技術系職員の不足（5人以下が約5割）が点検・更新の実施能力を制約し、地方の衰退がさらに担い手確保を困難にする悪循環がある。"
+      },
+      {
+       "target_id": "jp-megadisaster-preparedness",
+       "relation": "相互に影響",
+       "description": "老朽化した橋梁・水道管は地震・豪雨時の被害を拡大させ（基幹的水道管路の耐震適合率は約4割・令和4年度末42.3%）、逆に災害復旧費の増大が平時の老朽化対策の財源を圧迫する。"
+      }
+     ]
+    },
+    {
+     "id": "jp-crime-fraud-security",
+     "name": "治安の悪化と詐欺・匿名流動型犯罪の急拡大",
+     "emoji": "🚨",
+     "category": "安全保障・災害",
+     "tagline": "1年で被害倍増、全世代が標的に",
+     "overview": "警察庁「令和7年の犯罪情勢」によれば、2025年の刑法犯認知件数は77万4,142件（前年比+4.9%）と戦後最少だった2021年から4年連続で増加し、コロナ禍前の水準を上回った。特殊詐欺とSNS型投資・ロマンス詐欺の被害総額は確定値で約3,257.5億円（特殊詐欺だけで約1,423.1億円、前年比+98.0%）と過去最悪を更新し、詐欺全体の被害額約4,029億円は窃盗を大きく上回っている。匿名・流動型犯罪グループ（トクリュウ）はSNSの闇バイトで実行役を調達して詐欺・強盗を組織的に敢行し、2025年の関連検挙人員は12,178人（前年比約2割増）に達した。フィッシング報告も年間245万件超と過去最多で、犯罪のデジタル化・匿名化が急速に進んでいる。",
+     "why_problem": "被害額が1年でほぼ倍増するという他の社会課題にない悪化速度であり、警察官をかたる「ニセ警察詐欺」だけで年約1,005億円と、高齢者の老後資産から若年層の預貯金までが海外拠点の犯罪グループに流出している。SNS型ロマンス詐欺では被害金の約半分（48.6%）が実質的に暗号資産で交付されるなど追跡・回復が困難な交付形態が広がり、流出した国民資産の回復は極めて難しい。トクリュウ検挙者の約6割が30歳未満で、困窮した若者が闇バイトを入口に犯罪者化する構造は世代を超えた社会損失を生む。一方で刑法犯認知件数は依然として2002年ピーク（約285万件）の3割以下であり、「治安悪化」の評価には統計上の増加と体感治安を区別すべきとの指摘もあるが、詐欺被害額の急拡大自体は統計的に明確である。",
+     "future_outlook": "警察庁はAIによる音声合成・ディープフェイクや自動翻訳の悪用で詐欺の巧妙化・国際化がさらに進むと警告しており、対策が現行の延長線上にとどまれば被害額は拡大が続く公算が大きい。政府は2025年4月に犯罪対策閣僚会議で「国民を詐欺から守るための総合対策2.0」を決定し、2025年10月には警視庁がトクリュウ対策本部を新設・警察庁が匿流情報分析室を設置したが、匿名通信・暗号資産・海外拠点という三重の壁で首謀者検挙は容易でない。高齢単身世帯の増加とキャッシュレス・オンライン取引の拡大により、標的となる人口と資産は今後も構造的に増え続ける。",
+     "key_stats": [
+      {
+       "label": "刑法犯認知件数（2025年、4年連続増加でコロナ禍前水準超え）",
+       "value": "77万4,142件（前年比+4.9%）",
+       "year": "2025",
+       "source_name": "警察庁「令和7年の犯罪情勢」",
+       "source_url": "https://www.npa.go.jp/publications/statistics/crime/situation/r7_hanzaijyousei__.pdf"
+      },
+      {
+       "label": "特殊詐欺＋SNS型投資・ロマンス詐欺の被害総額（確定値・3類型の合算、過去最悪）",
+       "value": "約3,257.5億円（特殊詐欺1,423.1＋SNS型投資1,288.0＋SNS型ロマンス546.4）",
+       "year": "2025",
+       "source_name": "警察庁SOS47「令和7年における特殊詐欺及びSNS型投資・ロマンス詐欺の認知・検挙状況等（確定値）」",
+       "source_url": "https://www.npa.go.jp/bureau/safetylife/sos47/new-topics/260605/01.html"
+      },
+      {
+       "label": "特殊詐欺の被害額（確定値、前年からほぼ倍増）",
+       "value": "約1,423.1億円（前年比+98.0%）",
+       "year": "2025",
+       "source_name": "警察庁SOS47（確定値）",
+       "source_url": "https://www.npa.go.jp/bureau/safetylife/sos47/new-topics/260605/01.html"
+      },
+      {
+       "label": "ニセ警察詐欺の被害額（特殊詐欺被害額の約7割に相当・公表値からの算出。認知件数ベースでは全体の39.6%）",
+       "value": "約1,005.0億円（認知11,014件）",
+       "year": "2025",
+       "source_name": "警察庁SOS47（確定値）",
+       "source_url": "https://www.npa.go.jp/bureau/safetylife/sos47/new-topics/260605/01.html"
+      },
+      {
+       "label": "匿名・流動型犯罪グループ（トクリュウ）関連の検挙人員",
+       "value": "12,178人（前年比+2,073人）",
+       "year": "2025",
+       "source_name": "警察庁「令和7年における組織犯罪の情勢【確定値版】」",
+       "source_url": "https://www.npa.go.jp/news/release/r7jyousei_shuusei.pdf"
+      },
+      {
+       "label": "フィッシング報告件数（年間・過去最多）",
+       "value": "245万4,297件（前年比約1.43倍）",
+       "year": "2025",
+       "source_name": "フィッシング対策協議会「フィッシングレポート2026」",
+       "source_url": "https://www.antiphishing.jp/report/wg/phishing_report2026.html"
+      },
+      {
+       "label": "詐欺全体の財産被害額（財産犯被害総額約4,984億円の8割超）",
+       "value": "約4,029億円（前年比+31.1%）",
+       "year": "2025",
+       "source_name": "警察庁「令和7年の犯罪情勢」",
+       "source_url": "https://www.npa.go.jp/publications/statistics/crime/situation/r7_hanzaijyousei__.pdf"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 320,
+      "affected_note": "推計値。2025年の刑法犯認知件数77.4万件の直接被害者に加え、フィッシング報告245万件（フィッシング対策協議会）など詐欺・サイバー攻撃の標的となった層を合算した規模（報告件数ベースであり実人数とは一致しない）。詐欺電話・SMSの着信まで含めれば標的はさらに広く、警察庁は被害者が高齢者から若年層まで全世代に拡大していると分析。",
+      "econ_impact_trillion_yen": 0.5,
+      "econ_note": "警察庁「令和7年の犯罪情勢」の刑法犯による財産犯被害総額約4,984億円/年（前年比+23.9%、うち詐欺約4,029億円。特殊詐欺＋SNS型詐欺の確定被害額約3,257.5億円を含む）をベースとした年間直接損失。証券口座乗っ取りによる不正売買（2025年約7,393億円・金融庁公表、被害額とは性質が異なる売買金額）や企業のサイバー対策・復旧コスト、警察・金融機関の対策費用は含まないため、社会的総コストはこれを上回る。",
+      "urgency": 4,
+      "urgency_rationale": "特殊詐欺被害額が1年で+98.0%、フィッシング報告が+43%、トクリュウ検挙が+20%と主要指標が軒並み急増しており、SNS型ロマンス詐欺では被害金の48.6%が実質的に暗号資産で交付されるなど海外流出後の回復がほぼ不可能な交付形態が拡大（不可逆な資産流出）。AI悪用による手口の巧妙化も進行中。ただし刑法犯全体は2002年ピークの3割以下の水準であり、政策強化（総合対策2.0、トクリュウ対策本部）による反転余地が残るため5ではなく4。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-crime-fraud-security-fraud-record",
+       "name": "特殊詐欺・SNS型投資/ロマンス詐欺の被害が過去最悪",
+       "description": "2025年の特殊詐欺被害額は約1,423.1億円と前年比+98.0%でほぼ倍増し、SNS型投資詐欺（1,288.0億円、+47.9%）・SNS型ロマンス詐欺（546.4億円、+36.3%）と合わせた被害総額は約3,257.5億円と過去最悪を更新した。認知件数も特殊詐欺27,832件（+32.3%）、SNS型15,168件と急増している。",
+       "severity": 5,
+       "key_stat": {
+        "label": "特殊詐欺＋SNS型投資・ロマンス詐欺の被害総額（確定値・3類型の合算）",
+        "value": "約3,257.5億円",
+        "year": "2025",
+        "source_name": "警察庁SOS47（確定値）",
+        "source_url": "https://www.npa.go.jp/bureau/safetylife/sos47/new-topics/260605/01.html"
+       }
+      },
+      {
+       "id": "jp-crime-fraud-security-tokuryu",
+       "name": "匿名・流動型犯罪グループ（トクリュウ）と闇バイト",
+       "description": "SNSで実行役を募集し離合集散を繰り返すトクリュウの関連検挙人員は2025年に12,178人（前年比+2,073人）に達し、詐欺・窃盗・強盗・薬物など資金獲得犯罪を組織的に敢行している。検挙者は20代が最多（約4割）で30歳未満が約6割を占め、闇バイトを入口に若者が実行役として使い捨てられる構造が問題化。首謀者・指示役の検挙は約930人と全体の1割弱にとどまる。",
+       "severity": 5,
+       "key_stat": {
+        "label": "トクリュウ関連の検挙人員",
+        "value": "12,178人（前年比約2割増）",
+        "year": "2025",
+        "source_name": "警察庁「令和7年における組織犯罪の情勢【確定値版】」",
+        "source_url": "https://www.npa.go.jp/news/release/r7jyousei_shuusei.pdf"
+       }
+      },
+      {
+       "id": "jp-crime-fraud-security-fake-police-ai",
+       "name": "ニセ警察詐欺など手口の巧妙化とAI悪用",
+       "description": "警察官をかたり捜査名目で現金等をだまし取る「ニセ警察詐欺」の被害額は2025年に約1,005.0億円と特殊詐欺被害額全体の約7割を占め、認知件数11,014件は特殊詐欺全体の39.6%に上る。国際電話や秘匿性の高い通信アプリを使い海外拠点から敢行される例が多く、警察庁はAIによる音声・映像生成の悪用など手口のさらなる巧妙化を警告している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "ニセ警察詐欺の被害額（特殊詐欺被害額の約7割に相当）",
+        "value": "約1,005.0億円（認知11,014件）",
+        "year": "2025",
+        "source_name": "警察庁SOS47（確定値）",
+        "source_url": "https://www.npa.go.jp/bureau/safetylife/sos47/new-topics/260605/01.html"
+       }
+      },
+      {
+       "id": "jp-crime-fraud-security-crime-count-rise",
+       "name": "刑法犯認知件数の増加（コロナ禍前水準超え）",
+       "description": "刑法犯認知件数は戦後最少の2021年（56.8万件）を底に4年連続で増加し、2025年は77万4,142件とコロナ禍前の2019年を上回った。街頭犯罪の回復に加え詐欺の急増（認知件数+26.5%）が押し上げ要因で、財産犯被害総額は約4,984億円（前年比+23.9%）と過去最悪を更新している。",
+       "severity": 3,
+       "key_stat": {
+        "label": "刑法犯認知件数",
+        "value": "77万4,142件（前年比+4.9%、4年連続増）",
+        "year": "2025",
+        "source_name": "警察庁「令和7年の犯罪情勢」",
+        "source_url": "https://www.npa.go.jp/publications/statistics/crime/situation/r7_hanzaijyousei__.pdf"
+       }
+      },
+      {
+       "id": "jp-crime-fraud-security-cyber-phishing",
+       "name": "サイバー犯罪・フィッシングの急増",
+       "description": "2025年のフィッシング報告件数は245万4,297件と前年比約1.43倍で過去最多を更新し、証券会社をかたるフィッシングを起点とする証券口座乗っ取りの不正売買は年間約7,393億円規模（金融庁）に達した。ランサムウェア被害報告も226件と高水準で、サイバー犯罪の検挙件数は1万5,108件と過去最多に増加している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "フィッシング報告件数（年間・過去最多）",
+        "value": "245万4,297件（前年比約1.43倍）",
+        "year": "2025",
+        "source_name": "フィッシング対策協議会「フィッシングレポート2026」",
+        "source_url": "https://www.antiphishing.jp/report/wg/phishing_report2026.html"
+       }
+      },
+      {
+       "id": "jp-crime-fraud-security-crypto-proceeds",
+       "name": "犯罪収益の暗号資産化と国際犯罪グループ対策",
+       "description": "2025年のSNS型ロマンス詐欺では暗号資産送信型の被害が247.7億円（前年比+189.7%）と急増し、振込型における暗号資産振込を合わせると、実質的に暗号資産で交付された被害が被害総額の48.6%（前年比+22.2ポイント）を占めた。暗号資産は海外送金後の追跡・凍結が困難で、海外拠点の国際犯罪グループへの資金流出と資金洗浄の主要経路となっており、国際捜査協力と交換業者対策が課題となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "SNS型ロマンス詐欺の被害総額のうち実質的に暗号資産で交付された割合",
+        "value": "48.6%（暗号資産送信型被害247.7億円、前年比+189.7%）",
+        "year": "2025",
+        "source_name": "警察庁SOS47（確定値）",
+        "source_url": "https://www.npa.go.jp/bureau/safetylife/sos47/new-topics/260605/01.html"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "相互に影響",
+       "description": "独居高齢者の増加が詐欺の標的層を拡大させる一方、詐欺被害による老後資産の喪失が高齢者の生活困窮と社会保障負担の増大につながる。"
+      },
+      {
+       "target_id": "jp-children-youth-crisis",
+       "relation": "悪化させる",
+       "description": "トクリュウ検挙者の約6割が30歳未満（10代も含む）で、闇バイトを入口に若者が犯罪に加担して前科を負い、人生設計が破壊される被害が拡大している。"
+      },
+      {
+       "target_id": "jp-loneliness-isolation",
+       "relation": "相互に影響",
+       "description": "孤独・孤立状態にある人がSNS型ロマンス詐欺や闇バイト勧誘の標的・応募者になりやすいことが指摘されており、孤立の広がりが犯罪被害・加担の温床となる。"
+      },
+      {
+       "target_id": "jp-inflation-real-wages",
+       "relation": "原因となる",
+       "description": "物価高と実質賃金低迷による若年層の経済的困窮が、高額報酬をうたう闇バイト応募の背景要因の一つと指摘されている。"
+      }
+     ]
+    },
+    {
+     "id": "jp-gender-inequality",
+     "name": "ジェンダー不平等の固定化",
+     "emoji": "⚖️",
+     "category": "人口・社会",
+     "tagline": "G7唯一100位圏外、格差が世代を超え連鎖",
+     "overview": "WEF「Global Gender Gap Report 2025」（2025年6月公表）で日本は148カ国中118位（スコア0.666）と前年から順位が変わらず、G7で唯一100位圏外が続く。教育・健康分野の格差はほぼ解消済みの一方、政治分野は125位、経済分野も女性管理職比率（課長相当職12.3%）や賃金格差が足を引っ張る。男女間賃金格差は2025年調査で男性の76.6と比較可能な1976年以降最小まで縮小したもののOECDでは依然大きく、女性雇用者の52.4%が非正規雇用（男性22.3%、2024年平均）という偏在が続き、6歳未満の子を持つ妻の家事関連時間は夫の約4倍でL字カーブも解消されていない。政治分野では2025年10月に憲政史上初の女性首相が誕生した一方、2026年2月の第51回衆院選では女性当選者が68人（14.6%）と前回（73人・15.7%）から減少し、参画の停滞が続く。",
+     "why_problem": "人口の半分に関わる構造課題であり、賃金・雇用形態・管理職登用・政治参画の格差が相互に連関して固定化している点が問題とされる。現役期の格差は高齢期に低年金・貧困として顕在化し（65歳以上単身女性の相対的貧困率は約44%との研究者推計）、ケア労働の偏りは少子化と労働供給制約の根本要因にもなる。内閣府の試算では女性の就業希望者171万人（2021年時点）の就業実現だけで実質GDP約1.8%（約10兆円）の押し上げ余地があり、放置は経済損失でもある。一方で、賃金格差は1976年以降最小へ縮小するなど改善は進んでおり、クオータ制や夫婦別姓など個別施策の是非については「実質的平等の実現に必要」とする立場と「機会の平等は確保されており個人の選択や家族制度への配慮を優先すべき」とする立場で論点が分かれている。",
+     "future_outlook": "賃金格差は縮小傾向にあり、2026年4月には改正女性活躍推進法（2025年6月成立）が施行され、従業員101人以上の企業に女性管理職比率と男女間賃金差異の公表が義務化されるなど、経済分野では緩やかな改善が見込まれる。政治分野は2025年10月に初の女性首相が誕生した一方、GGGI政治分野は125位と低迷し、2026年2月の衆院選でも女性当選者は68人（14.6%）と前回から減少しており、クオータ制等の制度的措置を巡る賛否が続く中では国際水準への収斂は長期化する見通し。人口減少下で女性活躍の遅れが続けば、労働供給・少子化・高齢期女性貧困への累積的影響が拡大する。",
+     "key_stats": [
+      {
+       "label": "ジェンダーギャップ指数（GGGI）順位",
+       "value": "148カ国中118位（スコア0.666）",
+       "year": "2025",
+       "source_name": "世界経済フォーラム（WEF）Global Gender Gap Report 2025",
+       "source_url": "https://www.weforum.org/publications/global-gender-gap-report-2025/"
+      },
+      {
+       "label": "男女間賃金格差（男性=100とした女性一般労働者の所定内給与）",
+       "value": "76.6（1976年以降で最小）",
+       "year": "2025",
+       "source_name": "厚生労働省 令和7年賃金構造基本統計調査 結果の概況",
+       "source_url": "https://www.mhlw.go.jp/toukei/itiran/roudou/chingin/kouzou/z2025/index.html"
+      },
+      {
+       "label": "女性雇用者に占める非正規雇用の割合",
+       "value": "52.4%（男性は22.3%）。2025年平均の女性非正規は1450万人",
+       "year": "2024",
+       "source_name": "総務省統計局 労働力調査（詳細集計）",
+       "source_url": "https://www.stat.go.jp/data/roudou/sokuhou/nen/dt/index.html"
+      },
+      {
+       "label": "民間企業の課長相当職に占める女性の割合",
+       "value": "12.3%",
+       "year": "2024年度",
+       "source_name": "厚生労働省 令和6年度雇用均等基本調査",
+       "source_url": "https://www.mhlw.go.jp/toukei/list/dl/71-r06/06.pdf"
+      },
+      {
+       "label": "衆議院議員に占める女性の割合",
+       "value": "14.6%（68人・過去2番目。前回2024年は73人・15.7%で過去最多）",
+       "year": "2026",
+       "source_name": "時事通信「女性当選、過去2番目の68人 比率は15%【2026衆院選】」",
+       "source_url": "https://www.jiji.com/jc/article?k=2026020900323&g=pol"
+      },
+      {
+       "label": "6歳未満の子を持つ夫婦の1日あたり家事関連時間",
+       "value": "妻7時間28分・夫1時間54分",
+       "year": "2021",
+       "source_name": "総務省統計局 令和3年社会生活基本調査",
+       "source_url": "https://www.stat.go.jp/data/shakai/2021/pdf/youyakua.pdf"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 6300,
+      "affected_note": "日本の女性人口約6,300万人（総務省人口推計）が直接の当事者。賃金格差・非正規偏在は女性雇用者約2,900万人（2025年平均2,879万人）、無償ケア労働の偏りは共働き世帯を通じて男性にも影響が及ぶ横断的課題。",
+      "econ_impact_trillion_yen": 10,
+      "econ_note": "内閣府経済社会総合研究所の試算（2022年9月、内閣官房「女性と経済」に関する勉強会資料）で、女性の就業希望者171万人（2021年時点）が全員就業した場合に実質GDPを約1.8%（約10兆円）押し上げるとされる逸失付加価値の年間換算値。171万人は2021年時点の数値で、その後の女性就業者増加により縮小している可能性がある。ゴールドマン・サックスは労働参加の障壁除去でGDP最大15%前後の押し上げ余地を指摘しており、10兆円は保守的な下限。",
+      "urgency": 3,
+      "urgency_rationale": "賃金格差は2025年に1976年以降最小まで縮小し経済分野は改善傾向にあるため「今後5年で不可逆的に悪化」する性質ではない。ただし政治分野はGGGI125位（2025年）に低迷し、2026年2月の衆院選でも女性当選者比率は14.6%と前回から低下。第5次男女共同参画基本計画の目標（2025年までに課長級18%）は12.3%で大幅未達。人口減少局面で改善ペースの遅れ自体が少子化・労働供給・高齢期貧困へ累積的に波及するため中程度の緊急性。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-gender-inequality-gggi-ranking",
+       "name": "ジェンダーギャップ指数118位（G7唯一100位圏外）",
+       "description": "WEFの2025年報告で日本は148カ国中118位、総合スコア0.666と世界平均（0.688）を下回る。教育・健康はほぼ格差解消済みだが、政治・経済の2分野が総合順位を大きく押し下げる構造が10年以上固定化している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "GGGI総合順位・スコア",
+        "value": "148カ国中118位（0.666）",
+        "year": "2025",
+        "source_name": "WEF Global Gender Gap Report 2025",
+        "source_url": "https://www.weforum.org/publications/global-gender-gap-report-2025/"
+       }
+      },
+      {
+       "id": "jp-gender-inequality-wage-gap-nonregular",
+       "name": "男女賃金格差と女性の非正規雇用への偏在",
+       "description": "女性一般労働者の所定内給与は男性の76.6（2025年、過去最小）まで縮小したが、OECD諸国では依然大きい水準。女性雇用者の52.4%が非正規で（男性22.3%、2024年平均）、賃金・昇進・年金の格差が生涯にわたり累積する。2022年から常用301人以上企業に男女賃金差の開示が義務化され、2026年4月からは101人以上企業へ拡大されるなど縮小圧力は強まっている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "男女間賃金格差（男性=100）",
+        "value": "76.6",
+        "year": "2025",
+        "source_name": "厚生労働省 令和7年賃金構造基本統計調査 結果の概況",
+        "source_url": "https://www.mhlw.go.jp/toukei/itiran/roudou/chingin/kouzou/z2025/index.html"
+       }
+      },
+      {
+       "id": "jp-gender-inequality-management",
+       "name": "女性管理職・意思決定層への参画の低迷",
+       "description": "民間企業の課長相当職に占める女性は12.3%（令和6年度）で、第5次男女共同参画基本計画の目標「2025年までに18%」に遠く及ばない。2025年6月成立の改正女性活躍推進法により2026年4月から従業員101人以上の企業に女性管理職比率の公表が義務化され、登用加速が課題となる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "課長相当職に占める女性割合",
+        "value": "12.3%",
+        "year": "2024年度",
+        "source_name": "厚生労働省 令和6年度雇用均等基本調査",
+        "source_url": "https://www.mhlw.go.jp/toukei/list/dl/71-r06/06.pdf"
+       }
+      },
+      {
+       "id": "jp-gender-inequality-politics",
+       "name": "政治分野の女性参画の停滞（GGGI政治125位）",
+       "description": "GGGI2025の政治分野で日本は125位と後退した。2025年10月には憲政史上初の女性首相（高市内閣）が誕生した一方、発足時の女性閣僚は2人にとどまった。2026年2月の第51回衆院選では女性候補者比率が24.4%と過去最高を更新したが、女性当選者は68人（14.6%）と前回（73人・15.7%）から減少した。候補者男女均等法は努力義務にとどまり、クオータ制導入の是非を巡り「実質的平等に必要」「選挙の自由・政党の自律との両立が課題」と賛否が分かれている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "衆議院議員の女性比率",
+        "value": "14.6%（68人・過去2番目）",
+        "year": "2026",
+        "source_name": "時事通信「女性当選、過去2番目の68人 比率は15%【2026衆院選】」",
+        "source_url": "https://www.jiji.com/jc/article?k=2026020900323&g=pol"
+       }
+      },
+      {
+       "id": "jp-gender-inequality-care-lcurve",
+       "name": "無償ケア労働の偏りとL字カーブ問題",
+       "description": "6歳未満の子を持つ世帯で妻の家事関連時間は1日7時間28分と夫（1時間54分）の約4倍。女性の正規雇用比率は25〜29歳の約6割をピークに出産期以降急落し回復しない「L字カーブ」を描き、キャリア中断が賃金・年金格差の根本要因となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "6歳未満の子を持つ妻・夫の家事関連時間",
+        "value": "妻7時間28分／夫1時間54分",
+        "year": "2021",
+        "source_name": "総務省統計局 令和3年社会生活基本調査",
+        "source_url": "https://www.stat.go.jp/data/shakai/2021/pdf/youyakua.pdf"
+       }
+      },
+      {
+       "id": "jp-gender-inequality-institutional-reform",
+       "name": "選択的夫婦別姓など制度改革の停滞",
+       "description": "2025年通常国会で選択的夫婦別姓関連法案が28年ぶりに衆院法務委員会で審議入りしたが継続審議となり、2026年1月の衆議院解散に伴い廃案となった。経団連など経済団体は旧姓使用の不利益解消を求めて導入を提言する一方、家族の一体感や子の姓の扱いを重視し旧姓の通称使用法制化で対応すべきとの立場もあり、与野党間・与党内で意見が分かれている。連合の2025年調査では既婚女性の55.3%が「同姓か別姓か選べる方が望ましい」と回答した。",
+       "severity": 3,
+       "key_stat": {
+        "label": "「夫婦の姓を選べる方が望ましい」とする既婚女性の割合",
+        "value": "55.3%",
+        "year": "2025",
+        "source_name": "連合「夫婦別姓に関する調査2025」",
+        "source_url": "https://www.jtuc-rengo.or.jp/bessei/data/survey_on_married_couples_2025.pdf"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "原因となる",
+       "description": "無償ケア労働の妻への偏り（夫の約4倍）と出産を機にした正規雇用からの離脱（L字カーブ）が、仕事と子育ての両立を困難にし出生率低下の構造要因になっていると男女共同参画白書等で指摘されている。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "悪化させる",
+       "description": "女性の非正規偏在と管理職登用の遅れが労働力の質・量両面の活用を妨げており、内閣府は女性の就業希望者171万人（2021年時点）の就業実現で実質GDP約1.8%押し上げと試算するなど、女性活躍の停滞が労働供給制約を深刻化させている。"
+      },
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "悪化させる",
+       "description": "現役期の賃金格差・非正規偏在が低年金に直結し、65歳以上単身女性の相対的貧困率は約44%（研究者推計）と高止まりしており、高齢期の女性貧困が社会保障・生活保護負担に波及する。"
+      },
+      {
+       "target_id": "jp-employment-ice-age-generation",
+       "relation": "共通の根本原因",
+       "description": "正規・非正規の雇用二重構造と一度非正規化すると正規に戻りにくい労働市場の構造が、女性のL字カーブと氷河期世代の格差固定化の双方に共通する根本要因となっている。"
+      }
+     ]
+    },
+    {
+     "id": "jp-employment-ice-age-generation",
+     "name": "就職氷河期世代の高齢化と格差の固定化",
+     "emoji": "🧊",
+     "category": "労働・雇用",
+     "tagline": "1700万人世代、老後までの残り時間",
+     "overview": "就職氷河期世代は、バブル崩壊後の雇用環境が厳しい概ね1993〜2004年に就職活動を行った世代（中心層は2024年時点で41〜50歳。40代人口は2023年平均で約1,699万人）で、新卒時の採用抑制により非正規雇用・無業が長期化した層を含む。政府支援により世代中心層の正規雇用者は2019年比11万人増となったが、2024年平均でも世代内に不本意非正規約35万人・無業者約44万人が残る。政府は2025年4月に「就職氷河期世代等支援に関する関係閣僚会議」を設置し、2025年6月に「新たな就職氷河期世代等支援プログラム」の基本的な枠組みを、2026年4月に2028年度までの集中的取組を定めた同プログラム本体を決定した。就労・処遇改善、社会参加への段階的支援、高齢期を見据えた支援の3本柱で臨む構えである。",
+     "why_problem": "新卒一括採用の慣行下で初職でのつまずきがその後の賃金・厚生年金加入期間・資産形成の遅れとして累積し、世代内の格差が中高年期に固定化している点が核心である。前期氷河期世代（1970年代前半生まれ）は2030年代半ばから順次高齢期に入り、低年金層の生活保護受給増により追加費用が累計約20兆円規模に達するとの推計（NIRA、2008年）もあり、時限性の高い財政リスクとされる。一方で、近年の研究や政府資料は「世代全体が一様に不遇なわけではなく、正規雇用は増加し他世代との差も縮小している」ことを示しており、世代全体への一律支援か、困窮層（不本意非正規・無業・ひきこもり等）への的を絞った福祉的支援かで政策論は分かれる。支援が「選挙対策的なばらまき」に流れることへの批判と、放置すれば将来の社会保障費が膨らむという指摘の双方がある。",
+     "future_outlook": "前期氷河期世代は2030年代半ばから順次60代に達し、厚生年金の加入期間が短い層は低年金・無年金が事実上確定していくため、就労・追納支援が有効な時間は今後5〜10年に限られる。政府は2028年度までの集中プログラムで正規転換・リスキリング・高齢期準備（家計改善・住まい確保等）を進めるが、単身中高年世帯の増加と親の介護・8050問題の重なりにより、2040年代にかけて生活保護費・医療介護費の増加が財政課題として顕在化する見通しである。",
+     "key_stats": [
+      {
+       "label": "就職氷河期世代を含む40〜49歳人口（2023年平均）",
+       "value": "約1,699万人",
+       "year": "2023",
+       "source_name": "内閣官房就職氷河期世代支援推進室「就職氷河期世代の就業等の動向と支援の今後の方向性について」（2024年12月）",
+       "source_url": "https://www.cas.go.jp/jp/seisaku/shushoku_hyogaki_shien/suishin_platform/dai6/siryou1.pdf"
+      },
+      {
+       "label": "世代内の不本意非正規雇用労働者（2024年平均、2019年比11万人減）",
+       "value": "約35万人",
+       "year": "2024",
+       "source_name": "内閣官房就職氷河期世代支援推進室「就職氷河期世代等の支援について」（2025年11月）",
+       "source_url": "https://www.cas.go.jp/jp/seisaku/shushoku_hyogaki_shien/suishin_platform/dai7/shiryo1.pdf"
+      },
+      {
+       "label": "世代内の無業者（2024年平均）",
+       "value": "約44万人",
+       "year": "2024",
+       "source_name": "内閣官房就職氷河期世代支援推進室「就職氷河期世代等の支援について」（2025年11月）",
+       "source_url": "https://www.cas.go.jp/jp/seisaku/shushoku_hyogaki_shien/suishin_platform/dai7/shiryo1.pdf"
+      },
+      {
+       "label": "ハローワーク専門窓口等を通じた氷河期世代の正社員就職（2020年4月〜2025年9月累計）",
+       "value": "630,778人",
+       "year": "2020-2025",
+       "source_name": "内閣官房就職氷河期世代支援推進室「就職氷河期世代等の支援について」（2025年11月）",
+       "source_url": "https://www.cas.go.jp/jp/seisaku/shushoku_hyogaki_shien/suishin_platform/dai7/shiryo1.pdf"
+      },
+      {
+       "label": "生活意識が「苦しい」世帯の割合・全世帯（2025年国民生活基礎調査、2026年7月公表）",
+       "value": "55.4%",
+       "year": "2025",
+       "source_name": "厚生労働省「令和7年 国民生活基礎調査」",
+       "source_url": "https://www.mhlw.go.jp/toukei/saikin/hw/k-tyosa/k-tyosa25/index.html"
+      },
+      {
+       "label": "氷河期世代が非正規のまま高齢化した場合の生活保護追加費用推計（累計）",
+       "value": "約20兆円",
+       "year": "2008（推計）",
+       "source_name": "NIRA総合研究開発機構「就職氷河期世代のきわどさ―高まる雇用リスクにどう対応すべきか」",
+       "source_url": "https://www.nira.or.jp/pdf/0801report.pdf"
+      },
+      {
+       "label": "40〜64歳の中高年ひきこもり推計（2018年度調査、出現率1.45%）",
+       "value": "約61.3万人",
+       "year": "2019",
+       "source_name": "内閣府「生活状況に関する調査」（平成30年度、現こども家庭庁所管）",
+       "source_url": "https://www.e-stat.go.jp/statistics/00100114"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 1700,
+      "affected_note": "世代を含む40〜49歳人口が約1,699万人（2023年平均、内閣官房資料）。政府の支援対象はさらに広い年齢層（2025年4月現在で概ね39〜54歳）を含む。うち就労面の中核的支援対象は不本意非正規約35万人・無業者約44万人（2024年平均）で、家族（8050問題の親世帯等）を含めると間接的な影響はさらに広がる。",
+      "econ_impact_trillion_yen": 1,
+      "econ_note": "NIRA（2008年）推計では、氷河期世代が非正規・低賃金のまま高齢化した場合の生活保護追加費用が累計約20兆円規模。高齢期の受給期間を約20年とみて年換算すると約1兆円/年の将来財政リスクに相当する（現在発生中の支出ではなく将来推計値。現行の氷河期支援関連予算や世代の逸失所得は別途存在）。",
+      "urgency": 4,
+      "urgency_rationale": "前期氷河期世代（1970年代前半生まれ）は2030年代半ばから順次高齢期に入り、50代のうちに正規転換・厚生年金加入期間を積み増せる期間は今後5〜10年しかない。この窓を逃すと低年金・無年金が事実上確定し生活保護費増が不可逆化するため、政府も2025年4月に関係閣僚会議を設置し2026年4月に2028年度までの集中プログラムを決定した。すでに不可逆とまでは言えないが、対応可能な時間が急速に狭まっている段階。"
+     },
+     "sub_issues": [
+      {
+       "id": "jp-employment-ice-age-generation-involuntary-nonregular",
+       "name": "不本意非正規・無業の長期化と正規転換支援",
+       "description": "新卒時の採用抑制の影響で非正規雇用や無業状態が中高年期まで長期化した層が世代内に残存している。政府支援で世代中心層の正規雇用は2019年比11万人増と改善したが、氷河期世代の不本意非正規比率は低下傾向にあるものの全世代平均より依然高く（2024年：1974〜83年生まれ10.9%対全世代8.5%）、年齢を重ねるほど正規転換のハードルは上がる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "世代内の不本意非正規約35万人・無業者約44万人（2024年平均）",
+        "value": "計約79万人",
+        "year": "2024",
+        "source_name": "内閣官房就職氷河期世代支援推進室資料（2025年11月）",
+        "source_url": "https://www.cas.go.jp/jp/seisaku/shushoku_hyogaki_shien/suishin_platform/dai7/shiryo1.pdf"
+       }
+      },
+      {
+       "id": "jp-employment-ice-age-generation-reskilling",
+       "name": "リ・スキリングと中高年の再就職・処遇改善",
+       "description": "ハローワーク専門窓口や助成金による正社員化支援は一定の実績を上げているが、50代での学び直し・キャリアチェンジには時間的制約が大きい。新プログラムでは非正規雇用労働者等向けオンライン訓練の全国展開や教育訓練給付金指定講座の拡大、自治体リ・スキリング事業の補助率引き上げ（3/4→4/5）を進め、教育訓練休暇給付金の創設（2025年10月）など働きながら訓練を受けやすくする施策も始まった。",
+       "severity": 3,
+       "key_stat": {
+        "label": "ハローワーク専門窓口等を通じた正社員就職（2020年4月〜2025年9月累計）",
+        "value": "630,778人",
+        "year": "2020-2025",
+        "source_name": "内閣官房就職氷河期世代支援推進室資料（2025年11月）",
+        "source_url": "https://www.cas.go.jp/jp/seisaku/shushoku_hyogaki_shien/suishin_platform/dai7/shiryo1.pdf"
+       }
+      },
+      {
+       "id": "jp-employment-ice-age-generation-pension-poverty",
+       "name": "無年金・低年金リスクと老後の生活保護費増大",
+       "description": "非正規・無業期間が長い層は厚生年金加入期間が短く、基礎年金中心の低年金で高齢期を迎える。NIRAは氷河期世代が非正規のまま高齢化した場合の生活保護追加費用を累計約20兆円規模と推計しており、2030年代半ば以降に財政リスクとして顕在化する。2024年10月の短時間労働者への厚生年金適用拡大に続き、2025年6月成立の年金制度改正法による適用拡大（企業規模要件の段階的撤廃）や基礎年金の給付水準確保が対応策とされる。",
+       "severity": 5,
+       "key_stat": {
+        "label": "非正規のまま高齢化した場合の生活保護追加費用推計（累計）",
+        "value": "約20兆円",
+        "year": "2008（推計）",
+        "source_name": "NIRA総合研究開発機構「就職氷河期世代のきわどさ」",
+        "source_url": "https://www.nira.or.jp/pdf/0801report.pdf"
+       }
+      },
+      {
+       "id": "jp-employment-ice-age-generation-8050-isolation",
+       "name": "単身中高年の増加と親の介護・8050問題への接続",
+       "description": "無業・ひきこもり状態の中高年が高齢の親の年金に依存する8050問題が世代の高齢化とともに深刻化しており、親の介護離職や親の死後の生活破綻リスクを抱える。ひきこもり支援実施自治体は81から340へ拡大したが、支援につながらない層が多い。65歳以上の単独世帯は2050年に1,084万世帯へ増加すると推計され、単身のまま高齢化する氷河期世代がその中核を占める。",
+       "severity": 4,
+       "key_stat": {
+        "label": "40〜64歳のひきこもり推計（2018年度調査、初の中高年調査、出現率1.45%）",
+        "value": "約61.3万人",
+        "year": "2019",
+        "source_name": "内閣府「生活状況に関する調査」（平成30年度、現こども家庭庁所管）",
+        "source_url": "https://www.e-stat.go.jp/statistics/00100114"
+       }
+      },
+      {
+       "id": "jp-employment-ice-age-generation-asset-gap",
+       "name": "世代内・世代間の格差固定化と資産形成の遅れ",
+       "description": "初職の不利が賃金・持ち家取得・貯蓄の遅れとして累積し、同じ世代の中でも正規・非正規間の格差が中高年期に固定化している。日本FP協会の調査（38〜46歳・個人年収500万円未満の就業者対象）では世帯の貯蓄・投資総額300万円未満が約5割を占め、リタイア後の生活費不足に不安を持つ人は8割を超える。単身世帯では持ち家率の低下も指摘され、高齢期の住居費負担が重くのしかかる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "リタイア後の生活費不足への不安（38〜46歳・個人年収500万円未満の就業者、2023年）",
+        "value": "82.9%",
+        "year": "2023",
+        "source_name": "日本FP協会「就職氷河期世代に関する意識調査」",
+        "source_url": "https://www.jafp.or.jp/about_jafp/katsudou/news/news_2023/files/newsrelease20230808.pdf"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "jp-aging-social-security",
+       "relation": "悪化させる",
+       "description": "厚生年金加入期間の短い低年金層が2030年代半ばから高齢期に入り、基礎年金の給付水準確保や生活保護を通じて社会保障制度の持続可能性への圧力を強める。"
+      },
+      {
+       "target_id": "jp-fiscal-debt",
+       "relation": "悪化させる",
+       "description": "氷河期世代が低所得のまま高齢化した場合の生活保護追加費用は累計約20兆円規模と推計され（NIRA）、将来の財政負担を押し上げる要因と指摘されている。"
+      },
+      {
+       "target_id": "jp-declining-birthrate",
+       "relation": "原因となる",
+       "description": "雇用・収入が不安定な男性ほど未婚率が高い傾向が政府統計や各種調査で繰り返し示されており、氷河期世代の雇用不安定が同世代の未婚化・少子化の一因と指摘される。"
+      },
+      {
+       "target_id": "jp-loneliness-isolation",
+       "relation": "相互に影響",
+       "description": "中高年ひきこもり推計61.3万人や単身中高年の増加は8050問題として孤立問題と直結し、孤立が就労支援へのアクセスをさらに困難にする悪循環が指摘される。"
+      },
+      {
+       "target_id": "jp-labor-shortage",
+       "relation": "相互に影響",
+       "description": "労働力不足の下で氷河期世代の正規転換・リスキリングは貴重な労働供給源とされる一方、人手不足による処遇改善が同世代の就労改善を後押しする関係にある。"
+      }
+     ]
+    }
+   ],
+   "meta": {
+    "confidences": [
+     {
+      "id": "jp-industrial-competitiveness-dx",
+      "confidence": "high",
+      "changes": 8
+     },
+     {
+      "id": "jp-fiscal-debt",
+      "confidence": "high",
+      "changes": 8
+     },
+     {
+      "id": "jp-national-defense",
+      "confidence": "high",
+      "changes": 11
+     },
+     {
+      "id": "jp-immigration-foreign-workers",
+      "confidence": "high",
+      "changes": 8
+     },
+     {
+      "id": "jp-energy-food-security",
+      "confidence": "high",
+      "changes": 10
+     },
+     {
+      "id": "jp-declining-birthrate",
+      "confidence": "high",
+      "changes": 5
+     },
+     {
+      "id": "jp-children-youth-crisis",
+      "confidence": "high",
+      "changes": 6
+     },
+     {
+      "id": "jp-inflation-real-wages",
+      "confidence": "high",
+      "changes": 8
+     },
+     {
+      "id": "jp-climate-extreme-heat",
+      "confidence": "high",
+      "changes": 10
+     },
+     {
+      "id": "jp-megadisaster-preparedness",
+      "confidence": "high",
+      "changes": 12
+     },
+     {
+      "id": "jp-aging-social-security",
+      "confidence": "high",
+      "changes": 9
+     },
+     {
+      "id": "jp-labor-shortage",
+      "confidence": "high",
+      "changes": 10
+     },
+     {
+      "id": "jp-loneliness-isolation",
+      "confidence": "high",
+      "changes": 9
+     },
+     {
+      "id": "jp-infrastructure-regional-decline",
+      "confidence": "high",
+      "changes": 9
+     },
+     {
+      "id": "jp-crime-fraud-security",
+      "confidence": "high",
+      "changes": 11
+     },
+     {
+      "id": "jp-gender-inequality",
+      "confidence": "high",
+      "changes": 11
+     },
+     {
+      "id": "jp-employment-ice-age-generation",
+      "confidence": "high",
+      "changes": 13
+     }
+    ],
+    "critic_notes": "3件とも2025〜2026年公表の一次情報で裏取り済み。(1) 治安・詐欺: 警察庁「令和7年の犯罪情勢」= 刑法犯77万4,142件（+4.9%、コロナ禍前超え）、特殊詐欺+SNS型詐欺被害3,241億円で過去最悪（https://www.npa.go.jp/bureau/safetylife/sos47/circumstances/statistics/ 、https://www.nippon.com/ja/japan-data/h02710/ 、https://www.nippon.com/ja/japan-data/h02795/）。(2) ジェンダー: WEF Global Gender Gap Report 2025で日本118位/148、政治参加125位に後退、G7唯一100位圏外（https://www.nippon.com/ja/japan-data/h02444/）。(3) 氷河期世代: 内閣官房就職氷河期世代支援推進室・2025年6月3日関係閣僚会議決定「新たな就職氷河期世代等支援プログラム」（https://www.cas.go.jp/jp/seisaku/shushoku_hyogaki_shien/kankeikakuryokaigi/pdf/20250613_siryou2.pdf）、令和7年国民生活基礎調査（相対的貧困率15.0%・「生活苦しい」55%）。他候補として「政治不信・偽情報と民主主義の劣化」「科学技術・研究力の低下」も検討したが、前者は重大性の定量的裏付けが相対的に弱く、後者は既存のindustrial-competitiveness-dxのサブ課題で吸収可能と判断し除外した。既存リストとの重複回避のため、子どもの貧困（children-youth-crisis）・低所得世帯（inflation）とは切り口を分けている。",
+    "method": "政府世論調査・省庁白書・国際機関・シンクタンクの複数出典を横断調査し、数値は独立エージェントが一次資料と突合検証済み"
+   }
+  },
+  {
+   "id": "kr",
+   "name": "韓国",
+   "flag": "🇰🇷",
+   "issues": [
+    {
+     "id": "kr-labor-market-dualism",
+     "name": "労働市場の二重構造と長時間労働",
+     "emoji": "⚖️",
+     "category": "労働・雇用",
+     "tagline": "同じ労働、二つの世界",
+     "overview": "2025年8月時点で非正規労働者は856万8,000人と過去最多で、賃金労働者の38.2%を占める。月平均賃金は正規職389万6,000ウォンに対し非正規職208万8,000ウォン(約54%)で、格差180万8,000ウォンは2003年の統計開始以来最大となり3年連続で拡大した。企業規模間の格差も深刻で、中小企業労働者の月平均賃金は大企業の約49%にとどまる。年間労働時間は2025年に1,833時間まで減少したもののOECD平均(1,736時間)を97時間上回り、データのある加盟36か国中6番目の長さである。",
+     "why_problem": "OECDは2026年対韓経済審査で、賃金・雇用の質・社会保障の格差が大きい労働市場の二重構造が青年の経済的基盤を弱め、所得格差と超低出生率の主要因になっていると指摘し、正規職の雇用保護緩和と社会保険の適用拡大を勧告した。非正規の国民年金加入率は37.1%にとどまり、現役期の格差が老後の貧困へ連鎖する点も深刻とされる。他方で論点は割れており、労働界は非正規保護の強化・正規転換の促進と一律の労働時間短縮を求めるのに対し、経営界は正規職の硬直的な保護と画一的な週52時間制こそが非正規増加と競争力低下の原因だとして柔軟化を主張する。長時間労働についても、少子化・過労対策として短縮を急ぐ立場と、半導体など先端産業の競争力のため例外を認めるべきだとする立場が対立している。",
+     "future_outlook": "高齢層を中心に非正規雇用の増加が続き、正規・非正規の賃金格差は3年連続で拡大して過去最大を更新しており、構造的な固定化が進む見通し。李在明政権は2030年までに実労働時間をOECD平均並みの1,700時間台へ短縮し週4.5日制の段階的導入を掲げる一方、2026年1月成立の半導体特別法ではR&D人材への週52時間制例外条項が削除されたのち湖南半導体クラスターなどメガ特区での例外適用が改めて検討されるなど、労働時間政策は短縮と緩和の両方向に揺れている。OECDは正規職の雇用保護緩和と社会保険適用拡大を組み合わせた二重構造改革が進まなければ、青年の家族形成の遅れと年金死角地帯を通じて少子化・高齢者貧困の悪循環が続くと警告している。",
+     "key_stats": [
+      {
+       "label": "非正規労働者数(賃金労働者に占める比率)",
+       "value": "856万8,000人(38.2%)",
+       "year": "2025年8月",
+       "source_name": "韓国国家データ処(旧統計庁)経済活動人口調査 勤労形態別付加調査",
+       "source_url": "https://www.kostat.go.kr/board.es?mid=a10301010000&bid=210&act=view&list_no=438874&tag=&nPage=1&ref_bid="
+      },
+      {
+       "label": "正規・非正規の月平均賃金格差(正規389.6万ウォン vs 非正規208.8万ウォン)",
+       "value": "180万8,000ウォン(2003年統計開始以来最大)",
+       "year": "2025年",
+       "source_name": "大韓民国政策ブリーフィング(国家データ処発表)",
+       "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156722087"
+      },
+      {
+       "label": "年間平均労働時間(OECD平均1,736時間を97時間上回り36か国中6位)",
+       "value": "1,833時間",
+       "year": "2025年",
+       "source_name": "The Korea Herald(OECD統計)",
+       "source_url": "https://www.koreaherald.com/article/10798390"
+      },
+      {
+       "label": "非正規労働者の国民年金加入率",
+       "value": "37.1%",
+       "year": "2025年8月",
+       "source_name": "大韓民国政策ブリーフィング(国家データ処 勤労形態別付加調査)",
+       "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156722087"
+      },
+      {
+       "label": "中小企業労働者の月平均賃金の大企業比(351万ウォン vs 716万ウォン)",
+       "value": "約49%",
+       "year": "2024年",
+       "source_name": "韓国経済新聞(産業研究院報告書)",
+       "source_url": "https://www.hankyung.com/article/2026062819687"
+      },
+      {
+       "label": "期間制労働者の正規職転換率",
+       "value": "8.6%",
+       "year": "2024年末",
+       "source_name": "The Korea Herald",
+       "source_url": "https://www.koreaherald.com/article/10715244"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 2241,
+      "affected_note": "賃金労働者2,241万3,000人(正規1,384.5万+非正規856.8万、2025年8月)全体が二重構造と労働時間制度の影響下にあり、中核的な被影響層は非正規856.8万人と大企業比49%の賃金にとどまる中小企業労働者。",
+      "econ_impact_trillion_yen": 19.7,
+      "econ_note": "単純推計:非正規856.8万人×月額賃金格差180.8万ウォン×12か月≈年間約186兆ウォンの賃金格差総額。100ウォン≈10.6円(2026年半ば水準)で約19.7兆円。労働時間の差を含む名目格差の総額であり、二重構造の経済的規模感を示す参考値。",
+      "urgency": 4,
+      "urgency_rationale": "賃金格差が3年連続で拡大し統計開始以来最大を更新、期間制の正規転換率も2024年末に8.6%まで低下するなど格差の固定化が進行中。OECDが2026年対韓経済審査で少子化・所得格差の主因として改革を勧告しており、週52時間制の例外拡大と週4.5日制が同時に検討される今後数年の制度設計が構造固定化を左右する。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-labor-market-dualism-wage-gap",
+       "name": "正規・非正規間の賃金・処遇格差(約2倍)",
+       "description": "非正規職の月平均賃金は208万8,000ウォンで正規職(389万6,000ウォン)の約54%にとどまり、格差180万8,000ウォンは統計開始以来最大。退職給付の適用率46.0%、賞与受給率39.7%など賃金以外の処遇でも大きな差があり、格差は2023年以降3年連続で拡大している。",
+       "severity": 5,
+       "key_stat": {
+        "label": "正規・非正規の月平均賃金格差(過去最大)",
+        "value": "180万8,000ウォン",
+        "year": "2025年",
+        "source_name": "京郷新聞(国家データ処発表)",
+        "source_url": "https://www.khan.co.kr/article/202510221200001"
+       }
+      },
+      {
+       "id": "kr-labor-market-dualism-social-insurance-gap",
+       "name": "社会保険の死角地帯と保障からの排除",
+       "description": "非正規労働者の国民年金加入率は37.1%、健康保険(職場加入)53.2%、雇用保険53.7%にとどまり、国民年金の加入率はこの10年ほとんど改善していない。現役期の保障排除が将来の無年金・低年金に直結し、高齢者貧困の再生産経路となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "非正規労働者の国民年金加入率",
+        "value": "37.1%",
+        "year": "2025年8月",
+        "source_name": "大韓民国政策ブリーフィング(国家データ処 勤労形態別付加調査)",
+        "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156722087"
+       }
+      },
+      {
+       "id": "kr-labor-market-dualism-firm-size-gap",
+       "name": "大企業・中小企業間の処遇格差",
+       "description": "中小企業労働者の月平均賃金は351万ウォンで大企業(716万ウォン)の約49%にすぎない。賃金比率は2015年の43%から小幅改善したものの絶対額の格差は298万ウォンから365万ウォンへ拡大し、生涯所得では10億ウォン以上の差が生じると推計される。20代でも中小企業から大企業への移動は5〜6%にとどまり、雇用の大半を担う中小企業の低処遇が青年の大企業偏重と就職浪人を生む構造的要因となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "中小企業労働者の月平均賃金の大企業比",
+        "value": "約49%(351万 vs 716万ウォン)",
+        "year": "2024年",
+        "source_name": "韓国経済新聞(産業研究院報告書)",
+        "source_url": "https://www.hankyung.com/article/2026062819687"
+       }
+      },
+      {
+       "id": "kr-labor-market-dualism-low-mobility",
+       "name": "非正規から正規への転換の困難",
+       "description": "期間制労働者の正規職転換率は2024年末時点で8.6%と長年10%前後に低迷し、期間制労働者は2021年の454万人から2025年には534万人へ増加した。2年で正規転換を義務付ける現行制度が契約打ち切り・再雇用の反復を招いているとの指摘があり、政府は使用期間上限の見直しを検討している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "期間制労働者の正規職転換率",
+        "value": "8.6%",
+        "year": "2024年末",
+        "source_name": "The Korea Herald",
+        "source_url": "https://www.koreaherald.com/article/10715244"
+       }
+      },
+      {
+       "id": "kr-labor-market-dualism-long-hours-policy",
+       "name": "長時間労働文化と週52時間制をめぐる政策の揺れ",
+       "description": "年間労働時間は2025年に1,833時間へ減少したがOECD平均を97時間上回り、加盟36か国中6番目に長い。政府は2030年までに1,700時間台への短縮と週4.5日制導入を掲げる一方、2026年1月成立の半導体特別法ではR&D人材への週52時間制例外条項が国会審議で削除されたのち、湖南半導体クラスターなどメガ特区での例外適用が改めて検討されており、短縮と緩和の間で政策が揺れている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "年間平均労働時間(OECD平均比+97時間)",
+        "value": "1,833時間",
+        "year": "2025年",
+        "source_name": "The Korea Herald(OECD統計)",
+        "source_url": "https://www.koreaherald.com/article/10798390"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-ultra-low-birthrate",
+       "relation": "悪化させる",
+       "description": "OECD対韓経済審査報告書は、二重構造による青年の経済的不安定と長時間労働が家族形成を妨げ、世界最低水準の出生率の主要因の一つだと指摘している。"
+      },
+      {
+       "target_id": "kr-youth-employment-crisis",
+       "relation": "原因となる",
+       "description": "良質な雇用が大企業正規職に偏る二重構造が、就職準備の長期化や「ただ休む」青年の増加の構造的背景として指摘されている。"
+      },
+      {
+       "target_id": "kr-elderly-poverty-pension",
+       "relation": "悪化させる",
+       "description": "非正規労働者の国民年金加入率が37.1%にとどまる社会保険の死角地帯が、将来の無年金・低年金層を生み高齢者貧困を再生産する。"
+      },
+      {
+       "target_id": "kr-gender-gap",
+       "relation": "相互に影響",
+       "description": "出産・育児による経歴断絶後の再就職が非正規に偏ることで女性の非正規比率が高まり、OECD最大級の男女賃金格差と二重構造が互いに強め合っている。"
+      },
+      {
+       "target_id": "kr-private-education",
+       "relation": "原因となる",
+       "description": "大企業正規職という狭い「良い雇用」をめぐる競争が、名門大学進学競争と私教育費過熱の経済的誘因になっていると指摘される。"
+      }
+     ]
+    },
+    {
+     "id": "kr-youth-employment-crisis",
+     "name": "青年雇用危機と「ただ休む」青年の急増",
+     "emoji": "🛌",
+     "category": "労働・雇用",
+     "tagline": "失業率に映らない72万人の空白",
+     "overview": "2026年6月時点で15〜29歳の青年就業者は前年同月比19万7千人減と44カ月連続で減少し、青年雇用率は43.9%と26カ月連続で低下している。求職も就業もせず「ただ休んだ(쉬었음)」と答える青年は2026年1月に46万9千人とコロナ期の2021年1月(49万5千人)以来5年ぶりの高水準となり、20〜39歳ベースでは2025年に71万7千人と2003年の統計開始以来最高を記録した。彼らは非経済活動人口に分類されるため公式失業率(2026年6月時点7.0%)には表れず、就職準備生や求職断念者を含む体感失業率(雇用補助指標3)は2026年5月時点で16.6%と同月の公式失業率(7.2%)の2倍を超え、公式値との乖離が大きい。背景には製造業・建設業の長期不振、大企業の経歴(中途)採用への転換、良質な雇用の不足が複合的に作用している。",
+     "why_problem": "青年期の長期無業は「履歴効果(scarring)」により生涯所得と人的資本を毀損し、韓国経済人協会の委託研究は「休んだ」青年による経済的費用を2019〜2023年の5年間で44兆5千億ウォンと推計した。企業が新卒公開採用を廃止し経歴中心の随時採用へ移行したことで、職務経験のない青年が労働市場の入口から排除される構造問題も指摘される。一方で、「休んだ」青年の相当数は短期アルバイトや就職準備を並行しており、良質な雇用を待つ「戦略的待機」という合理的選択だとする見方もあり、怠惰や個人の問題に還元すべきでないという反論がある。対策をめぐっても、労働市場の柔軟化や規制緩和で企業の採用意欲を高めるべきとする立場と、公共部門の雇用創出や青年手当など直接支援を重視する立場に分かれている。",
+     "future_outlook": "製造業・建設業の雇用減少とAI・自動化の進展、経歴採用の定着により、青年雇用の短期的な反転は難しいとの見方が多い。青年人口自体の減少で「休んだ」青年の絶対数は頭打ちになる可能性があるものの、雇用率の低下と労働市場からの離脱が続けば、婚姻・出産のさらなる先送り、国民年金の拠出基盤の縮小など長期的な悪影響が累積する。政府は「休んだ」青年の早期発掘・訪問型支援や青年雇用パッケージを拡大しているが、経歴採用へ転換した企業慣行を前提とした職務経験提供策の実効性が今後の焦点となる。",
+     "key_stats": [
+      {
+       "label": "青年(15〜29歳)就業者の前年比減少幅(44カ月連続減少)",
+       "value": "19万7千人減",
+       "year": "2026年6月",
+       "source_name": "世界日報(統計庁「2026年6月雇用動向」報道)",
+       "source_url": "https://segye.com/newsView/20260715505361"
+      },
+      {
+       "label": "青年雇用率(前年同月比1.7ポイント低下、26カ月連続低下)",
+       "value": "43.9%",
+       "year": "2026年6月",
+       "source_name": "ファイナンシャルニュース(統計庁雇用動向報道)",
+       "source_url": "https://www.fnnews.com/news/202607151826331732"
+      },
+      {
+       "label": "「ただ休んだ」青年(15〜29歳)の人数(コロナ期の2021年1月以来5年ぶりの高水準)",
+       "value": "46万9千人",
+       "year": "2026年1月",
+       "source_name": "ヘラルド経済(NATEニュース配信)",
+       "source_url": "https://news.nate.com/view/20260211n16399"
+      },
+      {
+       "label": "「ただ休んだ」20〜39歳の年間平均人数(2003年統計開始以来最高)",
+       "value": "71万7千人",
+       "year": "2025年",
+       "source_name": "ソウル新聞「쉬었음青年追跡記」",
+       "source_url": "https://www.seoul.co.kr/news/plan/NEET-Youth-Tracker/2026/07/17/20260717004002"
+      },
+      {
+       "label": "「休んだ」青年による経済的費用の推計(2019〜2023年の5年間累計)",
+       "value": "44兆5千億ウォン",
+       "year": "2025年",
+       "source_name": "毎日新聞(매일신문、韓国大邱系紙。韓国経済人協会委託研究報道)",
+       "source_url": "https://www.imaeil.com/page/view/2025081817143181934"
+      },
+      {
+       "label": "青年層の体感失業率(雇用補助指標3、同月の公式失業率7.2%の2倍超)",
+       "value": "16.6%",
+       "year": "2026年5月",
+       "source_name": "ヘラルド経済(統計庁データ報道)",
+       "source_url": "https://biz.heraldcorp.com/article/10769400"
+      },
+      {
+       "label": "卒業後の初就職までの平均所要期間(前年比0.2カ月短縮)",
+       "value": "11.3カ月",
+       "year": "2025年5月",
+       "source_name": "大韓民国政策ブリーフィング(統計庁・青年層付加調査)",
+       "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156721665"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 130,
+      "affected_note": "「ただ休んだ」青年は15〜29歳で46.9万人(2026年1月)、20〜39歳ベースでは71.7万人(2025年)。これに公式失業者(青年失業率7.0%)と潜在求職者・追加就業希望者を含む体感失業状態の青年(拡張失業率16.6%、約65万人規模と推計)を合わせ、直接影響を受ける青年を約130万人と推計。青年人口全体(2025年5月時点797万4千人)が採用縮小の間接影響下にある。",
+      "econ_impact_trillion_yen": 0.95,
+      "econ_note": "韓国経済人協会の委託研究は「休んだ」青年による経済的費用を2019〜2023年の5年間で44兆5千億ウォン(年平均約8.9兆ウォン)と推計。100ウォン≒10.7円(2026年時点の概算レート)で換算すると年間約0.95兆円。「休んだ」青年がその後さらに増加しているため実際の年間損失はこれを上回る可能性がある。",
+      "urgency": 4,
+      "urgency_rationale": "青年就業者は44カ月連続減少、雇用率は26カ月連続低下と悪化が止まらず、履歴効果により無業期間が長引くほど当該世代の生涯所得・キャリア回復は困難になる。ただし青年人口自体の減少が絶対数の一部を説明するため、5年内に社会全体が不可逆的に崩れるというより、特定コホートに不可逆的な傷を残す性格の危機である。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-youth-employment-crisis-resting-youth",
+       "name": "求職断念・「ただ休んだ」青年(ニート化)の増加",
+       "description": "就業も求職もせず「ただ休んだ」と答える15〜29歳は2026年1月に46万9千人とコロナ期の2021年1月以来5年ぶりの高水準に達した。休止が長期化すると求職意欲の喪失や隠遁化につながり、労働市場への復帰が困難になる。",
+       "severity": 5,
+       "key_stat": {
+        "label": "「ただ休んだ」青年(15〜29歳)の人数",
+        "value": "46万9千人",
+        "year": "2026年1月",
+        "source_name": "ヘラルド経済(NATEニュース配信)",
+        "source_url": "https://news.nate.com/view/20260211n16399"
+       }
+      },
+      {
+       "id": "kr-youth-employment-crisis-career-hiring-shift",
+       "name": "経歴者中心採用への転換による新卒排除",
+       "description": "大企業が新卒定期公採を廃止し職務別の随時・経歴採用へ移行した結果、職務経験のない青年が採用の入口から排除されている。就職情報サイト・キャッチの集計では2025年の大企業正社員新卒採用公告は2,145件と前年(3,741件)比43%減少し、韓国銀行も経歴採用拡大が20代の常用職雇用率を押し下げていると分析した。",
+       "severity": 4,
+       "key_stat": {
+        "label": "大企業の正社員新卒採用公告の前年比減少率(3,741件→2,145件)",
+        "value": "43%減",
+        "year": "2025年",
+        "source_name": "ロイシュー(就職サイト「キャッチ」集計報道)",
+        "source_url": "https://www.lawissue.co.kr/view.php?ud=202512241242322903204ead0791_12"
+       }
+      },
+      {
+       "id": "kr-youth-employment-crisis-long-job-search",
+       "name": "就職準備期間の長期化",
+       "description": "卒業後に初めて賃金労働者として就職するまでの平均所要期間は11.3カ月に達し、1年前後の「就職浪人」が常態化している。準備期間の長期化は資格・スペック競争の過熱と家計負担の増大を招いている。",
+       "severity": 3,
+       "key_stat": {
+        "label": "卒業後の初就職までの平均所要期間",
+        "value": "11.3カ月",
+        "year": "2025年5月",
+        "source_name": "大韓民国政策ブリーフィング(統計庁・青年層付加調査)",
+        "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156721665"
+       }
+      },
+      {
+       "id": "kr-youth-employment-crisis-job-mismatch",
+       "name": "質の高い青年雇用の不足と学歴・労働市場のミスマッチ",
+       "description": "高学歴化に見合う良質な雇用が不足し、OECDの調査では韓国の青年ニートの45%が大卒以上とOECD平均(18%)の2.5倍に達する。働きたいのに求職しない青年の多くが「賃金・労働条件に合う仕事がない」ことを理由に挙げており、待遇の良い大企業と中小企業の格差がミスマッチの根底にある。",
+       "severity": 4,
+       "key_stat": {
+        "label": "青年ニートに占める大卒以上の割合(OECD平均は18%)",
+        "value": "45%",
+        "year": "2019年",
+        "source_name": "OECD『Investing in Youth: Korea』",
+        "source_url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2019/10/investing-in-youth-korea_de626224/4bf4a6d2-en.pdf"
+       }
+      },
+      {
+       "id": "kr-youth-employment-crisis-hidden-exit",
+       "name": "統計に表れない労働市場からの離脱",
+       "description": "「休んだ」青年は非経済活動人口に分類されるため公式失業率には含まれず、統計上の失業率の低さが実態を覆い隠している。就職準備生・求職断念者・追加就業希望者を含む青年の体感失業率(雇用補助指標3)は2026年5月時点で16.6%と、同月の公式失業率(7.2%)の2倍を超える。",
+       "severity": 4,
+       "key_stat": {
+        "label": "青年層の体感失業率(雇用補助指標3)",
+        "value": "16.6%",
+        "year": "2026年5月",
+        "source_name": "ヘラルド経済(統計庁データ報道)",
+        "source_url": "https://biz.heraldcorp.com/article/10769400"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-ultra-low-birthrate",
+       "relation": "原因となる",
+       "description": "青年の雇用不安定と所得基盤の欠如は結婚・出産の先送りの主要因として繰り返し指摘されており、超低出生率を深刻化させる。"
+      },
+      {
+       "target_id": "kr-labor-market-dualism",
+       "relation": "共通の根本原因",
+       "description": "大企業・正規職と中小企業・非正規職の待遇格差という労働市場の二重構造が、青年が中小企業を避けて「良質な雇用」を待機する行動と雇用ミスマッチの根底にある。"
+      },
+      {
+       "target_id": "kr-social-isolation",
+       "relation": "悪化させる",
+       "description": "長期の「休んだ」状態は隠遁(ひきこもり)青年への移行リスクを高め、韓国保健社会研究院・韓国経済人協会の共同研究(2026年2月公表)は隠遁青年の社会経済的費用を2024年基準で年5兆2870億ウォンと推計している。"
+      },
+      {
+       "target_id": "kr-suicide-mental-health",
+       "relation": "悪化させる",
+       "description": "長期無業と求職失敗の反復は青年のうつ・無気力など精神健康の悪化と関連が指摘されており、青年層の自殺リスク要因となる。"
+      }
+     ]
+    },
+    {
+     "id": "kr-ultra-low-birthrate",
+     "name": "超低出生率と人口再生産の危機",
+     "emoji": "👶",
+     "category": "人口・社会",
+     "tagline": "出生率0.8、消えゆく次世代の基盤",
+     "overview": "韓国の合計特殊出生率は2024年に0.75と人口置換水準2.1を大きく下回るOECD最下位が続いてきたが、2025年は暫定値0.80(出生数25万4,500人、前年比+6.8%)と2年連続で反転し、婚姻件数も24万件(+8.1%)と回復傾向を見せている。それでも死亡者数36万3,400人に対して出生数が大きく不足し、2025年の自然減は11万人に達した。統計庁の将来人口推計(中位)では、総人口は2022年の5,167万人から2072年に3,622万人へ減少し、生産年齢人口は3,674万人から1,658万人へ半減する見通しである。婚姻減少・養育教育費・住居費・仕事と育児の両立困難が複合した構造問題であり、人口再生産の基盤そのものが揺らいでいる。",
+     "why_problem": "出生率が人口置換水準2.1の半分以下にとどまれば、世代を追うごとに人口が半減に近いペースで縮小し、労働力・兵力・年金や医療の支え手が構造的に不足する。韓国銀行(2023年報告書)は、超低出生・超高齢化が続けば2050年代に経済成長率が0%以下に落ちる確率が68%に達すると警告しており、経済の持続可能性そのものに関わる。原因評価では論点が割れており、住居費・教育費・雇用不安といった経済的要因を重視する立場と、長時間労働文化・性別役割分担やジェンダー葛藤・過度な競争社会という社会文化的要因を重視する立場が併存する。また約380兆ウォンの財政投入の効果についても、「関連性の薄い事業の寄せ集めで効果が乏しかった」とする批判と、近年の両立支援策拡充が2024〜2025年の反転に寄与したとする評価が対立している。",
+     "future_outlook": "出生率は2024年0.75、2025年0.80(暫定)と2年連続で反転し、婚姻件数も2024年+14.8%、2025年+8.1%と増加が続くため、短期的には統計庁の高位推計シナリオ(2031年に1.03と1.0台回復)に近いペースで持ち直す可能性がある。しかし反転を主導する30代前半人口の増加は2027年以降鈍化が見込まれ、出産適齢期女性人口自体が縮小し続けるため、出生率が多少回復しても出生数の長期減少と自然減(2025年▲11万人)は止まらない。統計庁の中位推計では総人口は2022年5,167万人から2072年に3,622万人へ約30%減少し、生産年齢人口は1,658万人(総人口の45.8%)まで半減する見通しである。",
+     "key_stats": [
+      {
+       "label": "合計特殊出生率(2025年暫定)",
+       "value": "0.80(前年比+0.05)",
+       "year": "2025",
+       "source_name": "韓国統計庁(国家データ処)/大韓民国政策ブリーフィング「2025年出生・死亡統計(暫定)」",
+       "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156745912"
+      },
+      {
+       "label": "年間出生数(2025年暫定)",
+       "value": "25万4,500人(前年比+6.8%、2010年以来の高水準)",
+       "year": "2025",
+       "source_name": "大韓民国政策ブリーフィング「2025年出生・死亡統計(暫定)」",
+       "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156745912"
+      },
+      {
+       "label": "人口自然増減(出生−死亡)",
+       "value": "▲11万人(自然増加率▲2.1‰)",
+       "year": "2025",
+       "source_name": "大韓民国政策ブリーフィング「2025年出生・死亡統計(暫定)」",
+       "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156745912"
+      },
+      {
+       "label": "婚姻件数(2025年)",
+       "value": "24万件(前年比+8.1%、粗婚姻率4.7‰)",
+       "year": "2025",
+       "source_name": "韓国統計庁(国家データ処)「2025年婚姻・離婚統計」",
+       "source_url": "https://kostat.go.kr/board.es?act=view&bid=204&list_no=444103&mid=a10301010000"
+      },
+      {
+       "label": "2072年総人口見通し(中位推計)",
+       "value": "3,622万人(2022年5,167万人から約30%減)",
+       "year": "2023公表",
+       "source_name": "韓国統計庁「将来人口推計:2022〜2072年」",
+       "source_url": "https://kostat.go.kr/board.es?mid=a10301020600&bid=207&act=view&list_no=428476"
+      },
+      {
+       "label": "少子化対応の累計財政投入(2006〜2023年)",
+       "value": "約380兆ウォン(それでも2023年出生率は0.72)",
+       "year": "2006-2023",
+       "source_name": "一耀新聞(国会予算政策処・監査院の指摘を報道)",
+       "source_url": "https://www.ilyo.co.kr/?ac=article_view&entry_id=470517"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 5168,
+      "affected_note": "人口再生産の崩壊は年金・医療・労働力・国防など社会全体に波及するため全人口(2022年5,167.9万人、統計庁将来人口推計)を影響人口とみなした。直接の当事者である主な出産適齢期人口(20〜40代)は約1,900万人規模(推計)。",
+      "econ_impact_trillion_yen": 5.5,
+      "econ_note": "年間の少子化対応予算51.7兆ウォン(2022年、国会予算政策処集計)を1ウォン=約0.107円で換算し約5.5兆円/年。累計では2006〜2023年に約380兆ウォン(約40.7兆円)を投入。このほか韓国銀行(2023年)は超低出生・超高齢化が続けば2050年代に成長率0%以下となる確率が68%と警告しており、将来の成長損失はこの額に含まれない。",
+      "urgency": 5,
+      "urgency_rationale": "2年連続の出生率反転(2024年0.75→2025年0.80)という好材料はあるが、出産適齢期女性人口の縮小という人口モメンタムは既に不可逆で、2025年も自然減11万人と減少が続く。今後5年の出生コホート規模がそのまま数十年後の労働力・兵力・納税者数を決定するため、対応の遅れは不可逆的な損失となる。韓国銀行は効果的な対応がなければ2050年代に成長率0%以下となる確率68%と警告している。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-ultra-low-birthrate-marriage-decline",
+       "name": "婚姻件数の長期減少と非婚化・晩婚化",
+       "description": "婚姻件数は2025年に24万件と3年連続で増加し7年ぶりの高水準となったものの、長期的には大幅に減少した水準にとどまる。平均初婚年齢は男性33.9歳・女性31.6歳まで上昇し、晩婚化が第2子以降の出産可能性を狭めている。一方、2025年は35〜39歳の出生率が同年齢の女性人口千人当たり52.0人と統計開始以来最高となり、「遅れた出産」の顕在化も進む。",
+       "severity": 4,
+       "key_stat": {
+        "label": "平均初婚年齢(2025年)",
+        "value": "男性33.9歳・女性31.6歳",
+        "year": "2025",
+        "source_name": "韓国統計庁(国家データ処)「2025年婚姻・離婚統計」",
+        "source_url": "https://kostat.go.kr/board.es?act=view&bid=204&list_no=444103&mid=a10301010000"
+       }
+      },
+      {
+       "id": "kr-ultra-low-birthrate-childrearing-cost",
+       "name": "養育・教育費用の過重負担",
+       "description": "私教育(塾・課外)費は2025年に総額27.5兆ウォンと、コロナ期の2020年以来5年ぶりに減少(前年比▲5.7%)したものの依然高水準で、私教育を受ける学生1人当たり月平均支出は60万4千ウォン(前年比+2.0%)と初めて60万ウォンを超えた。過重な教育費負担は「子どもを持たない・1人にとどめる」選択の代表的要因として指摘されている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "小中高私教育費総額(2025年)",
+        "value": "27.5兆ウォン(私教育参加学生1人当たり月60万4千ウォン)",
+        "year": "2025",
+        "source_name": "大韓民国政策ブリーフィング「2025年小中高私教育費調査結果」",
+        "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156748552"
+       }
+      },
+      {
+       "id": "kr-ultra-low-birthrate-housing-burden",
+       "name": "住居費高騰による家族形成の遅延",
+       "description": "国土研究院の分析では、住宅価格(売買・伝貰)の第1子出生率低下への寄与度は30.4%に達し、住宅価格が1%上昇すると翌年の出生率が0.002人低下し影響が最長7年続くと推計された。統計庁の追跡統計(2026年7月)では婚姻した青年の57%が首都圏に居住する一方、婚姻後も首都圏に住み続けた青年の出産割合(65.3%)は非首都圏定住の青年(73.2%)より低い。",
+       "severity": 4,
+       "key_stat": {
+        "label": "住宅価格の第1子出生率低下への寄与度",
+        "value": "30.4%",
+        "year": "2024",
+        "source_name": "国土研究院「低出産の原因診断と不動産政策方向」報道資料",
+        "source_url": "https://krihs.re.kr/board.es?act=view&bid=0008&list_no=391258&mid=a10607000000"
+       }
+      },
+      {
+       "id": "kr-ultra-low-birthrate-work-family",
+       "name": "仕事と育児の両立困難(長時間労働・経歴断絶)",
+       "description": "2025年上半期時点で15〜54歳の既婚女性740万3千人のうち110万5千人(14.9%)が育児等を理由に仕事を辞めた「経歴断絶女性」であり、離職理由は育児44.3%・結婚24.2%・妊娠出産22.1%を占める。6歳以下の子を持つ女性では経歴断絶率が31.6%に跳ね上がり、出産のキャリア上の機会費用の大きさが出産回避の主要因と指摘されている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "経歴断絶女性(2025年上半期)",
+        "value": "110万5千人(15〜54歳既婚女性の14.9%)",
+        "year": "2025",
+        "source_name": "韓国統計庁(国家データ処)「2025年上半期地域別雇用調査 既婚女性の雇用現況」",
+        "source_url": "https://www.kostat.go.kr/board.es?mid=a10301030300&bid=211&tag=&act=view&list_no=439372&ref_bid="
+       }
+      },
+      {
+       "id": "kr-ultra-low-birthrate-policy-effectiveness",
+       "name": "巨額財政投入に対する少子化対策の効果の低さ",
+       "description": "2006〜2023年に約380兆ウォン(379.8兆ウォン)の少子化対応予算が投入されたが、2023年の出生率は0.72まで低下した。国会予算政策処や監査院は、アルコール依存症ケア管理や輸出力強化R&Dなど少子化との関連が薄い事業が「少子化予算」に分類されてきた構造を指摘している。他方、2024〜2025年の出生率反転を近年の政策(仕事・家庭両立支援や住居支援の拡充)の効果と評価する見方もあり、効果検証をめぐる論争が続く。",
+       "severity": 3,
+       "key_stat": {
+        "label": "少子化対応の累計予算(2006〜2023年)",
+        "value": "約380兆ウォン(2023年出生率は0.72)",
+        "year": "2006-2023",
+        "source_name": "一耀新聞(国会予算政策処・監査院の分析を報道)",
+        "source_url": "https://www.ilyo.co.kr/?ac=article_view&entry_id=470517"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-super-aged-society",
+       "relation": "悪化させる",
+       "description": "出生数の急減が高齢化率の上昇と生産年齢人口の急減(2072年に1,658万人へ半減)を直接加速させる。"
+      },
+      {
+       "target_id": "kr-housing-affordability",
+       "relation": "相互に影響",
+       "description": "国土研究院(2024年)は住宅価格(売買・伝貰)の第1子出生率低下への寄与度を30.4%と推計しており、住居費高騰が婚姻・出産を抑制する主要因と指摘されている。"
+      },
+      {
+       "target_id": "kr-private-education",
+       "relation": "相互に影響",
+       "description": "私教育費(2025年総額27.5兆ウォン)を中心とする養育・教育費負担が出産をためらわせる主要因として繰り返し指摘されている。"
+      },
+      {
+       "target_id": "kr-labor-market-dualism",
+       "relation": "相互に影響",
+       "description": "長時間労働と非正規・正規の格差が仕事と育児の両立を困難にし、出産回避と女性の経歴断絶(110万人超)の原因と指摘されている。"
+      },
+      {
+       "target_id": "kr-regional-extinction",
+       "relation": "相互に影響",
+       "description": "首都圏一極集中が住居費と競争圧力を高め出生率を押し下げる一方(首都圏定住青年の出産割合65.3%<非首都圏定住73.2%)、少子化は地方消滅を加速させる。"
+      }
+     ]
+    },
+    {
+     "category": "政治・制度",
+     "emoji": "🗳️",
+     "id": "kr-political-polarization",
+     "name": "政治的両極化と社会葛藤の深刻化",
+     "tagline": "9割が認める分断、対話なき政治",
+     "overview": "韓国リサーチの2025年5月調査(5月9〜12日実施)では、与野党間の葛藤が「大きい」との回答が94%、進歩・保守間で92%に達し、全葛藤類型の中で政治葛藤が最も深刻と認識されている。韓国行政研究院の2025年社会統合実態調査(2025年8〜9月実施、19歳以上8,305人対象、2026年公表)でも保守・進歩間の葛藤認識は4点満点中3.2点と全類型で最高だった。2024年12月の非常戒厳宣布とその後の大統領弾劾・2025年の早期大選を経て、陣営間対立は制度的危機として顕在化した。Pew Research Centerの19カ国比較(2022年)でも、韓国は支持政党間の対立が「強い」との回答が90%と米国と並ぶ最高水準にある。",
+     "why_problem": "政治的両極化は年金改革・医療改革・財政再建など超党派の合意を要する構造改革の意思決定を停滞させ、檀国大学紛争解決研究センターの政府(国務調整室)委託推計では社会葛藤の経済的費用は2013〜2022年で年平均233兆ウォン(うち約75%がイデオロギー葛藤)に上る。国会の信頼度は26.0%と国家機関中最下位で、制度を通じた紛争解決への信頼が損なわれている。一方で、葛藤の顕在化は民主主義における多様な利害の表出であり問題は葛藤そのものではなく調整制度の欠如だとする見方や、勝者総取り型の大統領制・小選挙区制など制度要因を重視する立場と、政党エリートや陣営メディア・オンライン空間の扇動を重視する立場に論点は分かれる。世代・ジェンダー・階層の亀裂が政治的陣営対立と重なり合うことで、社会統合の基盤自体が揺らいでいるとの認識は各論調に共通している。",
+     "future_outlook": "戒厳・弾劾政局を経て陣営間の相互不信は感情的対立(情緒的両極化)として固定化しつつあり、選挙のたびに対立が再燃する構造が当面続くと見られる。超高齢化に伴う年金・財政・医療の負担配分をめぐる決定が2020年代後半に集中するため、合意形成の失敗は改革の遅延という形で経済的コストを一層増大させる恐れがある。選挙制度・権力構造の改編や社会的対話機構の強化が議論されているが、その改革自体が党派対立の対象となるジレンマを抱えている。",
+     "key_stats": [
+      {
+       "label": "与野党間の葛藤が「大きい」との回答",
+       "value": "94%",
+       "year": "2025",
+       "source_name": "韓国リサーチ「世論の中の世論」集団別葛藤認識調査(2025年5月9〜12日実施)",
+       "source_url": "https://hrcopinion.co.kr/archives/32918"
+      },
+      {
+       "label": "進歩・保守間の理念葛藤が「大きい」との回答",
+       "value": "92%",
+       "year": "2025",
+       "source_name": "韓国リサーチ「世論の中の世論」集団別葛藤認識調査(2025年5月9〜12日実施)",
+       "source_url": "https://hrcopinion.co.kr/archives/32918"
+      },
+      {
+       "label": "保守・進歩間の葛藤認識(4点満点、全葛藤類型中最高)",
+       "value": "3.2点",
+       "year": "2025",
+       "source_name": "韓国行政研究院「2025年社会統合実態調査」(2025年8〜9月実施、韓国経済新聞2026年7月報道)",
+       "source_url": "https://www.hankyung.com/article/202607079592H"
+      },
+      {
+       "label": "支持政党間の対立が「強い」との回答(19カ国中最高水準、米国と同率)",
+       "value": "90%",
+       "year": "2022",
+       "source_name": "Pew Research Center",
+       "source_url": "https://www.pewresearch.org/short-reads/2022/11/16/most-across-19-countries-see-strong-partisan-conflicts-in-their-society-especially-in-south-korea-and-the-u-s/"
+      },
+      {
+       "label": "国会の信頼度(国家機関中最下位、前年比では唯一の上昇)",
+       "value": "26.0%",
+       "year": "2024",
+       "source_name": "統計庁「2024韓国の社会指標」(メトロソウル報道)",
+       "source_url": "https://www.metroseoul.co.kr/article/20250325500356"
+      },
+      {
+       "label": "社会葛藤の経済的費用(2013〜2022年の年平均、総額2,327兆ウォン)",
+       "value": "233兆ウォン",
+       "year": "2013-2022",
+       "source_name": "檀国大学紛争解決研究センター(国務調整室委託推計、ニュースピム報道)",
+       "source_url": "https://www.newspim.com/news/view/20240913000877"
+      },
+      {
+       "label": "世代葛藤が「深刻」との認識",
+       "value": "84%",
+       "year": "2025",
+       "source_name": "韓国リサーチ「2025世代認識調査」",
+       "source_url": "https://hrcopinion.co.kr/archives/32460"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 5168,
+      "affected_note": "政治的対立と社会葛藤は有権者を含む国民全体(統計庁将来人口推計の2025年総人口約5,168万人)に影響。成人の9割超が与野党・理念葛藤を「大きい」と認識しており(韓国リサーチ2025年5月調査)、改革停滞の影響は全世代・全階層に及ぶ。",
+      "econ_impact_trillion_yen": 21,
+      "econ_note": "檀国大学紛争解決研究センターの政府(国務調整室)委託推計で、2013〜2022年の社会葛藤費用は総額2,327兆ウォン(年平均233兆ウォン)、うちイデオロギー葛藤が1,981兆ウォンで約75%を占める(推計対象期間は2013〜2022年で、2024年以降の戒厳・弾劾政局は含まない)。イデオロギー葛藤分の年平均約198兆ウォンを100ウォン=10.8円で換算し約21兆円。社会葛藤全体では年約25兆円に相当。",
+      "urgency": 4,
+      "urgency_rationale": "2024年12月の非常戒厳宣布と2025年の大統領弾劾・早期大選により陣営対立は制度的危機に発展し、感情的両極化が固定化しつつある。年金・医療・財政など期限が迫る構造改革の合意形成を直接阻害しており、今後5年間の対応失敗は改革遅延という不可逆的コストを生むが、政権交代や選挙制度改革による緩和余地も残るため5ではなく4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-political-polarization-partisan-ideological",
+       "name": "与野党・理念対立の固定化と戒厳・弾劾政局",
+       "description": "与野党間葛藤が「大きい」94%、進歩・保守間92%と政治葛藤が全類型中最も深刻と認識されている。2024年12月の非常戒厳と2025年の弾劾・早期大選を経て陣営間の相互不信は感情的対立として固定化し、Pewの19カ国比較でも韓国の党派対立認識は最高水準にある。",
+       "severity": 5,
+       "key_stat": {
+        "label": "与野党間の葛藤が「大きい」との回答",
+        "value": "94%",
+        "year": "2025",
+        "source_name": "韓国リサーチ「世論の中の世論」集団別葛藤認識調査",
+        "source_url": "https://hrcopinion.co.kr/archives/32918"
+       }
+      },
+      {
+       "id": "kr-political-polarization-generational",
+       "name": "世代間葛藤と負担配分をめぐる対立",
+       "description": "世代葛藤が「深刻」との認識は84%に達し、既成世代と若い世代の間の葛藤が「大きい」との回答も81%に上る。年金改革・雇用・住宅など限られた資源の負担配分をめぐり世代間の利害対立が政治的争点化し、世代別の投票行動の分化も進んでいる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "世代葛藤が「深刻」との認識",
+        "value": "84%",
+        "year": "2025",
+        "source_name": "韓国リサーチ「2025世代認識調査」",
+        "source_url": "https://hrcopinion.co.kr/archives/32460"
+       }
+      },
+      {
+       "id": "kr-political-polarization-gender-class",
+       "name": "ジェンダー・所得階層間の認識格差",
+       "description": "富裕層と庶民層の間の葛藤が「大きい」との回答は88%、正規職・非正規職間は81%に達し、階層葛藤の認識が政治対立と重なっている。男女間葛藤は65%と相対的に低いが若年層で高く、若年男性は逆差別への不満、若年女性は構造的格差の残存を訴える形で認識が対立し、選挙で争点として動員される構図が指摘されている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "富裕層・庶民層間の葛藤が「大きい」との回答",
+        "value": "88%",
+        "year": "2025",
+        "source_name": "韓国リサーチ「世論の中の世論」集団別葛藤認識調査",
+        "source_url": "https://hrcopinion.co.kr/archives/32918"
+       }
+      },
+      {
+       "id": "kr-political-polarization-institutional-distrust",
+       "name": "政党・政治制度への不信の拡大",
+       "description": "国会の信頼度は26.0%と調査対象の国家機関の中で最下位が続き(2023年24.7%から1.3ポイント上昇したものの依然最下位)、制度を通じた対立調整への信頼が損なわれている。政治不信は投票外の抗議行動やオンライン上の陣営対立を助長し、年金・医療改革など国会での超党派合意を要する課題の停滞要因となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "国会の信頼度(国家機関中最下位)",
+        "value": "26.0%",
+        "year": "2024",
+        "source_name": "統計庁「2024韓国の社会指標」(メトロソウル報道)",
+        "source_url": "https://www.metroseoul.co.kr/article/20250325500356"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-elderly-poverty-pension",
+       "relation": "悪化させる",
+       "description": "与野党対立と国会不信が年金改革の超党派合意形成を遅らせ、高齢者貧困と年金制度の持続可能性への対応を困難にしている。"
+      },
+      {
+       "target_id": "kr-gender-gap",
+       "relation": "相互に影響",
+       "description": "20代を中心とするジェンダー葛藤が選挙で政治的に動員され、政治的両極化とジェンダー対立が互いを増幅する構図が指摘されている。"
+      },
+      {
+       "target_id": "kr-labor-market-dualism",
+       "relation": "相互に影響",
+       "description": "正規・非正規間の葛藤が「大きい」との認識は81%、企業家・労働者間は86%に達し、労働市場の二重構造が階層葛藤と政治対立の土壌となっている。"
+      },
+      {
+       "target_id": "kr-regional-extinction",
+       "relation": "相互に影響",
+       "description": "首都圏と地方の間の葛藤が「大きい」との認識は78%に上り、首都圏一極集中による地域格差が地域主義的な政治対立を再生産している。"
+      },
+      {
+       "target_id": "kr-super-aged-society",
+       "relation": "相互に影響",
+       "description": "史上最速の高齢化が世代間の負担配分をめぐる対立を先鋭化させる一方、政治的対立が高齢化対応の改革合意を妨げている。"
+      }
+     ]
+    },
+    {
+     "id": "kr-social-isolation",
+     "name": "社会的孤立と孤独死の増加",
+     "emoji": "🕯️",
+     "category": "人口・社会",
+     "tagline": "誰にも看取られない死が年4千件",
+     "overview": "韓国保健福祉部の実態調査によると、2024年の孤独死は3,924件で前年比7.2%増加し、人口10万人当たり7.7人に達した。死者の約82%(3,205人)が男性で、50〜60代の中高年層が全体の62.9%を占める。背景には単身世帯の急増があり、2024年に一人暮らし世帯は804.5万世帯と初めて800万を突破し全世帯の36.1%となった。さらに国家データ処(旧統計庁)の2025年社会調査では「困った時に頼れる人がいない」社会的孤立度が33.0%とコロナ禍前(2019年27.7%)を上回る水準で高止まりしている。",
+     "why_problem": "孤独死は個人の悲劇にとどまらず、遺品整理・行政処理コストや地域コミュニティの崩壊を示す指標として政策課題化しており、孤独死者の約39%は死亡前1年間に基礎生活保障(生活保護)受給歴があった。孤立・ひきこもり青年は最大54万人と推計され、就労機会の喪失による社会経済的費用は青年層のひきこもりだけで年約5.3兆ウォンに上るとの推計もある。一方で、孤独死の定義(独居・発見までの期間など)や統計手法をめぐっては専門家間で議論があり、「行政の見守り強化」を重視する立場と、雇用・住居・所得など構造的要因への対処を優先すべきだとする立場に論点が分かれる。ソウル市が5年間で4,513億ウォンを投じる「孤独のないソウル」計画を打ち出すなど、中央・地方とも対策を本格化させている段階である。",
+     "future_outlook": "単身世帯比率は2019年の30.2%から2024年の36.1%へ一貫して上昇しており、超高齢化と非婚化の進行により独居中高年・独居高齢者はさらに増える見通しである。孤独死も2021年3,378件から2024年3,924件へ増勢が続いており、発見者が家族(2020年34.8%→2024年26.6%)から家主や福祉従事者へ移る傾向は地縁・血縁による見守り機能の弱体化を示す。政府は「生涯周期別の社会的孤立リスク群の発掘と支援」を掲げるが、構造的な単身化トレンドを踏まえると、対策なしでは孤独死・孤立青年の双方が今後10年で一段と増加するリスクが高い。",
+     "key_stats": [
+      {
+       "label": "孤独死者数(前年比7.2%増・人口10万人当たり7.7人)",
+       "value": "3,924人",
+       "year": "2024",
+       "source_name": "韓国保健福祉部 報道資料(2025年11月発表)",
+       "source_url": "https://www.mohw.go.kr/board.es?mid=a10503000000&bid=0027&list_no=1488039&act=view"
+      },
+      {
+       "label": "孤独死に占める男性の数(81.7%・女性605人の5.3倍)",
+       "value": "3,205人",
+       "year": "2024",
+       "source_name": "韓国保健福祉部 報道資料(2025年11月発表)",
+       "source_url": "https://www.mohw.go.kr/board.es?mid=a10503000000&bid=0027&list_no=1488039&act=view"
+      },
+      {
+       "label": "単身世帯数(全世帯の36.1%・過去最高)",
+       "value": "804.5万世帯",
+       "year": "2024",
+       "source_name": "国家データ処(旧統計庁)「2025 統計でみる単身世帯」(2025年12月9日公表)",
+       "source_url": "https://mods.go.kr/board.es?mid=a10301010000&bid=10820&act=view&list_no=442130"
+      },
+      {
+       "label": "社会的孤立度(困った時に頼れる人がいない人の割合)",
+       "value": "33.0%",
+       "year": "2025",
+       "source_name": "国家データ処(旧統計庁)2025年社会調査(2025年11月11日公表)",
+       "source_url": "https://mods.go.kr/board.es?mid=a10301010000&bid=219&act=view&list_no=439196"
+      },
+      {
+       "label": "孤立・ひきこもり青年の推計(19〜34歳の約5%)",
+       "value": "最大54万人",
+       "year": "2023",
+       "source_name": "韓国保健福祉部 報道資料",
+       "source_url": "https://www.mohw.go.kr/board.es?mid=a10503000000&bid=0027&list_no=1479278&act=view"
+      },
+      {
+       "label": "ソウル市「孤独のないソウル」5カ年計画の総予算",
+       "value": "4,513億ウォン",
+       "year": "2024",
+       "source_name": "ソウル市発表(2024年10月21日・イートゥデイ報道)",
+       "source_url": "https://www.etoday.co.kr/news/view/2411290"
+      },
+      {
+       "label": "青年のひきこもり化による社会経済的費用(年間・2024年基準)",
+       "value": "5兆2,870億ウォン",
+       "year": "2024",
+       "source_name": "韓国経済人協会・韓国保健社会研究院 共同報告書(2026年2月5日公表)",
+       "source_url": "https://www.fki.or.kr/fileOut/report/%EC%B2%AD%EB%85%84%20%EC%9D%80%EB%91%94%ED%99%94%EC%9D%98%20%EA%B2%B0%EC%A0%95%EC%9A%94%EC%9D%B8%20%EB%B0%8F%20%EC%82%AC%ED%9A%8C%EA%B2%BD%EC%A0%9C%EC%A0%81%20%EB%B9%84%EC%9A%A9%20%EC%B6%94%EC%A0%95%20%EB%B3%B4%EA%B3%A0%EC%84%9C.pdf"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 1450,
+      "affected_note": "国家データ処2025年社会調査の社会的孤立度33.0%を19歳以上人口(約4,400万人)に当てはめると約1,450万人が「困った時に頼れる人がいない」状態(推計)。うち高リスク層として単身世帯804.5万世帯、孤立・ひきこもり青年最大54万人が含まれる。",
+      "econ_impact_trillion_yen": 0.56,
+      "econ_note": "韓国経済人協会・韓国保健社会研究院の共同報告書(2026年2月公表)は、青年のひきこもり化による社会経済的費用を2024年基準で年5兆2,870億ウォン(1人当たり年983万ウォン)と推計。1ウォン=0.106円で換算し約0.56兆円。これは青年層(19〜34歳)のひきこもりのみの推計であり、中高年の孤立や孤独死関連の行政・医療コストを含む社会的費用の全体はこれを上回るとみられる(2023年の政府対策発表時には社会的損失を年7兆ウォンとする推計も報じられた)。",
+      "urgency": 4,
+      "urgency_rationale": "孤独死は2021年3,378件→2024年3,924件と年率数%で増加が続き、単身世帯比率も毎年上昇して構造的に高リスク人口が拡大している。今後5年で独居中高年が大量に高齢期へ移行するため、見守り体制の整備が遅れれば孤独死の一段の増加が避けにくい。ただし死亡数の絶対規模や政策対応の開始(孤独死予防法・ソウル市計画等)を考慮し、最高評価の5ではなく4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-social-isolation-middle-aged-men",
+       "name": "中高年男性の社会的孤立と孤独死",
+       "description": "孤独死者の8割超が男性で、50〜60代が全体の62.9%を占め最大のリスク層となっている。離婚・失業・事業失敗を機に家族・職場との関係が断絶し、支援制度にもつながりにくいことが背景に指摘される。",
+       "severity": 5,
+       "key_stat": {
+        "label": "孤独死に占める50〜60代の割合(60代32.4%+50代30.5%)",
+        "value": "62.9%",
+        "year": "2024",
+        "source_name": "韓国保健福祉部 報道資料",
+        "source_url": "https://www.mohw.go.kr/board.es?mid=a10503000000&bid=0027&list_no=1488039&act=view"
+       }
+      },
+      {
+       "id": "kr-social-isolation-single-households",
+       "name": "単身世帯比率の急上昇(全世帯の36%超)",
+       "description": "2024年に一人暮らし世帯が初めて800万を超え、全世帯の36.1%と過去最高を更新した。2019年の30.2%から5年で約6ポイント上昇しており、非婚化・高齢化により孤立リスクを抱える人口基盤そのものが拡大し続けている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "単身世帯数(全世帯の36.1%)",
+        "value": "804.5万世帯",
+        "year": "2024",
+        "source_name": "国家データ処(旧統計庁)「2025 統計でみる単身世帯」",
+        "source_url": "https://mods.go.kr/board.es?mid=a10301010000&bid=10820&act=view&list_no=442130"
+       }
+      },
+      {
+       "id": "kr-social-isolation-youth-hikikomori",
+       "name": "孤立青年・ひきこもりの増加",
+       "description": "保健福祉部は2023年、19〜34歳の孤立・ひきこもり青年を最大54万人(青年人口の約5%)と推計し、初の国家レベルの支援対策を打ち出した。国務調整室の青年生活実態調査では、ひきこもり青年の比率が2022年の2.4%から2024年に5.2%(約53.8万人)へ上昇しており、就職難(32.8%)が最大の要因とされる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "孤立・ひきこもり青年の推計人数",
+        "value": "最大54万人",
+        "year": "2023",
+        "source_name": "韓国保健福祉部 報道資料",
+        "source_url": "https://www.mohw.go.kr/board.es?mid=a10503000000&bid=0027&list_no=1479278&act=view"
+       }
+      },
+      {
+       "id": "kr-social-isolation-detection-gap",
+       "name": "孤立死の早期発見・見守り体制の不足",
+       "description": "直近5年間で孤独死の発見者が家族・知人から家主や保健福祉サービス従事者へシフトしており、家族による発見は2020年の34.8%から2024年に26.6%へ低下するなど血縁・地縁による自然な見守り機能の弱体化が進んでいる。福祉従事者による発見比率は2020年の1.7%から2024年に7.7%へ約4.5倍に増えたが、発見の遅れを防ぐ網羅的な体制は依然不足している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "保健福祉サービス従事者による孤独死発見比率(2020年1.7%から約4.5倍)",
+        "value": "7.7%",
+        "year": "2024",
+        "source_name": "韓国保健福祉部 報道資料",
+        "source_url": "https://www.mohw.go.kr/board.es?mid=a10503000000&bid=0027&list_no=1488039&act=view"
+       }
+      },
+      {
+       "id": "kr-social-isolation-economic-link",
+       "name": "経済的困窮・雇用不安と孤立の連鎖",
+       "description": "就職失敗や雇用不安が孤立・ひきこもりの最大の入口とされ、求職期間が42カ月に達するとひきこもり化の確率が約50%に上るなど、孤立が長期化するほど就労復帰が困難になる悪循環が生じている。韓国経済人協会と韓国保健社会研究院は、青年のひきこもり化による社会経済的費用を2024年基準で年5兆2,870億ウォンと推計し、「ただ休んでいる」青年のひきこもり化の確率(17.8%)は就業青年(2.7%)の6.6倍に上るとした。",
+       "severity": 4,
+       "key_stat": {
+        "label": "青年ひきこもり化の社会経済的費用(年間・2024年基準)",
+        "value": "5兆2,870億ウォン",
+        "year": "2024",
+        "source_name": "韓国経済人協会・韓国保健社会研究院 共同報告書(2026年2月公表)",
+        "source_url": "https://www.fki.or.kr/fileOut/report/%EC%B2%AD%EB%85%84%20%EC%9D%80%EB%91%94%ED%99%94%EC%9D%98%20%EA%B2%B0%EC%A0%95%EC%9A%94%EC%9D%B8%20%EB%B0%8F%20%EC%82%AC%ED%9A%8C%EA%B2%BD%EC%A0%9C%EC%A0%81%20%EB%B9%84%EC%9A%A9%20%EC%B6%94%EC%A0%95%20%EB%B3%B4%EA%B3%A0%EC%84%9C.pdf"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-youth-employment-crisis",
+       "relation": "原因となる",
+       "description": "就職失敗と雇用不安が孤立・ひきこもり青年の最大の要因とされ、「ただ休む」青年のひきこもり化の確率は就業青年の6.6倍(17.8%対2.7%)と推計されている。"
+      },
+      {
+       "target_id": "kr-suicide-mental-health",
+       "relation": "相互に影響",
+       "description": "2024年調査では20代以下の孤独死の57.4%、30代の43.3%が自死と報告されており、社会的孤立がうつ・自殺リスクを高める一方、精神健康の悪化がさらなる孤立を招く。"
+      },
+      {
+       "target_id": "kr-super-aged-society",
+       "relation": "悪化させる",
+       "description": "史上最速の高齢化で独居高齢者・独居中高年が急増し、孤立リスク人口と見守り需要を構造的に拡大させている。"
+      },
+      {
+       "target_id": "kr-elderly-poverty-pension",
+       "relation": "共通の根本原因",
+       "description": "老後所得保障の不足による経済的困窮が中高年・高齢者の社会関係断絶と孤独死リスクの共通背景となっている(孤独死者の約39%に基礎生活保障受給歴)。"
+      },
+      {
+       "target_id": "kr-ultra-low-birthrate",
+       "relation": "相互に影響",
+       "description": "非婚・単身化の進行は出生率低下と単身世帯増加の双方を招き、家族による支え合い機能を弱めて孤立を深める。"
+      }
+     ]
+    },
+    {
+     "id": "kr-private-education",
+     "name": "私教育費の過熱と教育競争",
+     "emoji": "📚",
+     "category": "健康・教育",
+     "tagline": "所得が学歴を買う超競争社会",
+     "overview": "韓国の小中高私教育費(塾・家庭教師等の学校外教育費)総額は2024年に29.2兆ウォンと学生数減少下でも4年連続で過去最高を更新し、10年間で60.1%増加した。2025年は学生数の減少(調査対象の小中高で前年比約12万人・2.3%減)もあり27.5兆ウォン(前年比-5.7%)とコロナ禍の2020年以来5年ぶりに減少したが、参加学生1人当たり月平均は60.4万ウォンと逆に増加を続けた。参加率は75.7%で、月所得800万ウォン以上世帯(66.2万ウォン)と300万ウォン未満世帯(19.2万ウォン)の間に3.4倍、ソウルと邑面地域の間に約2倍の支出格差がある。総額減少は「負担軽減」ではなく、低所得層の参加率低下幅(-5.3pt)が高所得層(-2.6pt)の2倍以上で高所得層の支出はむしろ増えたことによる「両極化の進行」だとの分析が主要メディア・専門家から指摘されている。",
+     "why_problem": "私教育費は参加学生1人当たり月60.4万ウォンに達して家計を圧迫し、所得による3.4倍の支出格差が教育機会の不平等と階層固定化を招くうえ、実証研究では出生率を統計的に押し下げることが示されており、少子化・青少年の精神健康悪化・首都圏集中を悪化させる複合要因となっている。一方で、私教育は各家庭の合理的な教育投資であり学力向上需要の表れだとする見方もあり、塾規制や先行学習禁止などの供給側規制は「風船効果」で別の形態に需要が移るだけで効果が乏しいとの批判がある。根本原因を入試制度に求めて修能・内申制度の改編を主張する立場と、大企業・中小企業間の賃金格差など労働市場の学歴プレミアム解消が先決だとする立場に論点が分かれている。",
+     "future_outlook": "学生数の継続的な減少(2025年は小中高で前年比約12万人・2.3%減)により私教育費総額は減少局面に入る可能性があるが、参加学生1人当たりの負担と所得階層・地域間の格差は拡大が続くと見込まれる。医学部偏重とN数生の高止まり(2026学年度の卒業生・検定考試等は18万2,277人と絶対数で過去最大、志願者比率32.9%)が続けば、上位層の競争はむしろ激化する。政府は公教育競争力強化と私教育軽減対策を継続するが、労働市場の学歴プレミアムと大企業・中小企業間格差が残る限り、構造的な解消は困難との見方が有力である。",
+     "key_stats": [
+      {
+       "label": "小中高私教育費総額",
+       "value": "27.5兆ウォン(前年比-5.7%・1.7兆ウォン減、2020年以来5年ぶり減少)",
+       "year": "2025年(2026年3月公表)",
+       "source_name": "国家データ処・教育部「2025年小中高私教育費調査」",
+       "source_url": "https://mods.go.kr/board.es?act=view&bid=245&list_no=443953&mid=a10301010000"
+      },
+      {
+       "label": "私教育費総額の過去最高値",
+       "value": "29.2兆ウォン(4年連続過去最高、10年間で60.1%増)",
+       "year": "2024年",
+       "source_name": "The Korea Herald(統計庁調査報道)",
+       "source_url": "https://www.koreaherald.com/article/10648305"
+      },
+      {
+       "label": "私教育参加率",
+       "value": "75.7%(前年比-4.3pt)",
+       "year": "2025年",
+       "source_name": "国家データ処・教育部「2025年小中高私教育費調査」",
+       "source_url": "https://mods.go.kr/board.es?act=view&bid=245&list_no=443953&mid=a10301010000"
+      },
+      {
+       "label": "参加学生1人当たり月平均私教育費",
+       "value": "60.4万ウォン(前年比+2.0%で増加継続。全学生1人当たりは45.8万ウォンで-3.5%)",
+       "year": "2025年",
+       "source_name": "大韓民国政策ブリーフィング(政府公式)",
+       "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156748552"
+      },
+      {
+       "label": "所得階層間の私教育費格差(全学生1人当たり)",
+       "value": "月所得800万ウォン以上世帯66.2万ウォン vs 300万ウォン未満19.2万ウォン(3.4倍)",
+       "year": "2025年",
+       "source_name": "大韓民国政策ブリーフィング(政府公式)",
+       "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156748552"
+      },
+      {
+       "label": "地域間格差(全学生1人当たり月平均)",
+       "value": "ソウル66.3万ウォン vs 邑面地域32.5万ウォン(約2倍)",
+       "year": "2025年",
+       "source_name": "大韓民国政策ブリーフィング(政府公式)",
+       "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156748552"
+      },
+      {
+       "label": "修能志願者に占める卒業生・検定考試等(N数生)の割合",
+       "value": "32.9%(18万2,277人/志願者55万4,174人。絶対数は過去最大)",
+       "year": "2026学年度(2025年9月接受)",
+       "source_name": "韓国教育課程評価院(KDI経済政策資料)",
+       "source_url": "https://eiec.kdi.re.kr/policy/materialView.do?num=270785"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 1000,
+      "affected_note": "2025年の小中高在学生は約501.5万人(教育基本統計)で、うち75.7%・約380万人が私教育に参加。費用を負担する保護者世帯を含めると直接影響人口は約1,000万人規模と推計(学生+両親世帯の概算)。",
+      "econ_impact_trillion_yen": 2.97,
+      "econ_note": "2025年の私教育費総額27.5兆ウォンを1ウォン≒0.108円(2026年7月中旬の実勢レート、100ウォン≒10.8円)で換算し約2.97兆円。これは小中高の学校外教育費のみで、幼児・大学生・就職準備の私教育は含まない。",
+      "urgency": 4,
+      "urgency_rationale": "総額は2025年に減少したが要因は学生数減少と低所得層の参加率低下であり、参加学生1人当たり負担は増加し所得階層間格差(3.4倍)は拡大傾向。私教育費負担は出生率を統計的に押し下げる(1%増で翌年の合計特殊出生率が約0.19〜0.26%低下との実証研究)ことが示されており、少子化を介した人口構造への影響は不可逆。教育格差の世代間固定化も進行中で、今後5年の政策対応が構造化を左右する。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-private-education-exam-competition",
+       "name": "大学入試(修能)中心の過度な受験競争とN数生の高止まり",
+       "description": "修能の一発勝負と序列化した大学構造が、浪人(N数生)を再生産している。2026学年度修能では志願者55万4,174人のうち卒業生15万9,922人・検定考試等2万2,355人と、既卒者等が計18万2,277人と絶対数で過去最大を記録した(検定考試出身は31年ぶり最多。志願者比率は現役の急増により前年の34.8%から32.9%に低下)。医学部定員問題を契機とした最上位層の「メディカル偏重」も競争を過熱させている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "修能志願者に占める卒業生・検定考試等の割合",
+        "value": "32.9%(55万4,174人中18万2,277人。絶対数は過去最大)",
+        "year": "2026学年度",
+        "source_name": "韓国教育課程評価院(KDI経済政策資料)",
+        "source_url": "https://eiec.kdi.re.kr/policy/materialView.do?num=270785"
+       }
+      },
+      {
+       "id": "kr-private-education-income-gap",
+       "name": "所得階層間の教育投資格差と機会不平等",
+       "description": "月所得800万ウォン以上世帯の1人当たり私教育費は66.2万ウォンで、300万ウォン未満世帯(19.2万ウォン)の3.4倍。参加率も84.9%対52.8%と大きな開きがある。2025年の総額減少局面でも低所得層の参加率低下幅(-5.3pt)は高所得層(-2.6pt)の2倍以上で、高所得層の支出はむしろ増加しており、「減少ではなく両極化」と評される。",
+       "severity": 5,
+       "key_stat": {
+        "label": "所得上位・下位世帯間の1人当たり私教育費格差",
+        "value": "3.4倍(66.2万ウォン vs 19.2万ウォン)、参加率84.9% vs 52.8%",
+        "year": "2025年",
+        "source_name": "大韓民国政策ブリーフィング(政府公式)",
+        "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156748552"
+       }
+      },
+      {
+       "id": "kr-private-education-birthrate",
+       "name": "私教育費負担による出産抑制",
+       "description": "子ども1人にかかる教育費負担の大きさが結婚・出産の意思決定を抑制する主要因の一つとされる。韓国保健社会研究院・ソウル大主催の第37回人口フォーラム(2025年2月)で金泰勲・慶熙大経済学科教授が発表した実証分析では、学生1人当たり私教育費が1%増加すると翌年の合計特殊出生率が約0.19〜0.26%低下し、第2子(0.30〜0.45%減)・第3子以降(0.52〜0.81%減)ほど抑制効果が大きい。",
+       "severity": 5,
+       "key_stat": {
+        "label": "私教育費1%増加が合計特殊出生率に与える影響",
+        "value": "翌年の出生率が約0.19〜0.26%低下",
+        "year": "2025年2月発表(分析期間2007〜2023年)",
+        "source_name": "金泰勲・慶熙大教授「私教育費支出増加が出生率に及ぼす影響」(第37回人口フォーラム発表、JIBS報道)",
+        "source_url": "https://www.jibs.co.kr/news/articles/articlesDetail/44324"
+       }
+      },
+      {
+       "id": "kr-private-education-public-distrust",
+       "name": "公教育への不信と学校外教育依存",
+       "description": "一般教科の私教育受講目的は「学校授業の補充」が49.5%で最多を占め、「先行学習」22.7%、「進学準備」16.2%(前年比+1.9pt)と続く。学校教育だけでは授業理解にも入試準備にも足りないという認識が私教育依存を支えており、公教育の競争力強化が政府対策の柱となっている。",
+       "severity": 3,
+       "key_stat": {
+        "label": "一般教科の私教育受講目的で「学校授業の補充」の割合",
+        "value": "49.5%(先行学習22.7%、進学準備16.2%)",
+        "year": "2025年",
+        "source_name": "大韓民国政策ブリーフィング(政府公式)",
+        "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156748552"
+       }
+      },
+      {
+       "id": "kr-private-education-youth-stress",
+       "name": "受験一極型教育による青少年のストレスと精神健康悪化",
+       "description": "中高生のストレス認知率は2024年に42.3%と前年(37.3%)から5.0pt上昇し、直近1年間に憂うつ感を経験した割合も27.7%(前年比+1.7pt)に増えた。青少年(9〜24歳)の死因1位は13年連続で自殺(2023年は人口10万人当たり11.7人)であり、学業・進路ストレスが主要背景の一つと指摘されている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "中高生のストレス認知率",
+        "value": "42.3%(前年比+5.0pt)、うつ感経験率27.7%",
+        "year": "2024年(「2025青少年統計」)",
+        "source_name": "女性家族部・韓国青少年政策研究院「2025青少年統計」(女性家族部報道資料)",
+        "source_url": "https://www.mogef.go.kr/nw/rpd/nw_rpd_s001d.do?mid=news405&bbtSn=710528"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-ultra-low-birthrate",
+       "relation": "原因となる",
+       "description": "金泰勲・慶熙大教授が人口フォーラム(2025年2月、韓国保健社会研究院・ソウル大主催)で発表した実証研究では、学生1人当たり私教育費が1%増加すると翌年の合計特殊出生率が約0.19〜0.26%低下し、特に第2子以降の出産抑制効果が大きいと指摘されている。"
+      },
+      {
+       "target_id": "kr-suicide-mental-health",
+       "relation": "悪化させる",
+       "description": "受験一極型の学業ストレスが青少年の抑うつ・自殺リスクを高める要因と指摘され、青少年の死因1位は13年連続で自殺となっている。"
+      },
+      {
+       "target_id": "kr-regional-extinction",
+       "relation": "相互に影響",
+       "description": "ソウルと邑面地域で私教育費に約2倍の格差があり、教育インフラを求めた首都圏移住が一極集中を促し、それがさらに地方の教育格差を広げる循環が指摘されている。"
+      },
+      {
+       "target_id": "kr-labor-market-dualism",
+       "relation": "共通の根本原因",
+       "description": "大企業・中小企業間の賃金格差と学歴プレミアムが「一流大学に入らなければならない」という受験競争の根本要因であると広く指摘されている。"
+      },
+      {
+       "target_id": "kr-household-debt",
+       "relation": "悪化させる",
+       "description": "参加学生1人当たり月60.4万ウォンの私教育支出が家計の貯蓄余力と老後準備を圧迫し、家計の財務脆弱性を高める要因と指摘されている。"
+      }
+     ]
+    },
+    {
+     "id": "kr-housing-affordability",
+     "name": "住宅価格高騰と住居不安(伝貰問題)",
+     "emoji": "🏠",
+     "category": "経済・財政",
+     "tagline": "家が買えない、借りても不安な国",
+     "overview": "国土交通部「2024年住居実態調査」(2025年11月公表)によれば、ソウルで持ち家を買うには年収の13.9倍(中央値)が必要で、首都圏の賃借世帯は月所得の18.4%を家賃に費やしている。2025年のソウルのマンション売買価格は年間8.71%上昇し、韓国不動産院が2013年に自体統計を開始して以来の最高値(KB統計を含めれば2006年以来19年ぶりの高水準)を記録した。一方、韓国特有の保証金賃貸制度「伝貰(チョンセ)」では組織的詐欺が多発し、政府認定の被害者は2026年6月時点で累計3万9,669件に達した。伝貰への不信と貸出規制強化により賃貸借取引の月貰(月払い家賃)比率は65.3%(2025年9月)まで上昇し、国土交通部長官も「月貰時代」を公式に認めるなど賃貸市場の構造が急速に転換している。",
+     "why_problem": "全世帯の38.0%(首都圏では44.4%)を占める賃借世帯にとって、価格高騰と月貰化は可処分所得を直接圧迫し、青年世帯の持ち家占有率は12.2%まで低下して家族形成や出産意向の低下に直結すると指摘される。伝貰詐欺はHUGの保証事故だけで2020〜24年に11兆ウォン超に達し、青年層に被害が集中して自殺者も出るなど制度への信頼を毀損した。対策をめぐっては立場が分かれ、進歩系は貸出規制・保有税強化と公共賃貸拡大による投機抑制を、保守系・市場派は再建築規制緩和など供給拡大と取引正常化を重視し、貸出規制が実需者の梯子を外し月貰化を加速させたとの批判と、規制緩和が価格再上昇を招いたとの批判が対立している。ソウルの供給不足が構造要因である点では概ね一致するが、政権交代のたびに政策が振れることが市場の不確実性を高めているとの指摘もある。",
+     "future_outlook": "2026年の見通しは機関間で分かれるが、ソウル・首都圏主導の上昇継続(住宅産業研究院はソウル4.2%・首都圏2.5%上昇、地方は0.3%上昇への転換を予測)と、地域間二極化のさらなる拡大では概ね一致しており、月貰化は2026年に入っても加速している(ソウルのマンション賃貸借の月貰比率は1〜5月51.3%と前年同期比7.3ポイント上昇)。伝貰保証事故は2025年に1兆2,446億ウォンへ前年比半減し被害拡大は峠を越えつつあるが、伝貰の縮小と月貰化は不可逆的に進み、賃借世帯の経常的な住居費負担は構造的に増大する。住居費負担の増大は青年層の結婚・出産の先送りを通じて超低出生率を固定化させるリスクが指摘されている。",
+     "key_stats": [
+      {
+       "label": "ソウルの年収対比住宅価格倍率(PIR・中央値)",
+       "value": "13.9倍",
+       "year": "2024年(2025年11月公表)",
+       "source_name": "国土交通部「2024年住居実態調査」(e-나라지표)",
+       "source_url": "https://www.index.go.kr/unity/potal/indicator/IndexInfo.do?idxCd=F0188"
+      },
+      {
+       "label": "2025年のソウルのマンション売買価格年間上昇率",
+       "value": "8.71%(韓国不動産院の2013年統計開始以来最高、2006年以来19年ぶりの高水準)",
+       "year": "2025年",
+       "source_name": "韓国不動産院(文化日報系報道)",
+       "source_url": "https://v.daum.net/v/20260102060532003?f=p"
+      },
+      {
+       "label": "伝貰詐欺被害者の政府認定累計件数",
+       "value": "3万9,669件",
+       "year": "2026年6月時点",
+       "source_name": "国土交通部・伝貰詐欺被害支援委員会(ファイナンシャルニュース)",
+       "source_url": "https://www.fnnews.com/news/202607071438407595"
+      },
+      {
+       "label": "全国の賃貸借取引に占める月貰(月払い家賃)比率",
+       "value": "65.3%",
+       "year": "2025年9月",
+       "source_name": "国土交通部住宅統計(ソウル新聞)",
+       "source_url": "https://www.seoul.co.kr/news/economy/2025/10/31/20251031500143"
+      },
+      {
+       "label": "HUG(住宅都市保証公社)の伝貰保証金返還保証事故額(5年累計)",
+       "value": "11兆441億ウォン(5万941件)",
+       "year": "2020〜2024年",
+       "source_name": "HUG・国会提出資料(ニューシス)",
+       "source_url": "https://www.newsis.com/view/NISX20251022_0003373232"
+      },
+      {
+       "label": "賃借世帯比率とその家賃負担",
+       "value": "賃借世帯は全世帯の38.0%(首都圏44.4%)、賃借世帯のRIR(月所得対比家賃比率)は首都圏18.4%",
+       "year": "2024年",
+       "source_name": "国土交通部「2024年住居実態調査」(マネートゥデイ)",
+       "source_url": "https://www.mt.co.kr/estate/2025/11/16/2025111608110111482"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 1800,
+      "affected_note": "賃借世帯は全世帯の38.0%・約840万世帯(2024年住居実態調査、総世帯数約2,200万ベース)。平均世帯人員約2.2人で換算し賃借世帯居住者を約1,800万人と推計(賃借世帯は単身比率が高いため上限側の推計)。持ち家取得を目指す青年・新婚世帯や伝貰詐欺被害者(認定約4万件)を含む広義の影響人口。",
+      "econ_impact_trillion_yen": 0.5,
+      "econ_note": "HUGの伝貰保証金返還保証事故額はピークの2024年に4兆4,896億ウォン、2020〜24年累計11兆441億ウォン(年平均約2.2兆ウォン)。換算レート100ウォン≒10.7円(2026年7月時点の概算)で2024年分は約0.48兆円≒0.5兆円。これは保証事故として顕在化した伝貰関連損失のみで、未加入被害や月貰化による家賃負担増(ソウルのマンション新規契約の平均月貰は2025年に前年比16.3%上昇)を含まない下限側の推計。",
+      "urgency": 4,
+      "urgency_rationale": "2025年のソウルのマンション価格は不動産院統計開始以来最速の上昇を記録し、月貰化(2025年9月に取引の65.3%、2026年も加速)と伝貰縮小は既に不可逆的に進行中。青年世帯の持ち家占有率は12.2%へ低下し、家族形成期の世帯への影響は今後5年で出生率低下として固定化する恐れがある。ただし伝貰保証事故自体は2025年に前年比半減(1兆2,446億ウォン)しており、被害「拡大」局面は峠を越えたため5ではなく4。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-housing-affordability-seoul-price-surge",
+       "name": "ソウル・首都圏の住宅価格高騰と需要一極集中",
+       "description": "2025年のソウルのマンション売買価格は年間8.71%上昇し、韓国不動産院の2013年統計開始以来最高を記録した。「ソウルに買わねば」という需要のソウル集中(いわゆる上京投資)と供給不足が重なり、貸出規制でも上昇圧力が収まらない。松坡区は年間20.92%上昇と全国で最も高い上昇率を記録した。",
+       "severity": 5,
+       "key_stat": {
+        "label": "2025年のソウルのマンション価格年間上昇率",
+        "value": "8.71%(不動産院統計開始以来最高)",
+        "year": "2025年",
+        "source_name": "韓国不動産院(文化日報系報道)",
+        "source_url": "https://v.daum.net/v/20260102060532003?f=p"
+       }
+      },
+      {
+       "id": "kr-housing-affordability-jeonse-fraud",
+       "name": "伝貰(チョンセ)詐欺による保証金被害と制度の縮小",
+       "description": "無資本ギャップ投資を悪用した組織的な伝貰詐欺により、政府認定被害者は2026年6月時点で累計3万9,669件に達し、被害は20〜30代に集中した。HUGの保証事故額は2020〜24年累計で11兆ウォンを超え、被害者の自殺も社会問題化した。特別法による被害住宅買取(LHが累計9,707戸)など救済が進む一方、伝貰制度そのものへの信頼が毀損され市場が縮小している。",
+       "severity": 5,
+       "key_stat": {
+        "label": "伝貰詐欺被害者の政府認定累計件数",
+        "value": "3万9,669件(2026年6月に548件が追加認定)",
+        "year": "2026年6月",
+        "source_name": "国土交通部(ファイナンシャルニュース)",
+        "source_url": "https://www.fnnews.com/news/202607071438407595"
+       }
+      },
+      {
+       "id": "kr-housing-affordability-monthly-rent-shift",
+       "name": "月貰化による若年層・低所得層の住居費負担増",
+       "description": "伝貰詐欺への警戒と伝貰資金貸出の規制強化により、賃貸借取引に占める月貰比率は2025年9月に65.3%へ達し、国土交通部長官も「月貰時代」を公式化した。月貰化は2026年も加速しており、ソウルのマンション賃貸借の月貰比率は1〜5月に51.3%と前年同期比7.3ポイント上昇した。保証金を家賃に転換する月貰は毎月の現金支出を増やし、ソウルのマンション新規契約の平均月貰は2025年に130.9万ウォンと前年(112.6万ウォン)比16.3%上昇した。",
+       "severity": 4,
+       "key_stat": {
+        "label": "全国の賃貸借取引の月貰比率",
+        "value": "65.3%",
+        "year": "2025年9月",
+        "source_name": "国土交通部住宅統計(ソウル新聞)",
+        "source_url": "https://www.seoul.co.kr/news/economy/2025/10/31/20251031500143"
+       }
+      },
+      {
+       "id": "kr-housing-affordability-youth-homeownership",
+       "name": "青年・新婚世帯の持ち家取得の困難",
+       "description": "2024年住居実態調査で青年世帯の持ち家占有率は12.2%に低下し、最低住居基準未達比率は8.2%へ上昇、新婚夫婦の持ち家占有率も43.9%に低下した。全体の持ち家保有率(61.4%)が改善する中で青年・新婚世帯の指標だけが逆行しており、価格高騰と貸出規制が初回取得層の梯子を狭めている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "青年世帯の持ち家占有率",
+        "value": "12.2%(最低住居基準未達は8.2%)",
+        "year": "2024年(2025年11月公表)",
+        "source_name": "国土交通部「2024年住居実態調査」(韓国日報)",
+        "source_url": "https://www.hankookilbo.com/News/Read/A2025111610320005003"
+       }
+      },
+      {
+       "id": "kr-housing-affordability-regional-polarization",
+       "name": "住宅資産格差と地域間市場の二極化",
+       "description": "ソウルのマンション平均売買価格は15億7,120万ウォンと5広域市平均(3億6,464万ウォン)の4.3倍に達し、格差は1年で3.8倍から拡大した。ソウルは品薄で高騰する一方、地方では竣工後未分譲(悪性未分譲)が2026年2月に3万戸を超えて2012年3月以来約14年ぶりの高水準となり、その85.5%(2026年3月時点)が地方に集中する。住宅資産の有無と所在地により世帯間の資産格差が拡大している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "ソウルと5広域市のマンション平均売買価格の格差",
+        "value": "4.3倍(ソウル15億7,120万ウォン対5広域市3億6,464万ウォン)",
+        "year": "2026年5月",
+        "source_name": "KB国民銀行統計(国民日報)",
+        "source_url": "https://www.kmib.co.kr/article/view.asp?arcid=1779957115&code=11151500&sid1=eco"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-ultra-low-birthrate",
+       "relation": "悪化させる",
+       "description": "首都圏の住宅価格と住居費負担の増大が青年層の結婚・出産の先送り・断念の主要因の一つとして政府・研究機関に繰り返し指摘されている。"
+      },
+      {
+       "target_id": "kr-household-debt",
+       "relation": "相互に影響",
+       "description": "住宅購入ローンと伝貰資金貸出が家計負債膨張の最大要因である一方、貸出規制の強化が伝貰の月貰化を加速させるという双方向の関係にある。"
+      },
+      {
+       "target_id": "kr-regional-extinction",
+       "relation": "共通の根本原因",
+       "description": "雇用・教育・インフラの首都圏一極集中が、ソウルの住宅価格高騰と地方の住宅市場冷え込み(悪性未分譲の85.5%が地方に集中)の双方を生む共通の構造要因である。"
+      },
+      {
+       "target_id": "kr-suicide-mental-health",
+       "relation": "悪化させる",
+       "description": "伝貰詐欺被害者の相次ぐ自殺が社会問題化するなど、保証金喪失という経済的打撃が青年層の精神健康危機を深刻化させたと指摘されている。"
+      },
+      {
+       "target_id": "kr-youth-employment-crisis",
+       "relation": "相互に影響",
+       "description": "雇用が不安定な青年は伝貰・持ち家取得の与信から排除されて住居費の高い月貰に滞留しやすく、住居費負担がさらに資産形成と生活基盤の安定を妨げる悪循環が指摘されている。"
+      }
+     ]
+    },
+    {
+     "id": "kr-household-debt",
+     "name": "家計負債・自営業者債務の膨張",
+     "emoji": "💳",
+     "category": "経済・財政",
+     "tagline": "家計の借金2000兆ウォン目前",
+     "overview": "韓国の家計信用残高は2026年3月末に1,993.1兆ウォンと統計開始(2002年)以来の最大値を更新し、2,000兆ウォンの大台に迫っている。名目GDP比では2021年の98.7%から2025年末に88.6%へと6年3か月ぶりの低水準まで低下したが、依然として主要国で最上位圏の高さである。並行して自営業者向け貸出は2026年Q1末に1,095.5兆ウォンに達し、脆弱借主(3件以上の多重債務かつ低所得・低信用)のうち延滞中の借主の割合は2025年Q2末に25.6%と統計開始(2012年)以来の最高を記録、脆弱借主の延滞率(金額基準)も2026年Q1末に12.68%へ上昇した。2025年には97.6万事業者が廃業し(廃業率8.64%、件数は前年比では微減)、金融債務を長期延滞する自営業者は2020年末の約5.1万人から2025年7月末に約16.1万人へと約3倍に急増している。",
+     "why_problem": "家計貸出の借主1人当たり残高は9,739万ウォン(2025年Q4末)と過去最高で、元利金返済負担が消費を圧迫し内需回復を遅らせる(DSRが1%p上昇すると借主の消費支出は平均0.23%減少との推計)。全体家計貸出の固定金利比率は24.6%(2026年5月新規取扱基準)にとどまり、変動金利中心の構造は金利上昇ショックに脆弱で、韓国銀行の利下げ・利上げ判断を制約するマクロリスクとなっている。一方で「GDP比は既に低下傾向にあり、DSR規制強化で管理可能」との見方もあり、規制強化は実需層の住宅取得を阻むとの反論も存在する。ただし自営業者については、非銀行圏(貯蓄銀行の個人事業者貸出延滞率は2026年Q1末に12.79%と約11年ぶり高水準)への債務集中と廃業・延滞の連鎖が金融安定上の懸念として当局も認める点で概ね見解が一致している。",
+     "future_outlook": "名目GDPの成長と貸出規制(ストレスDSR3段階)により家計負債のGDP比は緩やかな低下が続くと当局は見込む(2030年までに80%未満が目標)が、残高自体は増加を続け2,000兆ウォン突破が目前である。自営業者部門では60歳以上の負債が405.7兆ウォン、不動産業向けが163.5兆ウォンと高齢化・不動産偏重が進み、サービス業景気が悪化する悲観シナリオでは自営業者延滞率が2027年Q1に2.58%まで上昇するとの韓国銀行の試算があり、非銀行圏を起点とする不良債権の拡大が今後数年の最大リスクとなる。",
+     "key_stats": [
+      {
+       "label": "家計信用残高(2026年Q1末、過去最大)",
+       "value": "1,993.1兆ウォン",
+       "year": "2026",
+       "source_name": "韓国銀行(家計信用統計)・毎日新聞(大邱)",
+       "source_url": "https://www.imaeil.com/page/view/2026051914335756228"
+      },
+      {
+       "label": "家計負債の名目GDP比(2025年末、6年3か月ぶり低水準)",
+       "value": "88.6%",
+       "year": "2025",
+       "source_name": "BIS・Seoul Economic Daily",
+       "source_url": "https://en.sedaily.com/news/2026/06/16/korea-household-debt-ratio-hits-lowest-level-in-over-six"
+      },
+      {
+       "label": "自営業者向け貸出残高(2026年Q1末、借主320.1万人)",
+       "value": "1,095.5兆ウォン",
+       "year": "2026",
+       "source_name": "韓国銀行 金融安定報告書(2026年6月)・メトロソウル",
+       "source_url": "https://www.metroseoul.co.kr/article/20260624500173"
+      },
+      {
+       "label": "2025年の自営業者廃業数(廃業率8.64%)",
+       "value": "97.6万事業者",
+       "year": "2025",
+       "source_name": "中小ベンチャー企業部 廃業実態調査・ネイトニュース",
+       "source_url": "https://news.nate.com/view/20260713n00928"
+      },
+      {
+       "label": "金融債務の長期延滞自営業者(2020年末5.1万人から約3倍)",
+       "value": "16.1万人",
+       "year": "2025",
+       "source_name": "NICE評価情報(国会提出資料)・M経済ニュース",
+       "source_url": "https://www.m-economynews.com/news/article.html?no=59597"
+      },
+      {
+       "label": "家計貸出の借主1人当たり残高(2025年Q4末、過去最高)",
+       "value": "9,739万ウォン",
+       "year": "2025",
+       "source_name": "韓国銀行(借主別家計負債統計)・アジアトゥデイ",
+       "source_url": "https://www.asiatoday.co.kr/kn/view.php?key=20260224010007193"
+      },
+      {
+       "label": "自営業者貸出の延滞額・延滞率(2026年Q1末、延滞額は過去最大・延滞率は10年9か月ぶり高水準)",
+       "value": "22.3兆ウォン(延滞率2.04%)",
+       "year": "2026",
+       "source_name": "韓国銀行・韓国経済新聞",
+       "source_url": "https://www.hankyung.com/article/2026063056517"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 1968,
+      "affected_note": "家計貸出の借主は約1,968万人(2025年Q3末、韓国銀行・借主別家計負債統計)で総人口の約4割。自営業債務者(320.1万人、2026年Q1末・韓国銀行金融安定報告書)の大半はこれに含まれる。",
+      "econ_impact_trillion_yen": 8.6,
+      "econ_note": "家計信用残高1,993.1兆ウォン(2026年3月末)に残高ベースの実効金利を約4%と仮定して乗じた年間利払い負担は約80兆ウォン規模との推計(参考:新規取扱基準の家計貸出加重平均金利は2026年5月に4.46%、韓国銀行・金融機関加重平均金利)。1ウォン=0.107円(2026年7月時点の概算レート)で約8.6兆円。ほかに自営業者延滞額22.3兆ウォン(2026年Q1末、約2.4兆円)が不良債権化リスクとして存在。",
+      "urgency": 4,
+      "urgency_rationale": "GDP比自体は低下傾向で全面的危機は当面回避されているが、自営業の脆弱借主のうち延滞中の借主の割合が25.6%(2025年Q2末、統計開始以来最悪)、脆弱借主延滞率12.68%(2026年Q1末)、長期延滞者の約4年半で3倍増、貯蓄銀行の個人事業者貸出延滞率12.79%(2026年Q1末、約11年ぶり高水準)など、非銀行圏を中心とする自営業者債務の不良化は既に進行中で、今後5年で廃業・延滞・信用喪失の連鎖が不可逆化するリスクが高い。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-household-debt-gdp-ratio",
+       "name": "GDP比約90%の家計負債と住宅担保貸出への偏重",
+       "description": "家計負債の名目GDP比は2021年の98.7%をピークに低下したものの、2025年末で88.6%と主要国最上位圏にとどまる。残高は2026年Q1に1,993.1兆ウォンと過去最大を更新し、増加の中心は住宅関連貸出と信用貸出で、ソウル圏の住宅価格上昇局面ではいわゆる「ヨンクル(魂までかき集めた借入)」が再燃しやすい構造にある。",
+       "severity": 4,
+       "key_stat": {
+        "label": "家計負債の名目GDP比(2025年末)",
+        "value": "88.6%",
+        "year": "2025",
+        "source_name": "BIS・Seoul Economic Daily",
+        "source_url": "https://en.sedaily.com/news/2026/06/16/korea-household-debt-ratio-hits-lowest-level-in-over-six"
+       }
+      },
+      {
+       "id": "kr-household-debt-self-employed",
+       "name": "自営業者の多重債務・延滞急増と廃業の連鎖",
+       "description": "自営業者向け貸出は1,095.5兆ウォン(2026年Q1末)に達し、3件以上の借入を抱える脆弱自営業者は約43.7万人・債務130.2兆ウォン規模(2025年Q2末)。脆弱借主のうち延滞中の借主の割合は2025年Q2末に25.6%と統計開始以来最悪を記録し、2025年には97.6万事業者が廃業、廃業者の68.5%が平均8,531万ウォンの負債を抱えるなど「廃業しても借金だけ残る」連鎖が深刻化している。",
+       "severity": 5,
+       "key_stat": {
+        "label": "脆弱自営業者のうち延滞中の借主の割合(2025年Q2末、統計開始以来最高)",
+        "value": "25.6%",
+        "year": "2025",
+        "source_name": "韓国銀行・ヘラルド経済",
+        "source_url": "https://biz.heraldcorp.com/article/10583347"
+       }
+      },
+      {
+       "id": "kr-household-debt-variable-rate",
+       "name": "変動金利中心の脆弱な借入構造と利払い負担",
+       "description": "家計貸出全体に占める固定金利の比率は24.6%(2026年5月新規取扱基準)にとどまり、約4分の3が変動金利で金利上昇ショックに直接さらされる。新規住宅担保貸出でも固定金利比率が41.6%と約5年ぶりの低水準に落ち込み変動金利比率が6割に迫っており、政府は長期固定金利・公的保証中心への構造転換を課題としている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "家計貸出の固定金利比率(2026年5月新規基準、変動金利約75%)",
+        "value": "24.6%",
+        "year": "2026",
+        "source_name": "韓国銀行・京郷新聞",
+        "source_url": "https://www.khan.co.kr/article/202606261437001"
+       }
+      },
+      {
+       "id": "kr-household-debt-youth",
+       "name": "青年層の負債累積(住宅・投資・生活資金)",
+       "description": "30代の1人当たり平均家計貸出は2013年の5,374万ウォンから2025年に1億218万ウォンへ90.1%増とほぼ倍増し、20代も同期間に89.1%増の3,047万ウォンとなった。主因は住宅関連貸出だが、投資目的の「ピットゥ(借金投資)」や生活資金借入も累積し、20代の5大銀行家計貸出延滞率(0.41%、2025年上半期)は全年齢層で最も高い水準にある。",
+       "severity": 3,
+       "key_stat": {
+        "label": "30代の1人当たり平均家計貸出(2025年)",
+        "value": "1億218万ウォン",
+        "year": "2025",
+        "source_name": "韓国銀行(国会提出資料)・文化日報",
+        "source_url": "https://www.munhwa.com/article/11600981"
+       }
+      },
+      {
+       "id": "kr-household-debt-consumption-drag",
+       "name": "債務返済負担による消費抑制と内需低迷",
+       "description": "借主1人当たり貸出残高が9,739万ウォンと過去最高に達する中、元利金返済負担が家計の可処分所得を圧迫し、内需回復を遅らせている。韓国金融研究院の分析ではDSR(総負債元利金返済比率)が1%ポイント上昇すると借主の消費支出は平均0.23%減少すると推計され、高債務が金融政策の景気刺激効果を弱める経路として指摘される。",
+       "severity": 3,
+       "key_stat": {
+        "label": "DSRが1%p上昇した場合の借主の消費支出減少幅(推計)",
+        "value": "平均0.23%減",
+        "year": "2023",
+        "source_name": "韓国金融研究院(KDI経済教育・情報センター掲載)",
+        "source_url": "https://eiec.kdi.re.kr/policy/domesticView.do?ac=0000184638"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-housing-affordability",
+       "relation": "相互に影響",
+       "description": "住宅価格高騰と伝貰資金需要が住宅担保貸出膨張の主因であり、貸出拡大が再び住宅価格を押し上げる循環が指摘されている。"
+      },
+      {
+       "target_id": "kr-elderly-poverty-pension",
+       "relation": "悪化させる",
+       "description": "60歳以上の自営業者負債は405.7兆ウォンに達し、60代以上の金融債務長期延滞者は2021年の約0.8万人から2025年7月に約3.6万人へ約4.6倍に急増しており、退職後に自営業へ参入した高齢層の老後貧困リスクを高めている。"
+      },
+      {
+       "target_id": "kr-youth-employment-crisis",
+       "relation": "相互に影響",
+       "description": "青年の雇用・所得基盤の弱さが生活資金・投資目的の借入を増やし、累積した債務負担が青年の経済的自立と再挑戦をさらに遅らせている。"
+      },
+      {
+       "target_id": "kr-ultra-low-birthrate",
+       "relation": "悪化させる",
+       "description": "住宅取得に伴う多額の債務と元利金返済負担が、青年層の結婚・出産の経済的余力を奪う要因として研究・政策論議で指摘されている。"
+      },
+      {
+       "target_id": "kr-suicide-mental-health",
+       "relation": "悪化させる",
+       "description": "経済・生活問題は韓国の自殺動機の主要因の一つであり、廃業と債務不履行の連鎖が自営業者らの精神健康危機に直結すると指摘されている。"
+      }
+     ]
+    },
+    {
+     "id": "kr-regional-extinction",
+     "name": "地方消滅と首都圏一極集中",
+     "emoji": "🏙️",
+     "category": "人口・社会",
+     "tagline": "人口の半分が首都圏に集中する国",
+     "overview": "韓国では国土面積の約12%にすぎないソウル・京畿・仁川の首都圏に、2025年12月末時点で住民登録人口の51.0%(2,608万1,644人)が居住し、首都圏と非首都圏の人口差は初めて100万人を超えた。域内総生産(GRDP)でも2024年(暫定)に全国の52.8%(1,352兆ウォン)を首都圏が占める。韓国雇用情報院の従来指数では2024年3月時点で全228市郡区の57.0%にあたる130地域が「消滅危険地域」に分類され釜山広域市が広域市として初めて消滅危険段階(指数0.490)に入ったが、2025年に指数体系が9年ぶりに改定され、新基準では229市郡区中62地域(27.1%)が消滅危険地域、釜山は「管理」段階に再分類された。政府は2021年に89市郡区を「人口減少地域」に指定し2022年から10年間・年1兆ウォン規模(初年度は7,500億ウォン)の地方消滅対応基金を投入しているが、進学・就職を契機とした20〜30代の首都圏流出が地方の医療・教育・雇用基盤の縮小と連鎖する悪循環は続いている。",
+     "why_problem": "韓国銀行の分析(BOKイシューノート第2023-29号)によれば、2015〜2021年の首都圏人口増加に対する青年層(15〜34歳)流入の寄与率は78.5%であり、首都圏と非首都圏の月平均実質賃金格差は2015年の34万ウォンから2021年には53万ウォンに拡大した。青年流出は地域の出生基盤そのものを奪い、湖南圏では過去20年の青年流出による2021年の出生損失が出生数の49.7%に達したと推計されるなど、首都圏集中は超低出生率とも直結する国家的課題とされる。他方、対応策をめぐっては立場が分かれ、全地域への均等な財政配分を重視する伝統的均衡発展論に対し、韓国銀行等は「拠点都市への選択と集中」がむしろ人口流出抑制に有効と主張しており、限られた財源の配分方式を巡る論争が続いている。首都圏側では集中を経済効率の結果とみる見方もあり、規制的分散策の是非についても評価が割れている。",
+     "future_outlook": "監査院は合計特殊出生率と人口移動の趨勢が続けば2047年までに全229市郡区が消滅危険段階に入ると展望しており、ソウル大社会発展研究所・韓国保健社会研究院の報告書は学齢人口減少により2042〜46年には国内大学385校のうち約半数の190校程度しか存続できないと予測する。韓国銀行の試算では、現在の移動趨勢が続けば首都圏人口比率は2053年に53.1%へ上昇する一方、拠点都市中心の均衡発展に転換すれば49.2%まで低下しうるとされ、政策転換の成否が地方の存続を左右する。2025年の指数改定で釜山は「管理」段階に再分類されたものの、非首都圏人口の減少(2025年は前年比0.53%減)と青年流出の構造自体は変わっていない。",
+     "key_stats": [
+      {
+       "label": "消滅危険地域(2025年改定指数、全229市郡区中)",
+       "value": "62地域(27.1%)※改定前の旧指数では2024年3月時点130地域(57.0%)",
+       "year": "2025",
+       "source_name": "韓国雇用情報院『地域産業と雇用』秋号(釜山日報報道)",
+       "source_url": "https://www.busan.com/view/busan/view.php?code=2025101513423366095"
+      },
+      {
+       "label": "首都圏の人口比率",
+       "value": "51.0%(2,608万1,644人)・非首都圏との格差が初の100万人超",
+       "year": "2025年末",
+       "source_name": "行政安全部 住民登録人口統計分析結果(釜山日報報道)",
+       "source_url": "https://www.busan.com/view/busan/view.php?code=2026010417341933605"
+      },
+      {
+       "label": "首都圏のGRDP(域内総生産)比率",
+       "value": "52.8%(1,352兆ウォン)",
+       "year": "2024",
+       "source_name": "国家データ処(旧統計庁)地域所得(暫定)(ニューシス報道)",
+       "source_url": "https://www.newsis.com/view/NISX20260703_0003695527"
+      },
+      {
+       "label": "首都圏人口増加に対する青年層(15〜34歳)流入の寄与率",
+       "value": "78.5%(2015〜2021年)",
+       "year": "2023",
+       "source_name": "韓国銀行 BOKイシューノート第2023-29号「地域間人口移動と地域経済」",
+       "source_url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=10080338&menuNo=200433"
+      },
+      {
+       "label": "政府指定「人口減少地域」と地方消滅対応基金",
+       "value": "89市郡区・年1兆ウォン(2022〜2031年、初年度は7,500億ウォン)",
+       "year": "2022",
+       "source_name": "行政安全部(国家均衡発展情報システムNABIS)",
+       "source_url": "https://www.nabis.go.kr/policyDetailView.do?menucd=20&gbnCode=P50&refCode=20&poIdx=6313"
+      },
+      {
+       "label": "救急医療脆弱地に指定された市郡区",
+       "value": "98市郡区(全国の約4割)",
+       "year": "2024",
+       "source_name": "保健福祉部告示第2024-261号",
+       "source_url": "https://www.mohw.go.kr/board.es?mid=a10107010100&bid=0043&act=view&list_no=1484143&tag=&cg_code=&list_depth=1"
+      },
+      {
+       "label": "2025学年度追加募集後も定員未達の大学のうち地方大学",
+       "value": "49校中40校",
+       "year": "2025",
+       "source_name": "韓国大学新聞",
+       "source_url": "https://news.unn.net/news/articleView.html?idxno=575812"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 2504,
+      "affected_note": "非首都圏の住民登録人口2,503万5,734人(全体5,111万7,378人の49.0%、2025年12月末時点)が医療・教育・雇用基盤の縮小の影響圏にあり、うち政府指定の人口減少地域89市郡区と消滅危険地域の住民が直接的な影響を受ける。",
+      "econ_impact_trillion_yen": 0.39,
+      "econ_note": "検証可能な直接財政対応額ベース:地方消滅対応基金 年1兆ウォン(2022〜2031年)+人口減少地域向け国庫補助事業(52事業)約2.56兆ウォン=年約3.56兆ウォン。1ウォン≈0.11円(2026年半ばの概算レート)で換算し約0.39兆円。青年流出による出生損失(湖南圏で出生数の49.7%相当と韓国銀行が推計)や地域GRDP縮小などの間接損失はウォン建て年間推計が確認できず、この額には含まれない(実際の経済インパクトはこれを大きく上回るとみられる)。",
+      "urgency": 4,
+      "urgency_rationale": "2025年末に首都圏・非首都圏の人口格差が初めて100万人を超え、2025学年度には地方大学の定員未達が一斉に顕在化するなど悪化が続いている。2025年の指数改定で釜山は「管理」段階に再分類されたが、これは基準変更によるもので流出構造は不変であり、監査院は2047年までに全229市郡区が消滅危険段階に入ると展望する。人口構造の慣性により今後5年の流出が将来の出生基盤を不可逆的に毀損するが、消滅自体が5年以内に完結するわけではないため4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-regional-extinction-youth-women-outflow",
+       "name": "青年層(特に20〜30代女性)の首都圏流出",
+       "description": "進学と就職を契機に青年層が首都圏へ流出し、2015〜2021年の首都圏人口増加に対する青年層(15〜34歳)流入の寄与率は78.5%に達した。特に20代女性の流出は地域の出生基盤を直接毀損し、湖南圏では青年流出による出生損失が2021年出生数の49.7%に相当すると推計される。期待所得や文化・医療サービスの地域間格差拡大が流出の主因とされる。",
+       "severity": 5,
+       "key_stat": {
+        "label": "首都圏人口増加に対する青年層(15〜34歳)流入の寄与率",
+        "value": "78.5%(2015〜2021年)",
+        "year": "2023",
+        "source_name": "韓国銀行 BOKイシューノート第2023-29号",
+        "source_url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=10080338&menuNo=200433"
+       }
+      },
+      {
+       "id": "kr-regional-extinction-medical-vacuum",
+       "name": "人口減少地域の医療インフラ崩壊と地域医療の空白",
+       "description": "保健福祉部は2024年末の告示で、地域救急医療センターに30分以内に到達できない等の人口が3割を超える98市郡区を救急医療脆弱地に指定した。分娩可能な産科が60分以内にない分娩脆弱地も残存し、医療空白がさらなる人口流出を招く悪循環が指摘される。政府は脆弱地での非対面診療全面許可などで対応している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "救急医療脆弱地の指定数",
+        "value": "98市郡区",
+        "year": "2024",
+        "source_name": "保健福祉部告示第2024-261号",
+        "source_url": "https://www.mohw.go.kr/board.es?mid=a10107010100&bid=0043&act=view&list_no=1484143&tag=&cg_code=&list_depth=1"
+       }
+      },
+      {
+       "id": "kr-regional-extinction-university-decline",
+       "name": "地方大学の定員割れ・閉鎖ドミノ",
+       "description": "2025学年度入試では167大学が計9,131人の追加募集を実施したにもかかわらず49大学が定員を満たせず、うち40校が地方大学だった。追加募集の競争率もソウル圏75.5倍に対し地方圏9.0倍と格差が大きい。学齢人口減少で2042〜46年には大学数が現在の半分程度(385校中190校)に減るとの予測もあり、大学消滅は地域の若年人口と関連産業の喪失に直結する。",
+       "severity": 4,
+       "key_stat": {
+        "label": "2025学年度定員未達大学のうち地方大学",
+        "value": "49校中40校",
+        "year": "2025",
+        "source_name": "韓国大学新聞",
+        "source_url": "https://news.unn.net/news/articleView.html?idxno=575812"
+       }
+      },
+      {
+       "id": "kr-regional-extinction-local-economy",
+       "name": "地域経済・雇用基盤の縮小と賃金格差",
+       "description": "首都圏と非首都圏の月平均実質賃金格差は2015年の34万ウォンから2021年には53万ウォンへ拡大し、良質な雇用の首都圏偏在が青年流出の最大の誘因となっている。GRDPでも首都圏比率が2024年(暫定)に52.8%へ上昇し、生産と雇用の集中が加速している。産業研究院のK-地方消滅指数では消滅危機地域59カ所のうち半数超(54.2%、全南13・江原10・慶北9)が全南・江原・慶北に集中する。",
+       "severity": 4,
+       "key_stat": {
+        "label": "首都圏・非首都圏の月平均実質賃金格差",
+        "value": "53万ウォン(2015年は34万ウォン)",
+        "year": "2021",
+        "source_name": "韓国銀行 BOKイシューノート第2023-29号",
+        "source_url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=10080338&menuNo=200433"
+       }
+      },
+      {
+       "id": "kr-regional-extinction-metro-spillover",
+       "name": "広域市(釜山等)への消滅リスク波及",
+       "description": "2024年、釜山広域市の消滅危険指数が0.490となり、広域市として初めて消滅危険段階に入った。釜山の16基礎自治体のうち11が消滅危険地域に分類され、東莱区・海雲台区といった代表的住宅地まで含まれた点が衝撃を与え、地方消滅が農漁村から大都市圏の問題へ質的に転換したことを示した。2025年に韓国雇用情報院が指数体系を9年ぶりに改定した結果、釜山は「危険進入」から「管理」段階に再分類されたが、これは基準変更によるもので、人口減少(2025年末324万人、前年比0.77%減)と高齢化の傾向自体は続いている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "釜山の消滅危険指数(2024年・旧指数で広域市初の消滅危険段階。2025年の指数改定後は「管理」段階)",
+        "value": "0.490",
+        "year": "2024",
+        "source_name": "韓国雇用情報院(釜山日報報道)",
+        "source_url": "https://www.busan.com/view/busan/view.php?code=2024063018261451812"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-ultra-low-birthrate",
+       "relation": "相互に影響",
+       "description": "韓国銀行は青年層の首都圏集中が競争激化と高住居費を通じて出生率を押し下げる一方(湖南圏の出生損失49.7%推計)、低出生自体が地方の人口再生産を断つ双方向の悪循環を指摘している。"
+      },
+      {
+       "target_id": "kr-youth-employment-crisis",
+       "relation": "相互に影響",
+       "description": "地域の良質な雇用の不足が青年の首都圏流出を促し、青年流出がさらに地域の雇用基盤を縮小させる循環が韓国銀行・KDIの分析で指摘されている。"
+      },
+      {
+       "target_id": "kr-housing-affordability",
+       "relation": "悪化させる",
+       "description": "人口と雇用の首都圏集中が首都圏の住宅需要を構造的に押し上げ、住宅価格高騰と住居不安を深刻化させる要因と指摘される。"
+      },
+      {
+       "target_id": "kr-super-aged-society",
+       "relation": "悪化させる",
+       "description": "青年層の流出により地方の高齢化が全国平均より急速に進み、消滅危険地域では高齢者比率の急上昇と生産年齢人口の急減が同時に進行する。"
+      }
+     ]
+    },
+    {
+     "id": "kr-elderly-poverty-pension",
+     "name": "高齢者貧困と年金制度の持続可能性の危機",
+     "emoji": "👴",
+     "category": "経済・財政",
+     "tagline": "働いても貧しい老後、揺らぐ年金",
+     "overview": "韓国の65歳以上の相対的貧困率は39.7%と初めて4割を下回ったものの、依然OECD平均(14.8%)の約2.7倍で加盟国中最悪である。背景には公的年金の未成熟があり、65歳以上で国民年金を受給しているのは約半数にとどまり、老齢年金の平均受給額も月約68万ウォンと1人世帯の最低生計費を下回る。このため65〜69歳の57%が働き続けるなど、生計を高齢就労と月最大約34万ウォンの基礎年金に依存する構造が続く。2025年3月には保険料率を9%から13%へ引き上げる18年ぶりの改革が成立したが、基金枯渇は2056年から2064年へ8年先送りされたにすぎない。",
+     "why_problem": "高齢者の4割が貧困線以下で暮らす現状は、所得保障制度が高齢化のスピードに追いついていないことを示し、高齢者の自殺・孤立・生計型就労の背景要因ともなっている。将来世代でも国民年金の所得代替率は33.4%とOECD平均を大きく下回り、「低負担・低給付」構造のままでは貧困の再生産が避けられない。対応策をめぐっては、給付十分性を重視し所得代替率や基礎年金のさらなる引き上げを求める立場と、財政持続性と世代間公平を重視し保険料引き上げや自動調整装置の導入を優先する立場が対立している。2025年改革は保険料率13%への引き上げと代替率43%で妥協したが、基金枯渇の先送りにとどまり、基礎年金・退職年金を含む構造改革は積み残されたという点では両陣営の評価が一致する。",
+     "future_outlook": "統計庁の推計では高齢人口比率は2036年に30%、2050年には40%を超え、年金の支え手減少と受給者急増が同時進行する。2025年改革後も国民年金は2048年に収支赤字へ転落し2064年に基金枯渇が見込まれるため、自動調整装置の導入や基礎年金・退職年金を含む「構造改革」の第2弾論議が今後数年の焦点となる。改革が遅れるほど必要な保険料率は上がり、若い世代ほど負担が重くなる構図が続く。",
+     "key_stats": [
+      {
+       "label": "65歳以上の相対的貧困率(OECD加盟国中最悪)",
+       "value": "39.7%(OECD平均14.8%の約2.7倍)",
+       "year": "2025年版OECD統計(2026年7月分析公表)",
+       "source_name": "The Korea Times(OECD Pensions at a Glance 2025・国民年金研究院分析)",
+       "source_url": "https://www.koreatimes.co.kr/southkorea/20260711/elderly-poverty-rate-falls-below-40-percent-for-first-time-but-still-highest-in-the-oecd"
+      },
+      {
+       "label": "平均所得者の将来の国民年金所得代替率",
+       "value": "33.4%(OECD平均43.0%より9.6pt低い)",
+       "year": "2025",
+       "source_name": "OECD「Pensions at a Glance 2025」韓国カントリーノート",
+       "source_url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/11/pensions-at-a-glance-2025-country-notes_e320013d/korea-republic-of_7399de46/5cd52913-en.pdf"
+      },
+      {
+       "label": "2025年改革後の国民年金基金枯渇見通し",
+       "value": "2064年(改革前の2056年から8年延長。保険料率は2026年から毎年0.5ptずつ引き上げ2033年に13%)",
+       "year": "2025",
+       "source_name": "国民年金公団(NPS)年金改革解説",
+       "source_url": "https://www.nps.or.kr/pnsinfo/ntpsklg/getOHAF0104M0.do"
+      },
+      {
+       "label": "老齢年金(国民年金)の月平均受給額",
+       "value": "67万9,924ウォン(約7.3万円)",
+       "year": "2025年7月時点",
+       "source_name": "KNNニュース(国民年金公団統計)",
+       "source_url": "https://news.knn.co.kr/news/article_sns/268"
+      },
+      {
+       "label": "65歳以上人口と総人口比",
+       "value": "1,051万4,000人・20.3%(統計庁の高齢者統計で初の1,000万人・20%超え。行政上は2024年12月に超高齢社会入り)",
+       "year": "2025",
+       "source_name": "MBCニュース(統計庁「2025高齢者統計」)",
+       "source_url": "https://imnews.imbc.com/news/2025/society/article/6760907_36718.html"
+      },
+      {
+       "label": "65〜69歳の就業率",
+       "value": "57%(OECD平均26%、日本と並びOECD最高水準)",
+       "year": "2024",
+       "source_name": "OECD「Pensions at a Glance 2025」韓国カントリーノート",
+       "source_url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/11/pensions-at-a-glance-2025-country-notes_e320013d/korea-republic-of_7399de46/5cd52913-en.pdf"
+      },
+      {
+       "label": "基礎年金の受給者数と予算",
+       "value": "受給者651万人(2025年9月)・2026年予算24.4兆ウォン(国費+地方費)",
+       "year": "2025-2026",
+       "source_name": "韓国シニア新聞",
+       "source_url": "https://www.kseniornews.com/news/articleView.html?idxno=26798"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 1051,
+      "affected_note": "65歳以上人口1,051万人(総人口の20.3%、統計庁2025)が給付水準・基礎年金の直接の影響圏。うち相対的貧困状態は約39.7%≒約417万人。さらに保険料引き上げ(9%→13%)は現役の国民年金加入者約2,200万人に負担増として波及する。",
+      "econ_impact_trillion_yen": 7.3,
+      "econ_note": "高齢期所得保障の年間公的支出を代理指標とした。国民年金給付支出約44兆ウォン(2024年)+基礎年金予算24.4兆ウォン(2026年、国費+地方費)=約68兆ウォン。1ウォン≒0.107円(2026年7月実勢0.1069円、100円≒935ウォン)で約7.3兆円。基金枯渇後は年金給付だけでGDP比数%規模の追加財政負担が生じる見込みで、実際のインパクトはこれを上回る。",
+      "urgency": 4,
+      "urgency_rationale": "改革後も国民年金は2048年に収支赤字へ転落、2064年に基金枯渇の見通しで、追加改革が1年遅れるごとに必要保険料率が上昇する。高齢人口は2036年に30%へ達する見込みで、構造改革(自動調整装置・基礎年金再編)の着手時期は今後5年が事実上の期限とされる。一方、貧困率自体は2015年の49.6%から緩やかに改善傾向にあるため5ではなく4とした。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-elderly-poverty-pension-oecd-worst-poverty",
+       "name": "OECD最悪の高齢者相対貧困率",
+       "description": "65歳以上の相対的貧困率は39.7%と初めて4割を下回ったが、依然OECD平均の約2.7倍で加盟国中最悪。改善はベビーブーム世代など年金が成熟し資産を持つ世代の高齢化による面が大きく、75歳以上や単身高齢女性ではより深刻とされる。",
+       "severity": 5,
+       "key_stat": {
+        "label": "65歳以上の相対的貧困率",
+        "value": "39.7%(OECD平均14.8%)",
+        "year": "2025年版OECD統計",
+        "source_name": "The Korea Times(OECD Pensions at a Glance 2025)",
+        "source_url": "https://www.koreatimes.co.kr/southkorea/20260711/elderly-poverty-rate-falls-below-40-percent-for-first-time-but-still-highest-in-the-oecd"
+       }
+      },
+      {
+       "id": "kr-elderly-poverty-pension-low-benefit-gap",
+       "name": "公的年金の低給付と無年金・低年金層の広がり",
+       "description": "1988年導入と歴史が浅い国民年金は「少なく払い少なく受け取る」構造で、65歳以上の受給率は51.2%(2023年末)にとどまり、老齢年金の平均受給額も月約68万ウォンと低い。納付猶予者・長期滞納者など加入の死角地帯も372万人に上り、将来の無年金・低年金層を再生産している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "65歳以上の国民年金受給率",
+        "value": "51.2%(加入の死角地帯372万人)",
+        "year": "2023年末(2024年公表)",
+        "source_name": "KDI経済情報センター(保健福祉部資料)",
+        "source_url": "https://eiec.kdi.re.kr/policy/materialView.do?num=249683"
+       }
+      },
+      {
+       "id": "kr-elderly-poverty-pension-fund-depletion",
+       "name": "国民年金基金の枯渇見通しと保険料引き上げ負担",
+       "description": "2025年3月の改革で保険料率は2026年から毎年0.5ptずつ引き上げられ2033年に13%へ、所得代替率は43%に引き上げられた。しかし基金枯渇は2056年から2064年へ8年先送りされたにすぎず、2048年には収支赤字に転落する見通しで、賦課方式転換時には現役世代に大幅な追加負担が生じる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "改革後の基金枯渇見通し(収支赤字転落は2048年)",
+        "value": "2064年(保険料率9%→13%、所得代替率41.5%→43%)",
+        "year": "2025",
+        "source_name": "国民年金公団(NPS)",
+        "source_url": "https://www.nps.or.kr/pnsinfo/ntpsklg/getOHAF0104M0.do"
+       }
+      },
+      {
+       "id": "kr-elderly-poverty-pension-generational-inequity",
+       "name": "世代間の負担・給付の不公平感と制度不信",
+       "description": "若い世代ほど高い保険料を長く払いながら受給時に基金が枯渇しているとの不信が強く、経営者総協会の2025年調査では国民年金への信頼は20代30.8%・30代25.3%にとどまり、保険料引き上げには20代の83%が否定的だった。一方で「世代間扶養は公的年金の本質であり、給付十分性の確保が先」との反論もあり、負担配分をめぐる合意形成が難航している。",
+       "severity": 3,
+       "key_stat": {
+        "label": "20代の国民年金信頼度(30代は25.3%)",
+        "value": "30.8%(保険料率引き上げに20代の83%が否定的)",
+        "year": "2025",
+        "source_name": "韓国日報(韓国経営者総協会「2025国民年金懸案対国民認識調査」)",
+        "source_url": "https://www.hankookilbo.com/News/Read/A2025110513220002347"
+       }
+      },
+      {
+       "id": "kr-elderly-poverty-pension-elderly-work",
+       "name": "生計のための高齢就労への依存と不安定雇用",
+       "description": "年金だけでは生活できないため65〜69歳の57%が就業しており(OECD平均26%)、女性の実質労働市場退出年齢は69.6歳とOECDで突出して高い(男性は67.4歳)。その多くは警備・清掃・配達など低賃金・不安定な仕事や政府の高齢者雇用事業で、「働いても貧しい」高齢期が常態化している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "65〜69歳の就業率",
+        "value": "57%(OECD平均26%、女性の労働市場退出年齢69.6歳)",
+        "year": "2024",
+        "source_name": "OECD「Pensions at a Glance 2025」韓国カントリーノート",
+        "source_url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/11/pensions-at-a-glance-2025-country-notes_e320013d/korea-republic-of_7399de46/5cd52913-en.pdf"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-super-aged-society",
+       "relation": "相互に影響",
+       "description": "史上最速の高齢化が年金の支え手を減らして財政を悪化させる一方、年金の脆弱さが高齢社会全体の生活不安を増幅する。"
+      },
+      {
+       "target_id": "kr-ultra-low-birthrate",
+       "relation": "相互に影響",
+       "description": "少子化による加入者減が基金枯渇時期を早め、逆に保険料引き上げ(9%→13%)は若年層の可処分所得を圧迫し家族形成の余力を削ぐと指摘される。"
+      },
+      {
+       "target_id": "kr-suicide-mental-health",
+       "relation": "悪化させる",
+       "description": "高齢者の貧困と老後不安は、OECD最高水準にある韓国の高齢者自殺率の主要因の一つと指摘されている。"
+      },
+      {
+       "target_id": "kr-social-isolation",
+       "relation": "悪化させる",
+       "description": "低年金・無年金の独居高齢者は経済的困窮と社会的孤立が重なり、孤独死リスクが高い層とされる。"
+      },
+      {
+       "target_id": "kr-labor-market-dualism",
+       "relation": "共通の根本原因",
+       "description": "主職からの早期退職と非正規中心の再就職という労働市場の二重構造が、年金加入期間の短さと老後貧困双方の共通背景にある。"
+      }
+     ]
+    },
+    {
+     "id": "kr-digital-safety",
+     "name": "デジタル性犯罪とサイバーセキュリティ不安",
+     "emoji": "🔓",
+     "category": "安全保障・災害",
+     "tagline": "AI性犯罪と大量流出が侵す日常",
+     "overview": "警察庁が受理したディープフェイク(虚偽映像物)性犯罪は2021年の156件から2024年に1,202件へ約7.7倍に急増し、2025年は1〜9月だけで1,318件に達した。デジタル性犯罪被害者支援センターが2025年に支援した被害者は1万637人で、10〜20代が77.6%、合成・編集被害では女性が1,581件と男性(35件)の約45倍(約98%)を占める一方、虚偽映像物被疑者の7割前後を10代が占める。並行して2025年にはSKテレコムのハッキングで2,324万人分のUSIM情報が流出して課徴金1,348億ウォンが科され、同年11月にはクーパンで約3,750万人分の個人情報流出が発覚し2026年6月に史上最大の課徴金6,249億ウォンが科された。ボイスフィッシング被害額も2025年は1〜10月だけで1兆566億ウォンと初めて1兆ウォンを突破し、デジタル空間の安全への国民的不安が高まっている。",
+     "why_problem": "ディープフェイク性犯罪は被害者の大半が10〜20代女性、検挙される被疑者の7割前後が10代という構図で、匿名プラットフォーム上の拡散は被害者に不可逆的な苦痛を与え、青少年の加害・被害双方の急増は教育・司法制度の想定を超えている。加えてSKテレコム(2,325万人)・クーパン(約3,750万人)と国民の過半に及ぶ大規模流出が連鎖し、住民登録番号や携帯電話に依存する本人認証基盤そのものへの信頼が揺らぎ、ボイスフィッシング等の二次被害拡大への不安が国民的懸念となっている。他方、対応をめぐっては、プラットフォーム規制・監視強化を求める立場と、検閲や表現の自由・通信秘密の侵害、産業革新の萎縮を懸念する立場が対立し、また加害者の多数が10代であることから厳罰化と教育・予防重視のどちらを優先すべきかでも議論が分かれている。",
+     "future_outlook": "生成AIツールの普及で合成・編集被害は今後も増加が見込まれ、警察庁のディープフェイク受理件数は2025年1〜9月だけで1,318件と前年通年(1,202件)を既に上回った。政府は性暴力処罰法改正(2024年10月、所持・視聴の処罰新設)や個人情報保護の課徴金強化で対応を進めるが、海外サーバー経由の流通や本人認証基盤(住民番号・USIM)への依存という構造的脆弱性の解消には時間を要し、被害と規制のいたちごっこが続くとみられる。",
+     "key_stats": [
+      {
+       "label": "デジタル性犯罪被害者数(被害者支援センター支援実績)",
+       "value": "1万637人(うち10〜20代77.6%)",
+       "year": "2025年",
+       "source_name": "韓国女性家族部(省)報道資料(2026年4月公表)",
+       "source_url": "https://www.mogef.go.kr/nw/enw/nw_enw_s001d.do?mid=mda700&bbtSn=713441"
+      },
+      {
+       "label": "ディープフェイク(虚偽映像物)性犯罪の警察受理件数",
+       "value": "1,202件(2021年156件の約7.7倍。2025年は1〜9月で1,318件)",
+       "year": "2024年",
+       "source_name": "韓国警察庁(News1報道)",
+       "source_url": "https://v.daum.net/v/20251017060118660"
+      },
+      {
+       "label": "虚偽映像物事件の被疑者に占める10代の比率",
+       "value": "73.6%(2023年は75.8%)",
+       "year": "2024年1〜7月",
+       "source_name": "韓国警察庁国家捜査本部(SBS報道)",
+       "source_url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1007777868"
+      },
+      {
+       "label": "SKテレコム・ハッキングによるUSIM情報流出者数",
+       "value": "2,324万4,649人(課徴金1,347億9,100万ウォン)",
+       "year": "2025年",
+       "source_name": "個人情報保護委員会(京郷新聞報道)",
+       "source_url": "https://www.khan.co.kr/article/202508282051025"
+      },
+      {
+       "label": "クーパン個人情報流出への課徴金(史上最大を更新)",
+       "value": "6,249億ウォン(流出約3,750万人分)",
+       "year": "2026年6月",
+       "source_name": "個人情報保護委員会(アジア経済報道)",
+       "source_url": "https://view.asiae.co.kr/article/2026061112433409244"
+      },
+      {
+       "label": "ボイスフィッシング被害額(初の1兆ウォン突破)",
+       "value": "1兆566億ウォン(前年通年8,545億ウォンを10ヶ月で超過)",
+       "year": "2025年1〜10月",
+       "source_name": "韓国警察庁(NEWSIS報道)",
+       "source_url": "https://www.newsis.com/view/NISX20251124_0003414755"
+      },
+      {
+       "label": "個人情報流出について「安全でない」と感じる国民の割合",
+       "value": "57.6%(2022年53.2%から上昇)",
+       "year": "2025年",
+       "source_name": "統計庁(国家データ処)社会調査(京郷新聞報道)",
+       "source_url": "https://www.khan.co.kr/article/202512030738001"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 4000,
+      "affected_note": "SKテレコム流出2,325万人とクーパン流出約3,750万人(重複あり)だけで国民(約5,100万人)の過半が大規模流出の対象となったほか、デジタル性犯罪被害者は年1万人超、ボイスフィッシングは2025年1〜10月で約2万件発生。重複を考慮し直接・間接の影響人口を約4,000万人と推計。",
+      "econ_impact_trillion_yen": 0.21,
+      "econ_note": "確認できる直接被害として、ボイスフィッシング被害額1兆566億ウォン(2025年1〜10月、警察庁)を年換算で約1.3兆ウォン、これにSKテレコム課徴金1,348億ウォン、クーパン課徴金6,249億ウォン等の流出事故関連コストを加え、年間約2兆ウォン規模と推計。1ウォン≒0.106円(2026年央レート、100ウォン≒10.6円)換算で約0.21兆円。SKT事件では個人情報紛争調停委が1人当たり30万ウォンの賠償調停案を提示(SKTは拒否し民事訴訟へ)しており、全流出者に適用されれば最大約7兆ウォン規模との試算もあるなど、間接コストを含めれば規模はさらに大きい。",
+      "urgency": 4,
+      "urgency_rationale": "ディープフェイク性犯罪は3年で約7.7倍に急増し2025年も増加が続く。被害映像は一度拡散すると完全削除が事実上不可能で被害者個人にとって不可逆的であり、削除要請に応じない比率も24.7%から28.5%へ上昇。生成AIの普及で加害の敷居が下がり続けており、2025年に大規模流出事故が連鎖したことから、今後数年の対応が被害規模を左右する。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-digital-safety-deepfake-youth",
+       "name": "ディープフェイク性犯罪の急増と加害・被害の若年化",
+       "description": "合成・編集(ディープフェイク)被害は2025年に1,616件と前年比16.8%増加し、女性被害が1,581件と男性(35件)の約45倍(約98%)を占める一方、警察が検挙する虚偽映像物被疑者の7割前後を10代が占める。学校単位で知人の顔を合成した画像がテレグラム等で共有される事案が相次ぎ、加害・被害双方の若年化が国際的にも突出していると指摘される。",
+       "severity": 5,
+       "key_stat": {
+        "label": "合成・編集(ディープフェイク)被害件数",
+        "value": "1,616件(前年比16.8%増、女性被害1,581件=約98%)",
+        "year": "2025年",
+        "source_name": "韓国女性家族部(省)報道資料",
+        "source_url": "https://www.mogef.go.kr/nw/enw/nw_enw_s001d.do?mid=mda700&bbtSn=713441"
+       }
+      },
+      {
+       "id": "kr-digital-safety-data-breach",
+       "name": "大規模個人情報流出(SKT・クーパン等)と本人認証基盤の脆弱性",
+       "description": "2025年4月のSKテレコム・ハッキングでは加入者認証の要であるUSIM情報を含む2,325万人分(格安SIM利用者含むLTE・5G全利用者)の情報が流出し、安全管理上の不備が確認され、当時史上最大の課徴金1,348億ウォンが科された。同年11月にはクーパンから約3,750万人分(会員約3,322万人+非会員最少433万人)の流出が発覚し、2026年6月に史上最大を更新する課徴金6,249億ウォンが科されるなど、通信・プラットフォーム大手の本人認証・個人情報基盤の脆弱性が相次いで露呈した。",
+       "severity": 5,
+       "key_stat": {
+        "label": "SKテレコムUSIM情報流出者数と課徴金",
+        "value": "2,324万4,649人・課徴金1,347億9,100万ウォン",
+        "year": "2025年",
+        "source_name": "個人情報保護委員会(京郷新聞報道)",
+        "source_url": "https://www.khan.co.kr/article/202508282051025"
+       }
+      },
+      {
+       "id": "kr-digital-safety-voice-phishing",
+       "name": "ボイスフィッシング・デジタル詐欺の増加",
+       "description": "検察・金融当局など機関を詐称する手口が急増し、2025年の被害額は1〜10月だけで1兆566億ウォンと前年通年(8,545億ウォン)を上回り、初めて1兆ウォンを突破した。AIによる音声合成やディープフェイクを悪用した手口の高度化も懸念され、2025年1〜3月には被害額の53%を50代以上が占めるなど高齢層への被害集中が進んでいる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "ボイスフィッシング被害額",
+        "value": "1兆566億ウォン(初の1兆ウォン突破)",
+        "year": "2025年1〜10月",
+        "source_name": "韓国警察庁(NEWSIS報道)",
+        "source_url": "https://www.newsis.com/view/NISX20251124_0003414755"
+       }
+      },
+      {
+       "id": "kr-digital-safety-takedown-limits",
+       "name": "匿名プラットフォームでの被害映像流通と削除支援の限界",
+       "description": "デジタル性犯罪被害者支援センターは2025年に31万8,020件の削除支援を行ったが、削除支援先の51.6%は違法・有害サイトで前年比26.9%増となり、被害映像を流通させるサイトの95.6%は海外所在(サーバー所在地は米国が70.8%で最多)だった。削除要請に応じない比率も24.7%から28.5%へ上昇し、流通が止まらず1年以上継続支援を受けた被害者は4,797人(前年比26.3%増)に達するなど、削除中心の対応の限界が指摘される。",
+       "severity": 4,
+       "key_stat": {
+        "label": "被害映像流通サイトのうち海外所在の比率",
+        "value": "95.6%(サーバー所在地は米国が70.8%で最多)",
+        "year": "2025年",
+        "source_name": "韓国女性家族部(省)報道資料",
+        "source_url": "https://www.mogef.go.kr/nw/enw/nw_enw_s001d.do?mid=mda700&bbtSn=713441"
+       }
+      },
+      {
+       "id": "kr-digital-safety-regulation-lag",
+       "name": "処罰・規制の技術進化への遅れ",
+       "description": "2024年10月の性暴力処罰法改正でディープフェイク性搾取物の所持・視聴も処罰対象となったが、警察庁の特別集中取締(2024年8月28日〜2025年3月31日)では検挙963人のうち拘束は59人(約6.1%)にとどまり、検挙者の約7割(669人)が10代であることも量刑・処遇を難しくしている。海外プラットフォームへの執行力の限界や生成AIの進化速度に対し、捜査・立法の対応が追いつかないとの指摘が続く。",
+       "severity": 3,
+       "key_stat": {
+        "label": "ディープフェイク特別集中取締(2024年8月〜2025年3月)の検挙・拘束人員",
+        "value": "検挙963人・拘束59人(拘束率約6.1%、10代669人)",
+        "year": "2025年",
+        "source_name": "韓国警察庁(大韓民国政策ブリーフィング)",
+        "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148941987"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-gender-gap",
+       "relation": "相互に影響",
+       "description": "合成・編集(ディープフェイク)被害の約98%が女性である一方、検挙される被疑者の7割前後が10代であり、この非対称性がジェンダー対立の主要争点として相互に増幅し合っていると指摘される。"
+      },
+      {
+       "target_id": "kr-suicide-mental-health",
+       "relation": "悪化させる",
+       "description": "被害映像の拡散が止まらず1年以上削除支援を受け続ける被害者が4,797人(前年比26.3%増)に上るなど、デジタル性犯罪被害者の深刻な精神的苦痛や自殺リスクが繰り返し報告されている。"
+      },
+      {
+       "target_id": "kr-elderly-poverty-pension",
+       "relation": "悪化させる",
+       "description": "2025年1〜3月にはボイスフィッシング被害額の53%を50代以上が占めるなど高齢層への被害集中が進み、老後資産の喪失が高齢期の経済的困窮を深刻化させると指摘される。"
+      },
+      {
+       "target_id": "kr-political-polarization",
+       "relation": "悪化させる",
+       "description": "ディープフェイク性犯罪への対応やプラットフォーム規制をめぐる議論がジェンダー・世代間の政治的対立争点となり、社会的葛藤を深めているとの指摘がある。"
+      }
+     ]
+    },
+    {
+     "id": "kr-suicide-mental-health",
+     "name": "OECD最悪の自殺率と精神健康危機",
+     "emoji": "🕯️",
+     "category": "健康・教育",
+     "tagline": "OECD平均の約3倍、最悪の自殺率",
+     "overview": "2024年の韓国の自殺者は14,872人(前年比+6.4%、1日平均40.6人)と2011年以来13年ぶりの高水準に達し、自殺率は人口10万人当たり29.1人でOECD平均10.8人の約2.7倍と加盟国最悪の水準が続いている。2024年には40代の死因1位が1983年の統計開始以来初めて自殺となり(死亡の26%でがんの24.5%を上回る)、10代から40代までのすべての年代で死因1位を自殺が占める。2025年は暫定値で自殺者13,774人(前年比-7.4%)と3年ぶりに減少へ転じたが、なお国際比較では突出した水準にある。年間うつ病診療患者は2022年に初めて100万人を超え2024年には約110.7万人に達した一方、精神障害と診断された人のうち生涯で精神健康サービスを利用した割合は12.1%(直近1年では7.2%)にとどまり、治療ギャップが極めて大きい。",
+     "why_problem": "自殺は最も深刻な「予防可能な死」であり、2024年に30代(+14.9%)・40代(+14.7%)・50代(+12.2%)と経済の中核世代で急増したことは、労働力損失・遺族への心理的連鎖を通じて社会全体の危機となっている。原因をめぐっては、警察統計で動機の1位が精神的・精神科的問題(35.4%)、2位が経済生活問題(29.6%)であることから、精神医療体制の不備を重視する立場と、雇用・負債・競争社会など社会構造的要因を重視する立場があり、対策の力点(医療アクセス拡充か、所得・雇用セーフティネットか)で論点が分かれる。いずれの立場からも、生涯サービス利用率12.1%(直近1年7.2%)にとどまる受診回避・スティグマの克服と、退院後ケアの空白解消が急務である点では一致している。",
+     "future_outlook": "政府は第5次自殺予防基本計画(2023〜2027年)で2027年までに自殺率を10万人当たり18.2人へ引き下げる目標を掲げ、2023・2024年は2年連続上昇と逆行したが、2025年は自殺者13,774人(暫定値・前年比-7.4%)と3年ぶりに減少へ転じ、減少傾向は2026年4月時点でも続いている。政府は自殺予防予算を2026年に約2割増額し、2034年までに自殺率17人以下とする長期目標も掲げた。ただし水準自体は依然OECD加盟国で最も高く、自殺動機に占める経済生活問題の比率上昇(2020年25.4%→2024年29.6%)や単身世帯・社会的孤立の拡大を踏まえると、精神医療アクセスと退院後ケアの抜本的強化がなければ最悪水準での高止まりが続く公算が大きい。",
+     "key_stats": [
+      {
+       "label": "年間自殺者数(前年比+6.4%、13年ぶり高水準・1日平均40.6人)",
+       "value": "14,872人",
+       "year": "2024",
+       "source_name": "保健福祉部 報道資料「2024年度自殺率29.1人、2011年以降で最高」",
+       "source_url": "https://mohw.go.kr/board.es?act=view&bid=0027&cg_code=&list_no=1487496&mid=a10503010100"
+      },
+      {
+       "label": "自殺率(人口10万人当たり、OECD平均10.8人の約2.7倍で加盟国最悪)",
+       "value": "29.1人",
+       "year": "2024",
+       "source_name": "The Korea Herald(統計庁2024年死因統計)",
+       "source_url": "https://www.koreaherald.com/article/10583603"
+      },
+      {
+       "label": "2025年の年間自殺者数(暫定値、前年比-7.4%で3年ぶりに減少)",
+       "value": "13,774人",
+       "year": "2025",
+       "source_name": "NewsSpace(国家データ処・保健福祉部の2025年暫定集計報道)",
+       "source_url": "https://www.newsspace.kr/news/article.html?no=12804"
+      },
+      {
+       "label": "精神障害診断者のうち生涯で精神健康サービスを利用した割合(直近1年では7.2%で、米国43.1%・カナダ46.5%の1年利用率と大差)",
+       "value": "12.1%",
+       "year": "2021",
+       "source_name": "保健福祉部「2021年精神健康実態調査」",
+       "source_url": "https://www.mohw.go.kr/board.es?mid=a10503010100&bid=0027&act=view&list_no=369088"
+      },
+      {
+       "label": "精神疾患患者の退院後1年以内の自殺率(比較対象国平均3.4人の約2倍で最悪水準)",
+       "value": "1,000人当たり6.9人",
+       "year": "2025",
+       "source_name": "京郷新聞(OECD「Health at a Glance 2025」報道)",
+       "source_url": "https://www.khan.co.kr/article/202511172036005"
+      },
+      {
+       "label": "年間うつ病診療患者数(2020年比+32.9%で過去最多、2022年に初めて100万人を突破)",
+       "value": "110万6,603人",
+       "year": "2024",
+       "source_name": "青年医師新聞(国民健康保険公団データ・国会議員室分析)",
+       "source_url": "http://www.docdocdoc.co.kr/news/articleView.html?idxno=3031543"
+      },
+      {
+       "label": "生涯自殺念慮(自殺を考えた経験)率(2018年比3.8ポイント低下)",
+       "value": "14.7%",
+       "year": "2023",
+       "source_name": "保健福祉部「2023年自殺実態調査」",
+       "source_url": "https://www.mohw.go.kr/board.es?mid=a10503000000&bid=0027&list_no=1480826&act=view"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 1200,
+      "affected_note": "2021年精神健康実態調査で成人の27.8%が生涯に一度以上精神障害を経験しており、韓国の成人人口(約4,400万人)に当てはめると約1,200万人に相当する推計。年間うつ病診療だけで約110万人(2024年)、年間自殺者約1.4〜1.5万人とその遺族・周囲への波及も含む。",
+      "econ_impact_trillion_yen": 1.1,
+      "econ_note": "保険研究院(KIRI)2018年報告書はうつ病・自殺の社会経済的費用を約10兆ウォンと推計(直近5年で41.5%増)。1ウォン=0.107円換算で約1.07兆円≒1.1兆円。推計年次が古く、その後のうつ病患者の増加(2024年110.7万人)を踏まえると過小評価の可能性が高い推計値。",
+      "urgency": 4,
+      "urgency_rationale": "自殺率は2023・2024年と2年連続で上昇して2011年以来の最悪水準(29.1人)となり、40代の死因1位が初めて自殺になるなど危機が経済中核世代へ拡大した。2025年は暫定値で前年比-7.4%と3年ぶりに減少へ転じたものの、水準は依然OECD最悪の約2.7倍で、自殺による死は不可逆であり、政府目標(2027年18.2人)にはなお遠い。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-suicide-mental-health-youth-midlife-top-cause",
+       "name": "10〜40代の死因1位が自殺(中年層への拡大)",
+       "description": "2024年、40代の死因に占める自殺の割合が26%となり、がん(24.5%)を上回って1983年の統計開始以来初めて死因1位となった。これにより10代(死亡の48.2%)・20代・30代(44.4%)に続き、10〜40代のすべての年代で自殺が死因1位を占め、危機が経済・子育ての中核世代にまで拡大した。",
+       "severity": 5,
+       "key_stat": {
+        "label": "40代の死亡に占める自殺の割合(がん24.5%を上回り統計開始以来初の死因1位、自殺率は31.6人→36.2人に上昇)",
+        "value": "26%",
+        "year": "2024",
+        "source_name": "The Korea Herald(統計庁2024年死因統計)",
+        "source_url": "https://www.koreaherald.com/article/10583603"
+       }
+      },
+      {
+       "id": "kr-suicide-mental-health-middle-aged-men",
+       "name": "中高年男性の高い自殺リスク(男性が女性の2.5倍)",
+       "description": "2024年の男性の自殺率は10万人当たり41.8人で女性(16.6人)の2.5倍に達し、前年比の増加率も男性9.1%と女性1.0%を大きく上回った。失業・事業失敗などの経済的打撃や「弱音を吐けない」性役割規範により、中高年男性は援助希求行動が乏しく高リスク層となっている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "男性の自殺率(女性16.6人の2.5倍、前年比+9.1%)",
+        "value": "10万人当たり41.8人",
+        "year": "2024",
+        "source_name": "保健福祉部 報道資料「2024年度自殺率29.1人、2011年以降で最高」",
+        "source_url": "https://mohw.go.kr/board.es?act=view&bid=0027&cg_code=&list_no=1487496&mid=a10503010100"
+       }
+      },
+      {
+       "id": "kr-suicide-mental-health-access-stigma",
+       "name": "精神科医療へのアクセス障壁とスティグマ",
+       "description": "精神障害と診断された人のうち生涯で精神健康サービスを利用した割合は12.1%、直近1年間の利用率は7.2%にとどまり、直近1年利用率で比較するとカナダ(46.5%・2014年)や米国(43.1%・2015年)の6分の1程度にすぎない。受診記録による不利益への懸念や「精神科=恥」という社会的烙印が治療ギャップの主因とされ、うつ病患者が110万人を超える中でも大半が未治療のまま放置されている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "精神障害診断者の生涯精神健康サービス利用率(直近1年では7.2%で米国・カナダの1年利用率の約6分の1)",
+        "value": "12.1%",
+        "year": "2021",
+        "source_name": "保健福祉部「2021年精神健康実態調査」",
+        "source_url": "https://www.mohw.go.kr/board.es?mid=a10503010100&bid=0027&act=view&list_no=369088"
+       }
+      },
+      {
+       "id": "kr-suicide-mental-health-discharge-aftercare",
+       "name": "精神疾患退院患者への事後ケア不足",
+       "description": "OECD「Health at a Glance 2025」によると、韓国の精神疾患患者の退院後1年以内の自殺率は1,000人当たり6.9人で比較対象国平均(3.4人)の約2倍と最悪水準。双極性障害患者の死亡率も一般人口の4.3倍(OECD平均2.7倍)で、退院後の治療中断と地域ケア・住居・就労支援の空白が高リスクを生んでいる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "精神疾患患者の退院後1年以内の自殺率(比較対象国平均3.4人の約2倍で最悪水準)",
+        "value": "1,000人当たり6.9人",
+        "year": "2025",
+        "source_name": "京郷新聞(OECD「Health at a Glance 2025」報道)",
+        "source_url": "https://www.khan.co.kr/article/202511172036005"
+       }
+      },
+      {
+       "id": "kr-suicide-mental-health-economic-pressure",
+       "name": "競争社会・経済的困窮による心理的圧迫",
+       "description": "2023年自殺実態調査では自殺を考えた主な理由の1位が「経済的困難」(44.8%)で、家庭生活の困難(42.2%)、情緒的困難(19.2%)が続いた。警察統計でも自殺動機に占める経済生活問題の比率は2020年25.4%から2024年29.6%へ上昇しており、過度な競争・雇用不安・負債が心理的圧迫の主因の一つとなっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "自殺念慮の理由1位「経済的困難」の割合",
+        "value": "44.8%",
+        "year": "2023",
+        "source_name": "保健福祉部「2023年自殺実態調査」",
+        "source_url": "https://www.mohw.go.kr/board.es?mid=a10503000000&bid=0027&list_no=1480826&act=view"
+       }
+      },
+      {
+       "id": "kr-suicide-mental-health-depression-surge",
+       "name": "うつ病・不安障害患者の急増",
+       "description": "年間うつ病診療患者は2022年に100万32人と初めて100万人を突破し、2024年には110万6,603人(2020年比+32.9%)と過去最多を更新した。女性が74万3,590人と全体の67.2%を占め、20〜40代女性だけで全体の33.2%に達するほか、10歳未満は5年で2倍超(+118.2%)に急増するなど、若年層を中心とした精神疾患の広がりが自殺リスクの土台となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "年間うつ病診療患者数(2020年比+32.9%で過去最多、女性が67.2%)",
+        "value": "110万6,603人",
+        "year": "2024",
+        "source_name": "青年医師新聞(国民健康保険公団データ・国会議員室分析)",
+        "source_url": "http://www.docdocdoc.co.kr/news/articleView.html?idxno=3031543"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-elderly-poverty-pension",
+       "relation": "原因となる",
+       "description": "OECD最悪水準の高齢者貧困は高齢層の高い自殺率の主要因として繰り返し指摘されている。"
+      },
+      {
+       "target_id": "kr-social-isolation",
+       "relation": "相互に影響",
+       "description": "単身世帯化と社会的孤立は自殺リスクを高め、精神疾患は孤立をさらに深める双方向の悪循環が指摘される。"
+      },
+      {
+       "target_id": "kr-youth-employment-crisis",
+       "relation": "原因となる",
+       "description": "就職難と「ただ休む」状態の長期化が青年層のうつ・自殺念慮を高める要因として指摘される。"
+      },
+      {
+       "target_id": "kr-household-debt",
+       "relation": "原因となる",
+       "description": "家計・自営業者の債務負担は自殺動機の約3割を占める「経済生活問題」の中核であり、その比率は上昇傾向にある。"
+      },
+      {
+       "target_id": "kr-private-education",
+       "relation": "原因となる",
+       "description": "過度な入試競争と学業ストレスは10代の死因1位が自殺である状況の背景要因として指摘される。"
+      }
+     ]
+    },
+    {
+     "id": "kr-gender-gap",
+     "name": "男女賃金格差とジェンダー対立",
+     "emoji": "⚖️",
+     "category": "労働・雇用",
+     "tagline": "OECD最悪の格差が世代を分断する",
+     "overview": "韓国の男女賃金格差(フルタイム中位賃金ベース)は2023年時点で29.3%とOECD平均11.3%の2倍超で、1996年の加盟以来一貫して加盟国中最大である。英エコノミスト誌の「ガラスの天井指数」でも12年連続最下位が続き、2025年版でようやく29カ国中28位に浮上した水準にとどまる。背景には出産・育児による経歴断絶(2025年上半期で110万5千人)と、女性が非正規職全体の57.4%を占める雇用構造の偏りがある。同時に、20〜30代の男女間で価値観の分断が政治争点化し、「ジェンダー対立」が社会葛藤の主要軸となっている。",
+     "why_problem": "賃金格差は女性の生涯所得と年金水準を押し下げ、高齢女性の貧困や国全体の労働力活用の損失に直結する。さらに学術研究では、ジェンダー対立を深刻と認識する若者ほど結婚・出産意向が低いことが確認されており、超低出生率と直結する点で単なる労働問題を超える。論点は割れており、女性側は採用・昇進・非正規偏在といった構造的差別と性犯罪への不安を問題の核心とみなす一方、男性側は徴兵義務の負担や若年層では既に差別は解消済み・むしろ逆差別だとする認識が強く、政府調査でも両者が挙げる優先課題(女性=性犯罪根絶、男性=兵役制度改善)が大きく食い違う。この認識の非対称性自体が対立を再生産し、政策合意を困難にしている。",
+     "future_outlook": "賃金格差は2018年の34.1%から2023年29.3%へ緩やかに縮小しており、政府が推進する雇用平等賃金公示制など透明性施策で改善が続く可能性はあるが、現在のペースではOECD平均到達に数十年を要する。既婚女性の雇用率が過去最高となるなど経歴断絶は縮小傾向にある一方、女性の非正規職労働者数は増加が続いており(2025年8月時点で前年比7万4千人増)、「量の改善・質の停滞」が続く恐れがある。若年層のジェンダー対立は選挙のたびに政治動員の対象となり、低出生率との悪循環が長期化するリスクが高い。",
+     "key_stats": [
+      {
+       "label": "男女賃金格差(フルタイム中位賃金、OECD基準)",
+       "value": "29.3%(OECD加盟国中最大、OECD平均11.3%)",
+       "year": "2023",
+       "source_name": "OECD Gender wage gap / The Korea Herald",
+       "source_url": "https://www.koreaherald.com/article/10564875"
+      },
+      {
+       "label": "エコノミスト誌「ガラスの天井指数」順位",
+       "value": "29カ国中28位(12年連続最下位から1つ浮上)",
+       "year": "2025",
+       "source_name": "The Economist / 女性新聞",
+       "source_url": "https://www.womennews.co.kr/news/articleView.html?idxno=259028"
+      },
+      {
+       "label": "経歴断絶女性(15〜54歳既婚女性のうち)",
+       "value": "110万5千人(既婚女性の14.9%、2014年の統計開始以来最低)",
+       "year": "2025",
+       "source_name": "国家データ処(旧統計庁)2025年上半期地域別雇用調査",
+       "source_url": "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156729329"
+      },
+      {
+       "label": "女性の非正規職労働者数",
+       "value": "491万8千人(非正規職全体856万8千人の57.4%)",
+       "year": "2025",
+       "source_name": "国家データ処 経済活動人口調査勤労形態別付加調査(2025年8月)",
+       "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156722087"
+      },
+      {
+       "label": "女性管理職比率",
+       "value": "17.5%(OECD32カ国中31位、OECD平均の約半分)",
+       "year": "2024",
+       "source_name": "京郷新聞(OECD統計に基づく報道、2026年3月)",
+       "source_url": "https://www.khan.co.kr/article/202603082052015"
+      },
+      {
+       "label": "女性雇用率",
+       "value": "61.4%(OECD38カ国中31位、20年間下位圏)",
+       "year": "2023",
+       "source_name": "韓国経済人協会(FKI)女性雇用指標国際比較",
+       "source_url": "https://www.fki.or.kr/kor/news/statement_detail.do?bbs_id=00035960&category=ST"
+      },
+      {
+       "label": "「ジェンダー対立が深刻」と認識する国民の割合",
+       "value": "61%(2025年調査の57%から4ポイント上昇)",
+       "year": "2026",
+       "source_name": "韓国リサーチ 2026ジェンダー認識調査",
+       "source_url": "https://hrcopinion.co.kr/archives/35956"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 1100,
+      "affected_note": "賃金格差の直接当事者である女性賃金労働者約1,000万人(うち非正規491.8万人、2025年8月国家データ処)に経歴断絶女性110.5万人(2025年上半期)を加えた規模の概算。ジェンダー対立の主当事者である20〜30代男女(約1,200万人)や、出生率低下を通じた社会全体への間接影響を含めればさらに広い。",
+      "econ_impact_trillion_yen": 49,
+      "econ_note": "IMFは男女の労働時間格差を2035年までにOECD平均並みに縮小した場合、韓国の1人当たりGDPを18%押し上げると推計(IMF、2024年5月)。2024年名目GDP約2,549兆ウォンの18%=年約459兆ウォンを潜在効果の上限とみなし、100ウォン=10.6円で換算して約49兆円(シナリオ推計)。参考として韓国女性政策研究院(2026年7月公表)は35〜54歳の非就業女性が全員就業した場合の名目GDP増加額を1,311兆〜2,112兆ウォンと推計している。",
+      "urgency": 4,
+      "urgency_rationale": "賃金格差自体は2018年34.1%から2023年29.3%へ緩やかに改善中で即時破局型ではない。しかしジェンダー対立の認識が若年男女の結婚・出産意向を統計的に有意に押し下げることが確認されており(延世大研究)、合計特殊出生率が2年連続反発しても0.80(2025年暫定)と極めて低い局面でこの効果が続けば人口構造への影響は不可逆となるため、5年以内の対応が重要。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-gender-gap-career-break",
+       "name": "出産・育児による女性の経歴断絶(M字カーブ)",
+       "description": "15〜54歳の既婚女性のうち110万5千人が経歴断絶状態にあり、離職理由は育児44.3%・結婚24.2%・妊娠出産22.1%と生涯イベント要因が大半を占める。20代後半では女性雇用率が高いのに30代で急落するM字型構造がOECDで唯一残る国とされ(韓国経済人協会)、再就職まで平均7.5年を要し(女性家族部2025年実態調査)、復帰後は賃金が約2割下がり時間制に偏ることが賃金格差の最大の構造要因となっている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "経歴断絶女性数と離職理由",
+        "value": "110万5千人(離職理由の1位は育児44.3%)",
+        "year": "2025",
+        "source_name": "国家データ処 2025年上半期地域別雇用調査",
+        "source_url": "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156729329"
+       }
+      },
+      {
+       "id": "kr-gender-gap-irregular-employment",
+       "name": "女性の非正規職への偏りと低賃金",
+       "description": "2025年8月時点で女性の非正規職は491万8千人と非正規職全体の57.4%を占め、女性への偏在が続く。経歴断絶後の再就職が時間制・期間制など不安定雇用に集中するため、勤続年数・職級の差が累積し、賃金格差と老後の年金格差の主要因となっている。",
+       "severity": 4,
+       "key_stat": {
+        "label": "非正規職に占める女性の割合",
+        "value": "57.4%(女性491万8千人 対 男性365万人)",
+        "year": "2025",
+        "source_name": "国家データ処 経済活動人口調査勤労形態別付加調査(2025年8月)",
+        "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=156722087"
+       }
+      },
+      {
+       "id": "kr-gender-gap-glass-ceiling",
+       "name": "管理職・役員における女性比率の低さ(ガラスの天井)",
+       "description": "韓国の女性管理職比率は17.5%(2024年)とOECD平均の半分以下で32カ国中31位にとどまり、エコノミスト誌のガラスの天井指数では12年連続最下位を経て2025年版でも29カ国中28位である。100大企業の女性役員比率は6.5%にとどまるなど意思決定層の男性偏重が採用・昇進慣行の変化を遅らせる悪循環を生んでいる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "ガラスの天井指数(エコノミスト誌)",
+        "value": "OECD29カ国中28位(指数構成の女性管理職比率16.3%)",
+        "year": "2025",
+        "source_name": "The Economist / 女性新聞",
+        "source_url": "https://www.womennews.co.kr/news/articleView.html?idxno=259028"
+       }
+      },
+      {
+       "id": "kr-gender-gap-political-divide",
+       "name": "若年男女間の価値観分断の政治問題化",
+       "description": "2026年調査で国民の61%(前年比4ポイント増)がジェンダー対立を深刻と認識し、2025年調査では30歳以下の約7割に達した。一方で男性は兵役制度改善を、女性は性犯罪根絶を最優先課題に挙げるなど問題認識自体が大きく食い違う。2022年大統領選での女性家族部廃止公約に象徴されるように、男女の分断が選挙戦略として動員され、政治的争点として固定化・世代継承されつつある。",
+       "severity": 4,
+       "key_stat": {
+        "label": "ジェンダー対立を深刻と認識する割合",
+        "value": "国民の61%(2025年調査57%→2026年61%)",
+        "year": "2026",
+        "source_name": "韓国リサーチ 2026ジェンダー認識調査",
+        "source_url": "https://hrcopinion.co.kr/archives/35956"
+       }
+      },
+      {
+       "id": "kr-gender-gap-marriage-birth",
+       "name": "ジェンダー対立による結婚・出産意欲の低下",
+       "description": "延世大学の朴珠妍(パク・ジュヨン)教授チームが19〜34歳の未婚・無子女青年13,266人を分析した研究(2025年、Journal of Marriage and Family掲載)では、ジェンダー対立を深刻と認識するほど結婚・出産に否定的で、対立認識が最も高い女性の出産意向の予測確率は0.43と、認識が低い女性の0.73を大きく下回った。経済要因だけでなく社会文化的なジェンダー対立が低婚姻・低出産の実質的要因であることが実証され、超低出生率問題と直結している。",
+       "severity": 4,
+       "key_stat": {
+        "label": "ジェンダー対立認識が高い未婚女性の出産意向予測確率",
+        "value": "0.43(認識が低い女性は0.73)",
+        "year": "2025",
+        "source_name": "延世大学社会学科 朴珠妍教授チーム(未婚青年13,266人分析)",
+        "source_url": "https://news.yonsei.ac.kr/kr/academia/detail?bbSeq=35778"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-ultra-low-birthrate",
+       "relation": "悪化させる",
+       "description": "出産による経歴断絶への懸念(KDI FOCUS)とジェンダー対立の認識(延世大研究)が若年層の結婚・出産意向を統計的に押し下げ、超低出生率を悪化させることが実証されている。"
+      },
+      {
+       "target_id": "kr-labor-market-dualism",
+       "relation": "共通の根本原因",
+       "description": "正規・非正規の二重構造と長時間労働を前提とする雇用慣行が、出産後の女性を低賃金の非正規職へ押し出す構造的背景となっており、両課題は同じ労働市場構造に根ざす。"
+      },
+      {
+       "target_id": "kr-political-polarization",
+       "relation": "悪化させる",
+       "description": "20代男女の意識分断が選挙の主要な亀裂軸として政治動員され、世代・性別を軸とする政治的両極化を増幅していると指摘される。"
+      },
+      {
+       "target_id": "kr-youth-employment-crisis",
+       "relation": "相互に影響",
+       "description": "良質な雇用の縮小をめぐる若年男女のゼロサム的競争意識がジェンダー対立を先鋭化させ、対立の激化が雇用政策の合意形成を一層困難にしている。"
+      },
+      {
+       "target_id": "kr-digital-safety",
+       "relation": "相互に影響",
+       "description": "政府調査で女性が最優先課題に「性犯罪根絶・安全保障」を挙げるなど、デジタル性犯罪への不安がジェンダー対立の中心的争点となり、相互に認識の分断を深めている。"
+      }
+     ]
+    },
+    {
+     "id": "kr-super-aged-society",
+     "name": "史上最速の超高齢社会化と生産年齢人口の急減",
+     "emoji": "👴",
+     "category": "人口・社会",
+     "tagline": "世界最速で老いる国、支え手が消える",
+     "overview": "韓国は2024年12月に65歳以上が住民登録人口の20%を超えて「超高齢社会」に入り、2025年には高齢人口が1,051万4千人・全人口の20.3%に達した。高齢社会(14%)から超高齢社会(20%)への移行は日本の10年に対し韓国は約7年で、主要国で最速である。統計庁の将来人口推計(2022〜2072年)では、生産年齢人口(15〜64歳)は2022年の3,674万人から2072年には1,658万人へ半分以下に減少し、高齢人口比率は2036年に30%、2050年に40%を超える見通しである。65歳以上の健康保険診療費はすでに全診療費の45.0%(2025年、約56兆ウォン)を占め、社会保障支出の膨張が始まっている。",
+     "why_problem": "生産年齢人口100人が支える65歳以上人口(老年扶養比)は2022年の24.4から2072年には104.2へ約4.3倍に急騰し、現役1人が高齢者1人以上を支える構造となるため、年金・健康保険・長期療養保険の負担増が現役世代に集中する。KDIは労働投入の減少により潜在成長率が2040年代に0%前後まで低下し、2040年代後半には小幅のマイナス成長に転じうると分析しており、経済の持続性そのものが問われる。対応策のうち外国人労働者・移民の受け入れ拡大については、労働力確保・地域維持に不可欠とする立場と、社会統合コストや国内雇用・賃金への影響を懸念する立場で世論が分かれており、E-9(雇用許可制)クォータも2024年16.5万人→2025年13万人→2026年8万人と大きく変動するなど政策は安定していない。定年延長・継続雇用の拡大も、青年雇用との競合を懸念する声と高齢者の生計維持に必要とする声が対立している。",
+     "future_outlook": "統計庁推計では総人口は2024年の約5,175万人をピーク圏に2072年には3,622万人へ縮小し、65歳以上比率は47.7%に達して人口のほぼ半分が高齢者となる。1955〜63年生まれの第1次ベビーブーム世代(約705万人)が2028年までに全員65歳に到達するため、今後数年で高齢化の速度はさらに加速し、韓国雇用情報院は経済活動人口が2028年から減少局面に入ると予測する。労働力補完(高齢者・女性・外国人)と生産性向上が進まなければ、2040年代のゼロ成長・マイナス成長シナリオが現実化する可能性が高い。",
+     "key_stats": [
+      {
+       "label": "65歳以上人口と比率",
+       "value": "1,051万4千人・全人口の20.3%",
+       "year": "2025",
+       "source_name": "国家データ処(旧統計庁)「2025 高齢者統計」",
+       "source_url": "https://mods.go.kr/board.es?mid=a10301010000&bid=10820&tag=&act=view&list_no=438832&ref_bid="
+      },
+      {
+       "label": "高齢社会→超高齢社会への移行所要年数",
+       "value": "約7年(日本は10年、主要国で最速)",
+       "year": "2024",
+       "source_name": "低出産高齢社会委員会(政府人口政策サイト)",
+       "source_url": "https://www.betterfuture.go.kr/front/policySpace/scrapDetail.do?articleId=344&listLen=10"
+      },
+      {
+       "label": "生産年齢人口(15〜64歳)の見通し",
+       "value": "2022年3,674万人→2072年1,658万人(半分以下に減少)",
+       "year": "2072(推計)",
+       "source_name": "統計庁「将来人口推計:2022〜2072年」(KDI経済情報センター掲載)",
+       "source_url": "https://eiec.kdi.re.kr/policy/materialView.do?num=245943"
+      },
+      {
+       "label": "老年扶養比の見通し",
+       "value": "2022年24.4→2072年104.2(約4.3倍)",
+       "year": "2072(推計)",
+       "source_name": "統計庁「将来人口推計:2022〜2072年」(KDI経済情報センター掲載)",
+       "source_url": "https://eiec.kdi.re.kr/policy/materialView.do?num=245943"
+      },
+      {
+       "label": "65歳以上の健康保険診療費",
+       "value": "55兆9,808億ウォン・全診療費の45.0%",
+       "year": "2025",
+       "source_name": "健康保険審査評価院(HIRA)保健医療ビッグデータ",
+       "source_url": "https://opendata.hira.or.kr/op/opc/olapMdcnStatsInfoTab6.do?docNo=06-012"
+      },
+      {
+       "label": "潜在成長率の見通し",
+       "value": "2040年代に0%前後、2040年代後半に小幅マイナス成長の可能性",
+       "year": "2025",
+       "source_name": "KDI(韓国開発研究院)「潜在成長率展望と政策的示唆」(2025年5月)",
+       "source_url": "https://www.kdi.re.kr/research/analysisView?art_no=3671"
+      }
+     ],
+     "score_inputs": {
+      "affected_population_man": 5175,
+      "affected_note": "65歳以上人口1,051万人が直接の当事者。老年扶養比の上昇による保険料・税負担増、労働力不足の影響は生産年齢人口を含む全国民に及ぶため、総人口約5,175万人(2024年、統計庁推計)を計上。",
+      "econ_impact_trillion_yen": 7.9,
+      "econ_note": "65歳以上の健康保険診療費55.98兆ウォン(2025年、健康保険審査評価院)+老人長期療養保険支出17.6兆ウォン(2025年、国会予算政策処推計)=年間約73.6兆ウォン。1ウォン=0.107円(2026年7月時点の概算レート)で約7.9兆円。潜在成長率低下による逸失GDPは含まない保守的推計であり、実際の経済インパクトはこれを大きく上回る。",
+      "urgency": 5,
+      "urgency_rationale": "2024年末に超高齢社会入りが確定済みで、約705万人の第1次ベビーブーム世代(1955〜63年生、韓国銀行推計)が2028年までに全員65歳に到達。韓国雇用情報院は経済活動人口が2028年から減少に転じると予測しており、人口モメンタム上、今後5年の対応遅れは不可逆的な労働力・財政悪化に直結する。"
+     },
+     "sub_issues": [
+      {
+       "id": "kr-super-aged-society-dependency-burden",
+       "name": "老年扶養比の急上昇による現役世代の負担増",
+       "description": "生産年齢人口100人当たりの高齢者数は2022年の24.4人から2072年には104.2人へ約4.3倍に急騰し、現役1人が高齢者1人以上を支える世界でも例のない構造になる。年金・健康保険・長期療養保険の保険料率引き上げ圧力が現役世代に集中し、世代間の公平性をめぐる対立の火種となっている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "老年扶養比",
+        "value": "24.4(2022年)→104.2(2072年、約4.3倍)",
+        "year": "2072(推計)",
+        "source_name": "統計庁「将来人口推計:2022〜2072年」(KDI経済情報センター掲載)",
+        "source_url": "https://eiec.kdi.re.kr/policy/materialView.do?num=245943"
+       }
+      },
+      {
+       "id": "kr-super-aged-society-care-medical-costs",
+       "name": "介護・長期療養需要の急増と高齢者医療費の膨張",
+       "description": "65歳以上の健康保険診療費は2025年に約56兆ウォンと全診療費の45.0%を占め、比率は年々上昇している。国会予算政策処は老人長期療養保険の支出が2025年の17.6兆ウォンから2034年には40.9兆ウォンへ年平均10.2%で膨張すると推計しており、保険財政の赤字転落(2027年と予測)と介護人材不足が同時に迫っている。",
+       "severity": 5,
+       "key_stat": {
+        "label": "老人長期療養保険の支出見通し",
+        "value": "17.6兆ウォン(2025年)→40.9兆ウォン(2034年、年平均10.2%増)",
+        "year": "2025",
+        "source_name": "韓医新聞(国会予算政策処推計の報道)",
+        "source_url": "https://akomnews.com/bbs/board.php?bo_table=news&wr_id=63450"
+       }
+      },
+      {
+       "id": "kr-super-aged-society-labor-shortage-growth",
+       "name": "労働力不足の慢性化と潜在成長率の低下",
+       "description": "韓国雇用情報院は、経済活動人口が2027年をピークに2028年から減少に転じ、成長目標(1.9〜2.1%)を維持するには2032年までに89万4千人の追加人力が必要と推計する。KDIは労働投入減により潜在成長率が2040年代に0%前後へ低下し、2040年代後半には小幅のマイナス成長もありうると警告している。",
+       "severity": 5,
+       "key_stat": {
+        "label": "2032年までの追加必要人力",
+        "value": "89万4千人",
+        "year": "2024",
+        "source_name": "雇用労働部・韓国雇用情報院「中長期人力需給展望(2022〜2032)」",
+        "source_url": "https://www.moel.go.kr/news/enews/report/enewsView.do?news_seq=16328"
+       }
+      },
+      {
+       "id": "kr-super-aged-society-immigration-policy-lag",
+       "name": "外国人労働者・移民政策の整備の遅れ",
+       "description": "労働力不足の補完策として外国人材への依存が強まる一方、雇用許可制(E-9)のクォータは2024年16.5万人→2025年13万人→2026年8万人と需要予測の乖離やE-7・E-8など他資格への分散で急変動し、中長期の移民戦略が定まっていない。単純労働の短期受け入れ中心から熟練人材の定着へ転換すべきとする意見と、社会統合コストや国内雇用への影響を懸念する意見が対立し、制度整備が高齢化の速度に追いついていない。",
+       "severity": 4,
+       "key_stat": {
+        "label": "雇用許可制(E-9)外国人力クォータ",
+        "value": "8万人(2026年。2024年16.5万人→2025年13万人→2026年8万人と縮小)",
+        "year": "2026",
+        "source_name": "亜洲経済(外国人力政策委員会決定の報道)",
+        "source_url": "https://www.ajunews.com/view/20251222173213291"
+       }
+      },
+      {
+       "id": "kr-super-aged-society-senior-female-labor",
+       "name": "高齢者・女性の労働参加の質の低さと拡大の必要性",
+       "description": "韓国の65歳以上雇用率は37.3%(2023年)とOECD平均(13.6%)の2.7倍で加盟国中1位だが、55〜79歳の高齢層の69.4%が今後も就労を希望し、その理由の54.4%は「生活費の足しにするため」という生計型労働で、貧困の裏返しでもある。出産・育児期の女性の経歴断絶(M字カーブ)も残っており、量だけでなく質の高い労働参加への転換が労働力不足補完の鍵とされる。",
+       "severity": 4,
+       "key_stat": {
+        "label": "65歳以上の雇用率",
+        "value": "37.3%(OECD平均13.6%、加盟国中1位)",
+        "year": "2023",
+        "source_name": "農民新聞(国民年金研究院「国民年金と高齢者労働供給」報告書の報道)",
+        "source_url": "https://www.nongmin.com/article/20251126500317"
+       }
+      }
+     ],
+     "links_to_other_issues": [
+      {
+       "target_id": "kr-ultra-low-birthrate",
+       "relation": "原因となる",
+       "description": "合計特殊出生率は2023年の0.72を底に2025年は0.80(暫定)へ2年連続で反発したもののなお世界最低水準で、この超低出生が高齢化率上昇と生産年齢人口減少の最大の駆動要因であり、両課題は同一の人口動態の表と裏である。"
+      },
+      {
+       "target_id": "kr-elderly-poverty-pension",
+       "relation": "悪化させる",
+       "description": "高齢人口の急増は国民年金の財政枯渇時期を早め、66歳以上の相対的貧困率約40%(OECD最悪水準)の解消をさらに困難にする。"
+      },
+      {
+       "target_id": "kr-regional-extinction",
+       "relation": "悪化させる",
+       "description": "全羅南道27.4%・慶尚北道26.1%(2025年)など地方で高齢化が全国平均より先行しており、青年流出と相まって地方消滅リスクを加速させる。"
+      },
+      {
+       "target_id": "kr-labor-market-dualism",
+       "relation": "相互に影響",
+       "description": "主要職場を50代前後で早期退職した高齢者が非正規・低賃金の生計型労働に流入し、労働市場の二重構造を固定化する一方、二重構造が高齢者の質の高い継続雇用を阻んでいる。"
+      },
+      {
+       "target_id": "kr-social-isolation",
+       "relation": "悪化させる",
+       "description": "高齢化の進行に伴う独居高齢者世帯の増加が、社会的孤立と孤独死増加の主要因として政府統計・報道で繰り返し指摘されている。"
+      }
+     ]
+    }
+   ],
+   "meta": {
+    "confidences": [
+     {
+      "id": "kr-labor-market-dualism",
+      "confidence": "high",
+      "changes": 7
+     },
+     {
+      "id": "kr-youth-employment-crisis",
+      "confidence": "high",
+      "changes": 12
+     },
+     {
+      "id": "kr-ultra-low-birthrate",
+      "confidence": "high",
+      "changes": 8
+     },
+     {
+      "id": "kr-political-polarization",
+      "confidence": "high",
+      "changes": 9
+     },
+     {
+      "id": "kr-social-isolation",
+      "confidence": "high",
+      "changes": 10
+     },
+     {
+      "id": "kr-private-education",
+      "confidence": "high",
+      "changes": 9
+     },
+     {
+      "id": "kr-housing-affordability",
+      "confidence": "high",
+      "changes": 9
+     },
+     {
+      "id": "kr-household-debt",
+      "confidence": "high",
+      "changes": 12
+     },
+     {
+      "id": "kr-regional-extinction",
+      "confidence": "high",
+      "changes": 12
+     },
+     {
+      "id": "kr-elderly-poverty-pension",
+      "confidence": "high",
+      "changes": 6
+     },
+     {
+      "id": "kr-digital-safety",
+      "confidence": "high",
+      "changes": 12
+     },
+     {
+      "id": "kr-suicide-mental-health",
+      "confidence": "high",
+      "changes": 11
+     },
+     {
+      "id": "kr-gender-gap",
+      "confidence": "high",
+      "changes": 8
+     },
+     {
+      "id": "kr-super-aged-society",
+      "confidence": "high",
+      "changes": 12
+     }
+    ],
+    "critic_notes": "",
+    "method": "政府世論調査・省庁白書・国際機関・シンクタンクの複数出典を横断調査し、数値は独立エージェントが一次資料と突合検証済み"
+   }
+  }
+ ]
 };
-
 if (typeof module !== 'undefined') module.exports = { ISSUE_DATA };

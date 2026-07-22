@@ -133,7 +133,7 @@ const GraphCore = (() => {
           let d2 = dx * dx + dy * dy;
           if (d2 < 1e-4) { dx = 0.1; dy = 0.1; d2 = 0.02; }
           const bothMajor = a.type === 'major' && b.type === 'major';
-          const q = bothMajor ? 5600
+          const q = bothMajor ? 7400
             : (a.type === 'sub' && b.type === 'sub')
               ? (a.parentId === b.parentId ? 340 : 220)
               : 900;
@@ -175,7 +175,7 @@ const GraphCore = (() => {
         const a = nodes[i];
         for (let j = i + 1; j < nodes.length; j++) {
           const b = nodes[j];
-          const pad = (a.type === 'major' && b.type === 'major') ? 34 : 8;
+          const pad = (a.type === 'major' && b.type === 'major') ? 54 : 8;
           const min = a.r + b.r + pad;
           let dx = b.x - a.x, dy = b.y - a.y;
           let d = Math.sqrt(dx * dx + dy * dy);

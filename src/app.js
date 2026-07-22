@@ -314,10 +314,44 @@
     }
 
     app.classList.toggle('zoomed', cam.k > 1.02);
+    declutterTick = (declutterTick + 1) % 5;
+    if (declutterTick === 0 && t > 0.4) declutterLabels();
     updateChips(t);
     if (ttNode && !tooltip.hidden) positionTooltip();
 
     requestAnimationFrame(frame);
+  }
+
+  // ===== ラベル自動間引き (Googleマップ式: 優先度順に衝突しないものだけ表示) =====
+  let declutterTick = 0;
+  function declutterLabels() {
+    const litSet = selected ? adj.get(selected.id) : null;
+    const kept = [];
+    const cand = [];
+    for (const rn of regions) for (const nd of rn.graph.nodes) {
+      if (nd.type === 'sub' && cam.k <= 1.02 && !(litSet && litSet.has(nd.id))) { nd.el.classList.remove('lcull'); continue; }
+      cand.push(nd);
+    }
+    cand.sort((a, b) => {
+      const pa = (litSet && litSet.has(a.id) ? 1000 : 0) + (a.type === 'major' ? a.score : a.sub.severity * 4);
+      const pb = (litSet && litSet.has(b.id) ? 1000 : 0) + (b.type === 'major' ? b.score : b.sub.severity * 4);
+      return pb - pa;
+    });
+    for (const nd of cand) {
+      const fs = 13 * clamp(cam.k, 0.8, 1) * (nd.type === 'major' ? 1 : 0.78);
+      const name = nd.type === 'major' ? nd.issue.name : nd.sub.name;
+      const w = name.length * fs + 12;
+      const y0 = nd.sy + nd.r * (nd.type === 'major' ? cam.k : cam.k) + 4;
+      const h = nd.type === 'major' ? 36 : 16;
+      const rect = { x0: nd.sx - w / 2, x1: nd.sx + w / 2, y0, y1: y0 + h };
+      let hit = false;
+      for (const r of kept) {
+        if (rect.x0 < r.x1 && rect.x1 > r.x0 && rect.y0 < r.y1 && rect.y1 > r.y0) { hit = true; break; }
+      }
+      const force = litSet && litSet.has(nd.id);
+      if (!hit || force) { kept.push(rect); nd.el.classList.remove('lcull'); }
+      else nd.el.classList.add('lcull');
+    }
   }
 
   // ===== ビュー遷移 =====

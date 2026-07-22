@@ -63,6 +63,8 @@ body {
 .node.sub .label { fill: var(--ink-2); font-weight: 600; transition: opacity 0.3s; }
 #app:not(.zoomed) .node.sub .label { opacity: 0; }
 #app.focus .node.sub.lit .label { opacity: 1; }
+.node .label, .node .score { transition: opacity 0.3s; }
+.node.lcull .label, .node.lcull .score { opacity: 0; }
 .node .score {
   text-anchor: middle; fill: var(--ink-2); font-weight: 600;
   paint-order: stroke; stroke: rgba(7, 10, 22, 0.85); stroke-width: 3px; stroke-linejoin: round;
