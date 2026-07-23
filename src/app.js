@@ -278,7 +278,7 @@
       if (rn.chipEl.textContent !== label) rn.chipEl.textContent = label;
       const cx2 = clamp(ax, 74, vw - 74);
       let cy2 = clamp(ay, 92, vh - 60);
-      if (cx2 < 300 && cy2 > vh - 170) cy2 = vh - 170; // 左下の凡例を避ける
+      if (cx2 < 300 && cy2 > vh - 250) cy2 = vh - 250; // 左下の凡例を避ける
       for (const p of placed) { // チップ同士の重なりは縦にずらす
         if (Math.abs(cx2 - p.x) < 150 && Math.abs(cy2 - p.y) < 40) cy2 = p.y + 44;
       }
@@ -441,6 +441,7 @@
     const kept = [];
     const cand = [];
     const consider = (nd) => {
+      if (activeCats && !activeCats.has(nd.catIndex)) return; // 絞り込み対象外はラベル枠を取らない
       if (nd.type === 'sub' && cam.k <= 1.02 && !(litSet && litSet.has(nd.id))) { nd.el.classList.remove('lcull'); return; }
       cand.push(nd);
     };
@@ -824,12 +825,35 @@
     cam.tk = k2;
   }, { passive: false });
 
-  // ===== 凡例 =====
+  // ===== 凡例 + カテゴリ絞り込み =====
+  let activeCats = null; // null = 全表示
   function buildLegend(rn) {
     const present = [...new Set(rn.graph.nodes.filter(n => n.type === 'major').map(n => n.catIndex))].sort((a, b) => a - b);
     $('legendCats').innerHTML = present.map(ci =>
-      '<span class="lchip"><i style="background:' + G.CAT_COLORS[ci] + '"></i>' + esc(G.CATEGORIES[ci]) + '</span>').join('');
+      '<button class="lchip' + (activeCats && !activeCats.has(ci) ? ' off' : '') + '" data-ci="' + ci + '" aria-pressed="' + (!activeCats || activeCats.has(ci)) + '">'
+      + '<i style="background:' + G.CAT_COLORS[ci] + '"></i>' + esc(G.CATEGORIES[ci]) + '</button>').join('')
+      + (activeCats ? '<button class="lchip lreset" data-act="allcats">✕ 解除</button>' : '');
   }
+  function toggleCat(ci) {
+    if (!activeCats) activeCats = new Set([ci]);                 // 全表示中にタップ → そのカテゴリだけ(ソロ)
+    else if (activeCats.has(ci)) { activeCats.delete(ci); if (!activeCats.size) activeCats = null; }
+    else activeCats.add(ci);
+    if (activeCats && activeCats.size >= G.CATEGORIES.length) activeCats = null;
+    refreshCatFilter();
+  }
+  function refreshCatFilter() {
+    const dim = nd => !!activeCats && !activeCats.has(nd.catIndex);
+    for (const [, nd] of byId) nd.el.classList.toggle('catdim', dim(nd));
+    for (const rn of regions) for (const e of rn.graph.edges) e.el.classList.toggle('edge-catdim', dim(e.a) || dim(e.b));
+    for (const e of intlEdges) e.el.classList.toggle('edge-catdim', dim(e.a) || dim(e.b));
+    buildLegend(curR);
+    needFinal = true; // ラベル間引きを絞り込み後の顔ぶれで再計算
+  }
+  $('legendCats').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-ci]');
+    if (b) { toggleCat(+b.getAttribute('data-ci')); return; }
+    if (e.target.closest('[data-act="allcats"]')) { activeCats = null; refreshCatFilter(); }
+  });
 
   // ===== モーダル =====
   function openModal(html) { modal.innerHTML = '<button class="mclose" aria-label="閉じる">✕</button>' + html; modalWrap.hidden = false; }

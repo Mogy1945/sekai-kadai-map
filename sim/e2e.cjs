@@ -176,6 +176,26 @@ setTimeout(() => {
     ok(APP.state().mode === 'web' && APP.state().region === R[0].id, `${R[0].id}のwebビューへ`);
     ok(document.getElementById('regionTitle').textContent.includes(R[0].name), 'タイトルに国名');
 
+    // カテゴリ絞り込み (凡例チップ=トグルボタン)
+    {
+      const chip = document.querySelector('#legendCats .lchip[data-ci]');
+      ok(!!chip, '凡例チップがボタン化');
+      const ci = +chip.getAttribute('data-ci');
+      chip.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+      const dimmed = document.querySelectorAll('.node.catdim').length;
+      ok(dimmed > 0, `絞り込みで他カテゴリが減光 (${dimmed}ノード)`);
+      let wrongDim = false;
+      for (const [, nd] of APP.byId) {
+        if (nd.catIndex === ci && nd.el.classList.contains('catdim')) wrongDim = true;
+        if (nd.catIndex !== ci && !nd.el.classList.contains('catdim')) wrongDim = true;
+      }
+      ok(!wrongDim, '対象カテゴリだけが表示のまま (全地域+国際横断)');
+      ok(document.querySelectorAll('#edgeLayer .edge-catdim').length > 0, 'エッジも連動して減光');
+      ok(!!document.querySelector('[data-act="allcats"]'), '解除ボタン表示');
+      document.querySelector('[data-act="allcats"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+      ok(document.querySelectorAll('.node.catdim').length === 0, '絞り込み解除で全表示に戻る');
+    }
+
     // 大課題を選択
     const firstIssue = R[0].issues[0];
     APP.selectNode(firstIssue.id);
