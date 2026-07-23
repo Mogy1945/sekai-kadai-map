@@ -23,8 +23,9 @@ const fps = (ms) => page.evaluate((ms) => new Promise((res) => {
   (function f() { c++; performance.now() - t0 < ms ? requestAnimationFrame(f) : res(Math.round(c / ((performance.now() - t0) / 1000))); })();
 }), ms);
 
+const target = process.argv[2] || join(ROOT, 'index.html');
 const t0 = Date.now();
-await page.goto('file://' + join(ROOT, 'index.html'), { waitUntil: 'load' });
+await page.goto('file://' + target, { waitUntil: 'load' });
 const loadMs = Date.now() - t0;
 
 await page.waitForTimeout(1000);
@@ -40,11 +41,33 @@ await page.evaluate(() => window.__APP__.flyTo('kr'));
 const flightFps = await fps(1400);
 await page.waitForTimeout(1500);
 
+// パン操作中のfps (実ポインタイベントでドラッグ)
+const panFpsP = fps(1500);
+await page.mouse.move(700, 400);
+await page.mouse.down();
+for (let i = 0; i < 30; i++) {
+  await page.mouse.move(700 - i * 12, 400 + Math.sin(i / 4) * 60, { steps: 2 });
+  await page.waitForTimeout(30);
+}
+await page.mouse.up();
+const panFps = await panFpsP;
+
+// ホイールズーム中のfps
+await page.waitForTimeout(600);
+const wheelFpsP = fps(1500);
+for (let i = 0; i < 24; i++) {
+  await page.mouse.wheel(0, i < 12 ? -120 : 120);
+  await page.waitForTimeout(55);
+}
+const wheelFps = await wheelFpsP;
+
 console.log(JSON.stringify({
   loadMs,
   worldIdleCpuPct: +worldIdle.toFixed(1),
   webEntryCpuPct: +webEntry.toFixed(1),
   webIdleCpuPct: +webIdle.toFixed(1),
   flightFps,
+  panFps,
+  wheelFps,
 }, null, 1));
 await browser.close();

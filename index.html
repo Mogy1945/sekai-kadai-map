@@ -11774,7 +11774,11 @@ if (typeof module !== 'undefined') module.exports = { GraphCore };
   // 差分書き込み: 前回書いた値と同じDOM属性はスキップ。画面外のノード/エッジも書き込みスキップ。
   let lastNow = null;
   let needFinal = true;
+  let gesturing = false;
+  let camKq = 1;
   const LABEL_UP = new Set(['kp']);
+  // ジェスチャー中の倍率量子化 (2%刻み)。テキスト再レイアウト等を毎フレーム→クロス時のみに減らす
+  const qk = k => gesturing ? Math.exp(Math.round(Math.log(k) / 0.02) * 0.02) : k;
   let nodeLayerFS = '', mapCache = { t: '', o: '' }, wlCache = '';
   const wr = (el, cache, key, attr, val) => { if (cache[key] !== val) { cache[key] = val; el.setAttribute(attr, val); } };
   const MARG = 240;
@@ -11797,8 +11801,6 @@ if (typeof module !== 'undefined') module.exports = { GraphCore };
       if (trans === transT) app.classList.remove('moving');
     }
     const t = easeIO(trans);
-
-    if (mode === 'web') for (const rn of regions) if (rn.sim.alpha > 0.004) rn.sim.tick();
 
     if (flight) {
       flight.t = Math.min(1, flight.t + dt / flight.dur);
@@ -11823,6 +11825,13 @@ if (typeof module !== 'undefined') module.exports = { GraphCore };
       if (best !== curR) setUIRegion(best);
     }
 
+    // ジェスチャー中(パン/ホイール/ピンチ)は、倍率依存の値を量子化して
+    // 全テキストの再レイアウトと全ノードのscale書き換えを間引く (終了時に精密値へスナップ)
+    gesturing = (dragState && dragState.type === 'pan') || pinch || (now - lastWheelAt < 250);
+    camKq = qk(cam.k);
+
+    if (mode === 'web') for (const rn of regions) if (rn.sim.alpha > 0.004) rn.sim.tick();
+
     const mc = mapCamAt(t);
     wr(mapLayer, mapCache, 't', 'transform',
       'translate(' + (vw / 2 - mc.cx * mc.k).toFixed(2) + ' ' + (vh / 2 - mc.cy * mc.k).toFixed(2) + ') scale(' + mc.k.toFixed(4) + ')');
@@ -11845,7 +11854,7 @@ if (typeof module !== 'undefined') module.exports = { GraphCore };
     }
 
     // ノード位置: world=各国上空クラスタ / web=連続ネットワーク空間 を補間
-    const fsv = (13 * clamp(cam.k, 0.8, 1)).toFixed(1) + 'px';
+    const fsv = (13 * clamp(camKq, 0.8, 1)).toFixed(1) + 'px';
     if (nodeLayerFS !== fsv) { nodeLayerFS = fsv; nodeLayer.style.fontSize = fsv; }
     for (const rn of regions) {
       for (const nd of rn.graph.nodes) {
@@ -11876,7 +11885,7 @@ if (typeof module !== 'undefined') module.exports = { GraphCore };
     if (t > 0) {
       const [gx, gy] = netToScreen(netX, netY);
       x = lerp(wx, gx, t); y = lerp(wy, gy, t);
-      s = lerp(worldR / nd.r, cam.k, t);
+      s = lerp(worldR / nd.r, camKq, t); // ジェスチャー中は量子化倍率でscale書き換えを間引く
     } else {
       s = worldR / nd.r;
     }
@@ -12208,6 +12217,7 @@ if (typeof module !== 'undefined') module.exports = { GraphCore };
   let dragState = null;
   const pointers = new Map();
   let pinch = null;
+  let lastWheelAt = -1e9;
 
   svg.addEventListener('pointerdown', (e) => {
     if (mode !== 'web' || trans < 1) return;
@@ -12287,6 +12297,7 @@ if (typeof module !== 'undefined') module.exports = { GraphCore };
     if (mode !== 'web') return;
     e.preventDefault();
     cancelFlight();
+    lastWheelAt = performance.now();
     const k2 = clamp(cam.tk * Math.exp(-e.deltaY * 0.0016), 0.22, 3);
     const [nx, ny] = screenToNet(e.clientX, e.clientY);
     cam.tcx = nx - (e.clientX - vw / 2) / k2;
