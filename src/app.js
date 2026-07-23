@@ -94,6 +94,7 @@
     if (nd.type === 'shared') {
       el('circle', { class: 'ring', r: nd.r + 8 }, gfx);
     }
+    el('circle', { class: 'plate', r: nd.r }, gfx); // 白下地: 海の上でも色が濁らない
     el('circle', { class: 'core', r: nd.r, fill: nd.color, stroke: nd.color }, gfx);
     el('circle', { class: 'hit', r: nd.r + 12, fill: 'none', 'pointer-events': 'all' }, gfx);
     if (nd.type !== 'sub') {
@@ -264,6 +265,7 @@
     const show = mode === 'web' && t > 0.95;
     chips.hidden = !show;
     if (!show) return;
+    const placed = [];
     for (const rn of regions) {
       const [ax, ay] = netToScreen(rn.anchor.x, rn.anchor.y);
       const off = ax < -rn.R * cam.k * 0.3 || ax > vw + rn.R * cam.k * 0.3 || ay < -rn.R * cam.k * 0.3 || ay > vh + rn.R * cam.k * 0.3;
@@ -277,6 +279,10 @@
       const cx2 = clamp(ax, 74, vw - 74);
       let cy2 = clamp(ay, 92, vh - 60);
       if (cx2 < 300 && cy2 > vh - 170) cy2 = vh - 170; // 左下の凡例を避ける
+      for (const p of placed) { // チップ同士の重なりは縦にずらす
+        if (Math.abs(cx2 - p.x) < 150 && Math.abs(cy2 - p.y) < 40) cy2 = p.y + 44;
+      }
+      placed.push({ x: cx2, y: cy2 });
       rn.chipEl.style.left = cx2 + 'px';
       rn.chipEl.style.top = cy2 + 'px';
     }

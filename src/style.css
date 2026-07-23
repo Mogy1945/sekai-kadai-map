@@ -3,11 +3,11 @@
 [hidden] { display: none !important; }
 
 :root {
-  --bg: #eef2f7;            /* 海 */
-  --land: #ffffff;
-  --land-line: #ccd7e4;
-  --region: #dbe8f9;
-  --region-line: #8fb1dd;
+  --bg: #c9dcf0;            /* 海: はっきり青 */
+  --land: #faf8f4;          /* 陸: 暖色オフホワイト (海と色相でも分離) */
+  --land-line: #c3ccd7;
+  --region: #d6e6fa;
+  --region-line: #7fa6d9;
   --ink: #16202e;
   --ink-2: #45536b;
   --ink-3: #7a879c;
@@ -45,8 +45,10 @@ body {
 
 /* --- ノード --- */
 .node { cursor: pointer; }
+.node .plate { fill: #ffffff; fill-opacity: 0.92; }
 .node .core { stroke-width: 2; fill-opacity: 0.13; }
 .node.sub .core { fill-opacity: 0.10; stroke-width: 1.5; }
+.node.sub .plate { fill-opacity: 0.85; }
 .node.shared .ring { fill: none; stroke: var(--intl); stroke-width: 1.6; stroke-dasharray: 5 4; }
 .node text { pointer-events: none; user-select: none; }
 .node .emoji { text-anchor: middle; }
@@ -113,7 +115,7 @@ body {
   position: absolute; top: 0; left: 0; right: 0;
   display: flex; align-items: center; gap: 12px;
   padding: calc(10px + env(safe-area-inset-top, 0px)) 14px 10px;
-  background: linear-gradient(rgba(238, 242, 247, 0.95), rgba(238, 242, 247, 0));
+  background: linear-gradient(rgba(201, 220, 240, 0.95), rgba(201, 220, 240, 0));
   z-index: 20; pointer-events: none;
 }
 #topbar > * { pointer-events: auto; }
